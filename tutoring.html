@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutoring — Telos Pathways</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --navy: #0e1c35; --cream: #f0ece2; --orange: #d4562a; --cyan: #00BFFF; --font: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+html { scroll-behavior: smooth; }
+body { background: var(--navy); color: var(--cream); font-family: var(--font); overflow-x: hidden; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 60px; background: rgba(14,28,53,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(240,236,226,0.08); }
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo-mark { flex-shrink: 0; display: block; }
+.nav-logo-img { display: block; height: 48px; width: auto; }
+.nav-logo-text { font-family: var(--font); font-weight: 800; font-size: 30px; letter-spacing: -0.02em; line-height: 1; display: inline-flex; align-items: baseline; }
+.nav-logo-text .nl-telos { color: var(--cream); margin-right: 0.15em; }
+.nav-logo-text .nl-paths { color: var(--orange); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { font-size: 15.87px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,236,226,0.65); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--cream); }
+.nav-links a.active { color: var(--cream); border-bottom: 2px solid var(--orange); padding-bottom: 2px; }
+
+/* HERO */
+.hero { position: relative; min-height: 100vh; display: flex; align-items: center; padding: 100px clamp(24px,6vw,100px) 80px; overflow: hidden; }
+#globe-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.9; }
+.vignette { position: absolute; inset: 0; background: radial-gradient(ellipse 75% 65% at 50% 50%, transparent 30%, var(--navy) 100%); pointer-events: none; }
+.hero-inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1200px; margin: 0 auto; width: 100%; }
+
+/* Left col */
+.hero-label { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 20px; opacity: 0; transform: translateY(10px); transition: opacity 0.5s, transform 0.5s; }
+.hero-label.in { opacity: 1; transform: translateY(0); }
+.hero-title { font-size: clamp(42px, 6vw, 80px); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; color: var(--cream); margin-bottom: 6px; }
+.hero-title-line { display: block; padding-bottom: 0.14em; overflow: hidden; }
+.hero-title-word { display: block; transform: translateY(110%); opacity: 0; transition: transform 0.7s cubic-bezier(0.16,1,0.3,1), opacity 0.5s; }
+.hero-title-word.in { transform: translateY(0); opacity: 1; }
+.hero-rule { width: 0; height: 3px; background: var(--orange); margin: 20px 0; transition: width 0.9s 0.8s cubic-bezier(0.16,1,0.3,1); }
+.hero-rule.in { width: 60px; }
+.hero-tagline { font-size: clamp(19.84px,1.851vw,25.13px); font-weight: 600; color: rgba(240,236,226,0.95); margin-bottom: 16px; line-height: 1.5; opacity: 0; transition: opacity 0.6s 1s; }
+.hero-tagline.in { opacity: 1; }
+.hero-tagline em { font-style: normal; color: var(--orange); }
+.hero-body { font-size: clamp(17.19px,1.455vw,19.84px); font-weight: 400; color: rgba(240,236,226,0.75); line-height: 1.75; opacity: 0; transition: opacity 0.6s 1.2s; }
+.hero-body.in { opacity: 1; }
+.hero-body strong { color: var(--cream); font-weight: 700; }
+
+/* Pathway showcase — framed panel with rail markers */
+.terminal {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(212,86,42,0.06) 0%, rgba(240,236,226,0.025) 100%);
+  border: 1px solid rgba(240,236,226,0.10);
+  border-radius: 22px;
+  padding: 30px 30px 32px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s, transform 0.7s;
+  overflow: hidden;
+}
+.terminal::before {
+  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 3px;
+  background: linear-gradient(90deg, var(--orange) 0%, rgba(212,86,42,0.3) 55%, transparent 100%);
+}
+.terminal::after {
+  content: ''; position: absolute; right: -80px; top: -80px;
+  width: 240px; height: 240px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(212,86,42,0.13), transparent 70%);
+  pointer-events: none;
+}
+.terminal.in { opacity: 1; transform: translateY(0); }
+.terminal-eyebrow {
+  position: relative;
+  font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 14px;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.terminal-eyebrow::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--orange);
+  box-shadow: 0 0 10px rgba(212,86,42,0.7);
+}
+.terminal-intro {
+  position: relative;
+  font-size: clamp(22px, 2vw, 28px); font-weight: 700; color: var(--cream);
+  line-height: 1.2; margin-bottom: 6px; letter-spacing: -0.01em;
+}
+.terminal-intro::after {
+  content: ''; display: block; width: 44px; height: 2px;
+  background: var(--orange); margin: 14px 0 22px; border-radius: 2px;
+}
+
+.pathway-stack { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 720px) { .pathway-stack { grid-template-columns: 1fr; } }
+
+.pathway-card {
+  position: relative;
+  display: flex; flex-direction: column;
+  padding: 28px 26px 28px;
+  border-radius: 16px;
+  background: rgba(14,28,53,0.7);
+  border: 1px solid rgba(240,236,226,0.08);
+  text-decoration: none; color: inherit;
+  opacity: 0; transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, background 0.3s;
+  --accent: var(--orange);
+  --accent-rgba: 212,86,42;
+}
+.pathway-card.in { opacity: 1; transform: translateY(0); }
+.pathway-card:hover {
+  background: rgba(14,28,53,0.9);
+  border-color: rgba(var(--accent-rgba), 0.4);
+  transform: translateY(-3px);
+}
+
+.pathway-num {
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+.pathway-info { min-width: 0; display: flex; flex-direction: column; }
+.pathway-name {
+  font-size: clamp(17px, 1.4vw, 19px); font-weight: 700;
+  color: var(--cream); line-height: 1.25; margin-bottom: 10px;
+  letter-spacing: -0.005em;
+}
+.pathway-desc {
+  font-size: 14.5px; color: rgba(240,236,226,0.72);
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+.pathway-arrow {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 1px solid rgba(var(--accent-rgba), 0.35);
+  color: var(--accent);
+  margin-top: auto;
+  align-self: flex-start;
+  transition: background 0.25s, transform 0.25s, border-color 0.25s, color 0.25s;
+}
+.pathway-arrow svg { width: 12px; height: 12px; }
+.pathway-card:hover .pathway-arrow {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--cream);
+  transform: translateX(2px);
+}
+
+/* Section eyebrow + label rhythm */
+.section-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 18px;
+}
+.section-eyebrow::before {
+  content: ''; width: 28px; height: 1px; background: var(--orange); display: inline-block;
+}
+
+/* Bespoke pathway 03 visual treatment */
+.bespoke-section {
+  position: relative;
+  background: linear-gradient(180deg, rgba(212,86,42,0.04) 0%, transparent 60%);
+  overflow: hidden;
+}
+.bespoke-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 18% 20%, rgba(212,86,42,0.08), transparent 30%),
+    radial-gradient(circle at 82% 78%, rgba(212,86,42,0.06), transparent 35%);
+  pointer-events: none;
+}
+.bespoke-section::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(240,236,226,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,236,226,0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+  pointer-events: none;
+}
+.bespoke-section .pathway-grid { position: relative; z-index: 1; }
+
+.bespoke-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--orange);
+  padding: 8px 14px;
+  border: 1px solid rgba(212,86,42,0.4);
+  border-radius: 999px;
+  margin-bottom: 18px;
+  background: rgba(212,86,42,0.06);
+}
+.bespoke-tag .tag-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--orange);
+  box-shadow: 0 0 8px var(--orange);
+  animation: dotPulse 1.6s infinite;
+}
+
+.focus-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 10px; margin-top: 16px;
+}
+@media(max-width:520px){.focus-grid{grid-template-columns:1fr;}}
+.focus-tile {
+  position: relative;
+  border: 1px solid rgba(240,236,226,0.12);
+  border-left: 2px solid var(--orange);
+  background: rgba(240,236,226,0.02);
+  padding: 14px 16px;
+  border-radius: 4px;
+  transition: background 0.25s, border-color 0.25s, transform 0.25s;
+}
+.focus-tile:hover {
+  background: rgba(212,86,42,0.06);
+  border-color: rgba(212,86,42,0.4);
+  border-left-color: var(--orange);
+  transform: translateX(4px);
+}
+.focus-kind {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 4px;
+}
+.focus-eg {
+  font-size: 14.5px; color: var(--cream); font-weight: 500; line-height: 1.35;
+}
+
+/* Sample pathway cards (replacing accordion) */
+.sample-stack { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+.sample-card {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1.5px solid rgba(240,236,226,0.12);
+  border-radius: 14px;
+  padding: 22px 24px;
+  background: linear-gradient(180deg, rgba(240,236,226,0.03), rgba(212,86,42,0.04));
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.sample-card:hover { border-color: rgba(212,86,42,0.45); transform: translateY(-2px); }
+.sample-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--orange);
+}
+.sample-card-meta {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 10px;
+}
+.sample-card-meta .meta-line { flex: 1; height: 1px; background: rgba(212,86,42,0.25); }
+.sample-card-title {
+  font-size: clamp(17px, 1.5vw, 19px); font-weight: 700; color: var(--cream);
+  line-height: 1.3; margin-bottom: 8px; letter-spacing: -0.005em;
+}
+.sample-card-desc {
+  font-size: 15px; color: rgba(240,236,226,0.7); line-height: 1.7;
+}
+.sample-card-stats {
+  display: flex; gap: 18px; margin-top: 14px;
+  padding-top: 14px; border-top: 1px solid rgba(240,236,226,0.08);
+}
+.sample-stat-num {
+  font-size: 18px; font-weight: 700; color: var(--cream); font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.sample-stat-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(240,236,226,0.5); margin-top: 4px;
+}
+
+/* PATHWAY BANNER */
+.pathway-banner {
+  background: var(--navy);
+  border-top: 1px solid rgba(240,236,226,0.08);
+  border-bottom: 1px solid rgba(240,236,226,0.08);
+  padding: clamp(48px,7vh,80px) 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── METHOD + TUTOR NETWORK (moved from Tutors page) ── */
+.tutors-section { padding: clamp(64px,8vh,100px) clamp(24px,6vw,100px); max-width: 1200px; margin: 0 auto; }
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+.section-title { font-size: clamp(28px,3.5vw,44px); font-weight: 800; letter-spacing: -0.01em; color: var(--cream); line-height: 1.1; margin-bottom: 24px; }
+.method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 36px; }
+@media(max-width:860px){.method-grid{grid-template-columns:1fr;}}
+.method-card { border: 1.5px solid rgba(240,236,226,0.15); border-top: 3px solid var(--orange); border-radius: 14px; padding: 36px 34px; background: rgba(240,236,226,0.025); position: relative; }
+.method-card-label { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
+.method-card-title { font-size: clamp(20px,1.8vw,24px); font-weight: 700; color: var(--cream); margin-bottom: 20px; line-height: 1.25; }
+.method-lead { font-size: 15.5px; color: rgba(240,236,226,0.78); line-height: 1.75; margin-bottom: 20px; }
+.method-lead strong { color: var(--cream); font-weight: 700; }
+.method-list { list-style: none; padding: 0; margin: 0; }
+.method-list li { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(240,236,226,0.08); }
+.method-list li:last-child { border-bottom: none; }
+.method-list li::before { content: ''; flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--orange); margin-top: 6px; }
+.method-list-text { font-size: 15.5px; color: rgba(240,236,226,0.82); line-height: 1.65; }
+.method-list-text strong { color: var(--cream); font-weight: 700; }
+.network-wrap { margin-top: 36px; }
+.subject-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+@media(max-width:860px){.subject-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:620px){.subject-grid{grid-template-columns:repeat(2,1fr);}}
+.subject-chip { padding: 14px 18px; border: 1px solid rgba(240,236,226,0.12); border-radius: 10px; font-size: 14px; color: rgba(240,236,226,0.85); transition: border-color 0.25s, background 0.25s, color 0.25s; cursor: default; }
+.subject-chip:hover { border-color: var(--orange); background: rgba(212,86,42,0.07); color: var(--cream); }
+.subject-chip:target,
+.subject-chip.highlight {
+  border-color: var(--orange);
+  background: rgba(212,86,42,0.18);
+  color: var(--cream);
+  box-shadow: 0 0 0 3px rgba(212,86,42,0.15);
+  animation: chipPulse 1.6s ease;
+}
+@keyframes chipPulse {
+  0% { box-shadow: 0 0 0 0 rgba(212,86,42,0.5); }
+  100% { box-shadow: 0 0 0 12px rgba(212,86,42,0); }
+}
+.pathway-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: none;
+}
+.pathway-banner-inner { position: relative; z-index: 1; }
+.pathway-banner-label { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; opacity: 0; transform: translateY(10px); transition: opacity 0.5s, transform 0.5s; }
+.pathway-banner-label.in { opacity: 1; transform: translateY(0); }
+.pathway-banner-title { font-size: clamp(30px,4vw,52px); font-weight: 800; letter-spacing: -0.01em; color: var(--cream); opacity: 0; transform: translateY(14px); transition: opacity 0.6s 0.1s, transform 0.6s 0.1s; }
+.pathway-banner-title.in { opacity: 1; transform: translateY(0); }
+.pathway-banner-sub { font-size: clamp(18.52px,1.587vw,21.16px); color: rgba(240,236,226,0.7); line-height: 1.6; margin-top: 12px; opacity: 0; transition: opacity 0.6s 0.2s; }
+.pathway-banner-sub.in { opacity: 1; }
+.pathway-arrows { display: flex; justify-content: center; gap: 8px; margin-top: 28px; opacity: 0; transition: opacity 0.6s 0.3s; }
+.pathway-arrows.in { opacity: 1; }
+.path-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--orange); opacity: 0.3; animation: dotPulse 1.6s infinite; }
+.path-dot:nth-child(2) { animation-delay: 0.2s; }
+.path-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dotPulse { 0%,100%{opacity:0.3;transform:scale(1)} 50%{opacity:1;transform:scale(1.3)} }
+
+/* PATHWAY SECTIONS */
+.pathway-section { padding: clamp(64px,8vh,100px) clamp(24px,6vw,100px); max-width: 1200px; margin: 0 auto; }
+.pathway-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-top: 36px; }
+@media(max-width:720px){.pathway-grid,.hero-inner{grid-template-columns:1fr;}}
+
+.pathway-title { font-size: clamp(28px,3.5vw,44px); font-weight: 800; letter-spacing: -0.01em; color: var(--cream); line-height: 1.1; margin-bottom: 18px; }
+.pathway-tagline { font-size: clamp(19.84px,1.851vw,25.13px); font-weight: 600; color: rgba(240,236,226,0.95); margin-bottom: 14px; line-height: 1.5; }
+.pathway-body { font-size: clamp(17.19px,1.455vw,19.84px); font-weight: 400; color: rgba(240,236,226,0.75); line-height: 1.75; }
+.pathway-body strong { color: var(--cream); font-weight: 700; }
+.pathway-body ul { margin: 12px 0 0 18px; }
+.pathway-body li { margin-bottom: 6px; }
+
+/* Accordion */
+.accordion { border-top: 1px solid rgba(240,236,226,0.12); margin-top: 8px; }
+.accordion-label { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+.acc-item { border-bottom: 1px solid rgba(240,236,226,0.12); }
+.acc-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 0; cursor: pointer; }
+.acc-title { font-size: clamp(18.52px,1.587vw,21.16px); font-weight: 400; color: var(--cream); transition: color 0.2s; }
+.acc-header:hover .acc-title { color: var(--orange); }
+.acc-icon { width: 26px; height: 26px; border: 1.5px solid rgba(240,236,226,0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.3s, border-color 0.3s, transform 0.3s; }
+.acc-header:hover .acc-icon { background: var(--orange); border-color: var(--orange); }
+.acc-item.open .acc-icon { background: var(--orange); border-color: var(--orange); transform: rotate(45deg); }
+.acc-icon svg { width: 11px; height: 11px; }
+.acc-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1); }
+.acc-item.open .acc-body { max-height: 200px; padding-bottom: 16px; }
+.acc-body p { font-size: 15.5px; color: rgba(240,236,226,0.7); line-height: 1.7; }
+
+/* Section number badge for pathway sections */
+.pathway-num-badge {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 14px;
+}
+.pathway-num-badge::before {
+  content: ''; width: 28px; height: 1px; background: var(--orange);
+}
+
+/* Subject chip cohesion */
+.subject-chip { font-weight: 500; letter-spacing: 0.01em; }
+
+/* Banner refinement */
+.pathway-banner { background: var(--navy); }
+
+.pathway-banner-title { display: inline-block; }
+.pathway-banner-title .typed { white-space: pre; }
+.pathway-banner-title .caret {
+  display: inline-block; width: 3px; height: 0.95em;
+  background: var(--orange); margin-left: 6px;
+  vertical-align: -0.12em;
+  animation: caretBlink 1s steps(2, end) infinite;
+}
+@keyframes caretBlink { 50% { opacity: 0; } }
+
+/* Pathway 02 accordion items: lift to card style */
+.acc-item { padding: 0 16px; border-radius: 10px; border: 1px solid rgba(240,236,226,0.08); margin-bottom: 8px; background: rgba(240,236,226,0.02); transition: border-color 0.25s, background 0.25s; }
+.acc-item:hover { border-color: rgba(212,86,42,0.35); background: rgba(212,86,42,0.04); }
+.acc-item.open { border-color: rgba(212,86,42,0.45); background: rgba(212,86,42,0.05); }
+.accordion { border-top: none; }
+
+/* Fade */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+.fade-in.in { opacity: 1; transform: translateY(0); }
+
+/* CTA */
+.cta-section { text-align: center; padding: clamp(64px,8vh,100px) 48px; background: rgba(240,236,226,0.03); border-top: 1px solid rgba(240,236,226,0.08); }
+.cta-title { font-size: clamp(26px,3vw,38px); font-weight: 800; color: var(--cream); margin-bottom: 12px; }
+.cta-sub { font-size: clamp(18.52px,1.587vw,21.16px); color: rgba(240,236,226,0.7); margin-bottom: 32px; line-height: 1.6; }
+.btn-primary { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font); font-weight: 600; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cream); text-decoration: none; border: 3px solid var(--orange); padding: 16px 44px; border-radius: 50px; background: transparent; transition: background 0.3s; }
+.btn-primary:hover { background: var(--orange); }
+
+/* ── SITE FOOTER ── */
+.site-footer { border-top: 1px solid rgba(240,236,226,0.1); padding: 56px clamp(24px,6vw,80px) 48px; margin-top: 80px; background: var(--navy); position: relative; z-index: 5; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-brand { display: flex; flex-direction: column; gap: 14px; max-width: 520px; }
+.footer-name { font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); }
+.footer-address { font-size: 14.5px; line-height: 1.7; color: rgba(240,236,226,0.78); font-style: normal; }
+.footer-address a { color: var(--cream); text-decoration: none; border-bottom: 1px solid rgba(240,236,226,0.2); transition: border-color 0.2s; }
+.footer-address a:hover { border-bottom-color: var(--orange); }
+.footer-meta { margin-top: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: rgba(240,236,226,0.45); display: flex; flex-direction: column; gap: 8px; }
+.footer-meta .reg { letter-spacing: 0.16em; text-transform: uppercase; }
+.footer-meta a { color: rgba(240,236,226,0.7); text-decoration: none; border-bottom: 1px solid rgba(240,236,226,0.2); transition: border-color 0.2s, color 0.2s; }
+.footer-meta a:hover { color: var(--cream); border-bottom-color: var(--orange); }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo" aria-label="Telos Pathways home"><img src="assets/telos-globe-navy.png" alt="" class="nav-logo-img" /><span class="nav-logo-text"><span class="nl-telos">Telos</span><span class="nl-paths">Pathways</span></span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="workshops.html">Workshops</a></li>
+    <li><a href="ai.html">AI</a></li>
+    <li><a href="#" class="active">Tutoring</a></li>
+    <li><a href="our-method.html">Our Method</a></li>
+    <li><a href="admissions.html">Admissions</a></li>
+    <li><a href="about.html">Our Team</a></li>
+    <li><a href="faqs.html">FAQs</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <canvas id="globe-canvas"></canvas>
+  <div class="vignette"></div>
+  <div class="hero-inner">
+    <!-- Left -->
+    <div>
+      <div class="hero-label" id="heroLabel">1:1 Oxford-style tutoring</div>
+      <h1 class="hero-title">
+        <span class="hero-title-line"><span class="hero-title-word" id="hw1">Bringing</span></span>
+        <span class="hero-title-line"><span class="hero-title-word" id="hw2">Oxford-style</span></span>
+        <span class="hero-title-line"><span class="hero-title-word" id="hw3">tutorials to you</span></span>
+      </h1>
+      <div class="hero-rule" id="heroRule"></div>
+      <div class="hero-tagline" id="heroTagline">Enhance your curiosity and academic performance with our fully customised 1:1 tutorials led by Oxford PhD researchers.</div>
+    </div>
+    <!-- Right: pathway showcase -->
+    <div class="terminal" id="terminal">
+      <div class="terminal-eyebrow">Three pathways</div>
+      <div class="terminal-intro">Choose your tutoring path</div>
+      <div id="pathwayList" class="pathway-stack"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PATHWAY BANNER -->
+<div class="pathway-banner">
+  <div class="pathway-banner-inner">
+    <div class="pathway-banner-title" id="pathwayTypeTitle" style="opacity:1;transform:none;"><span class="typed" id="pathwayTypeTarget"></span><span class="caret" id="pathwayTypeCaret"></span></div>
+    <div class="pathway-arrows fade-in">
+      <div class="path-dot"></div>
+      <div class="path-dot"></div>
+      <div class="path-dot"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PATHWAY 1: EXAM PREP -->
+<section class="pathway-section" id="pathway-1">
+  <div class="pathway-grid" style="grid-template-columns: 1fr; max-width: 820px;">
+    <div class="fade-in">
+      <div class="pathway-num-badge">Pathway 01</div>
+      <h2 class="pathway-title">Examination Preparation Pathway</h2>
+      <div class="pathway-tagline">Get focused 1:1 support for your GCSE, IB, A Level, or AP exams.</div>
+      <div class="pathway-body">
+        <p>We know that achieving top grades isn&rsquo;t just about learning content. We help you develop the techniques that drive performance under pressure:</p>
+        <ul>
+          <li>Essay writing</li>
+          <li>Efficient memorisation</li>
+          <li>Time management</li>
+          <li>Revision planning</li>
+        </ul>
+        <p style="margin-top:18px;">This pathway builds the resilience and lasting academic habits that elevate your academic confidence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PATHWAY 2: FOUNDATIONAL -->
+<section class="pathway-section" id="pathway-2">
+  <div class="pathway-grid">
+    <div class="fade-in">
+      <div class="pathway-num-badge">Pathway 02</div>
+      <h2 class="pathway-title">Foundational Enrichment Pathway</h2>
+      <div class="pathway-tagline">Tackle undergraduate-level thinking about the subjects that inspire you with the guidance of an Oxford PhD researcher</div>
+      <div class="pathway-body">
+        <p>90-minute sessions structured around <strong>primary sources, academic scholarship, and major intellectual debates</strong> in different fields. Tutors assign 25–40 pages of reading per week, drawn from books, articles, historical documents, and other materials selected for their accessibility and relevance.</p>
+        <p style="margin-top:12px;">Develop critical analysis and writing skills, culminating in a <strong>3,000-word final project</strong>.</p>
+      </div>
+    </div>
+    <div class="fade-in" style="transition-delay:0.1s">
+      <div class="accordion-label" style="margin-bottom:16px;">Thinking like a…</div>
+      <div class="accordion" id="acc2">
+        <div class="acc-item"><div class="acc-header" onclick="tog('acc2',0)"><span class="acc-title">Historian</span><div class="acc-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="acc-body"><p>Primary source analysis, historiography, and the craft of historical argument.</p></div></div>
+        <div class="acc-item"><div class="acc-header" onclick="tog('acc2',1)"><span class="acc-title">Political Scientist</span><div class="acc-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="acc-body"><p>Power, institutions, international relations, and contemporary political theory.</p></div></div>
+        <div class="acc-item"><div class="acc-header" onclick="tog('acc2',2)"><span class="acc-title">Economist</span><div class="acc-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="acc-body"><p>Micro and macroeconomic theory applied to real-world markets and policy questions.</p></div></div>
+        <div class="acc-item"><div class="acc-header" onclick="tog('acc2',3)"><span class="acc-title">Philosopher</span><div class="acc-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="acc-body"><p>Logic, ethics, epistemology, and the history of ideas from Plato to the present.</p></div></div>
+        <div class="acc-item"><div class="acc-header" onclick="tog('acc2',4)"><span class="acc-title">Classicist</span><div class="acc-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="acc-body"><p>Greek and Roman literature, language, history, and their lasting intellectual influence.</p></div></div>
+        <div class="acc-item"><div class="acc-header" onclick="tog('acc2',5)"><span class="acc-title">Literary Critic</span><div class="acc-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="acc-body"><p>Close reading, literary theory, and the analysis of fiction, poetry, and drama.</p></div></div>
+        <div class="acc-item"><div class="acc-header" onclick="tog('acc2',6)"><span class="acc-title">Theologian</span><div class="acc-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="acc-body"><p>Religion, ethics, scripture, and the intersection of faith and philosophy.</p></div></div>
+        <div class="acc-item"><div class="acc-header" onclick="tog('acc2',7)"><span class="acc-title">Art Historian</span><div class="acc-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="acc-body"><p>Art historical methods, visual analysis, and debates in attribution, interpretation, and value.</p></div></div>
+        <div class="acc-item"><div class="acc-header" onclick="tog('acc2',8)"><span class="acc-title">Social Scientist</span><div class="acc-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="acc-body"><p>Evaluating evidence, causation, and methodology across economics, sociology, and beyond.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PATHWAY 3: BESPOKE -->
+<section class="pathway-section bespoke-section" id="pathway-3">
+  <div class="pathway-grid">
+    <div class="fade-in">
+      <div class="bespoke-tag"><span class="tag-dot"></span>Pathway 03 &middot; Fully customised</div>
+      <h2 class="pathway-title">Bespoke Tutoring Pathway</h2>
+      <div class="pathway-tagline">Explore your interests beyond the curriculum with the 1:1 support of an Oxford PhD expert</div>
+      <div class="pathway-body">
+        <p>Customised syllabi covering the content you want to learn at the pace that works for you. Explore a topic of your choice through academic reading, discussion, and written analysis. Work towards a final project (we recommend an extended essay or portfolio) that ties together your learning. Possible areas of inquiry include a deep dive into a historical period (e.g. Victorian England), a geographic region (e.g. the Middle East), or designing a scientific experiment (e.g. measuring the acidity of a liquid using red cabbage).</p>
+      </div>
+    </div>
+    <div class="fade-in" style="transition-delay:0.1s">
+      <div class="accordion-label">Sample pathways</div>
+      <div class="sample-stack">
+        <a class="sample-card" href="sample-pathway-arab-renaissance.html">
+          <div class="sample-card-meta">Intermediate sample <span class="meta-line"></span></div>
+          <div class="sample-card-title">The Arab Renaissance</div>
+          <div class="sample-card-desc">A customised programme for a dyslexic, 13-year-old visual learner interested in Arab history.</div>
+        </a>
+        <a class="sample-card" href="sample-pathway-theories-of-the-state.html">
+          <div class="sample-card-meta">Advanced sample <span class="meta-line"></span></div>
+          <div class="sample-card-title">Theories of the State</div>
+          <div class="sample-card-desc">A deep-dive into the history, politics, and philosophy surrounding the state. Designed for a 17-year-old applicant to PPE at Oxford.</div>
+        </a>
+      </div>
+      <p style="margin-top:22px;font-size:13px;color:rgba(240,236,226,0.5);line-height:1.6;"><a href="contact.html" style="color:var(--orange);text-decoration:none;border-bottom:1px solid rgba(212,86,42,0.4);">Get in touch</a> for detailed or customised syllabi.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section fade-in">
+  <div class="cta-title">Ready to start your pathway?</div>
+  <div class="cta-sub">Book a free consultation to discuss the pathway that&rsquo;s right for you.</div>
+  <a href="contact.html" class="btn-primary">Get in touch</a>
+</div>
+
+<script>
+// ── Drifting Pathways ───────────────────────────────────────────────
+const canvas = document.getElementById('globe-canvas');
+const ctx = canvas.getContext('2d');
+function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; initPaths(); }
+
+// Pathway = a smooth curved line that flows across the screen,
+// revealing itself over time with a bright orange "travelling" head.
+// Finished paths fade to a soft cream trace that lingers, then vanishes.
+
+let paths = [];            // Active paths (currently drawing)
+let ghostPaths = [];       // Finished path traces (fading out)
+let dots = [];             // Static ambient node dots
+
+function initPaths() {
+  paths = [];
+  ghostPaths = [];
+  dots = [];
+  const dotCount = Math.floor((canvas.width * canvas.height) / 14000);
+  for (let i = 0; i < dotCount; i++) {
+    dots.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: 0.6 + Math.random() * 1.2,
+      a: 0.08 + Math.random() * 0.18,
+    });
+  }
+  // Seed a few in-flight paths so the scene isn't empty on load
+  for (let i = 0; i < 3; i++) spawnPath(Math.random() * 300);
+}
+
+// Build a smooth path using 3 control points — a gentle S-curve across the screen.
+function spawnPath(initialProgress = 0) {
+  const w = canvas.width, h = canvas.height;
+  const edge = Math.floor(Math.random() * 4); // start from left/right/top/bottom
+
+  let start, end;
+  const pad = -80;
+  if (edge === 0) {         // left -> right
+    start = { x: pad, y: 100 + Math.random() * (h - 200) };
+    end   = { x: w - pad, y: 100 + Math.random() * (h - 200) };
+  } else if (edge === 1) {  // right -> left
+    start = { x: w - pad, y: 100 + Math.random() * (h - 200) };
+    end   = { x: pad, y: 100 + Math.random() * (h - 200) };
+  } else if (edge === 2) {  // top -> bottom
+    start = { x: 100 + Math.random() * (w - 200), y: pad };
+    end   = { x: 100 + Math.random() * (w - 200), y: h - pad };
+  } else {                  // bottom-left -> top-right diagonal
+    start = { x: pad, y: h - pad };
+    end   = { x: w - pad, y: pad };
+  }
+
+  // Two control points creating a gentle curve
+  const mx = (start.x + end.x) / 2, my = (start.y + end.y) / 2;
+  const perpAngle = Math.atan2(end.y - start.y, end.x - start.x) + Math.PI / 2;
+  const curveAmt = (80 + Math.random() * 180) * (Math.random() < 0.5 ? 1 : -1);
+  const ctrl1 = {
+    x: start.x + (mx - start.x) * 0.55 + Math.cos(perpAngle) * curveAmt * 0.8,
+    y: start.y + (my - start.y) * 0.55 + Math.sin(perpAngle) * curveAmt * 0.8,
+  };
+  const ctrl2 = {
+    x: end.x - (end.x - mx) * 0.55 + Math.cos(perpAngle) * curveAmt * 1.1,
+    y: end.y - (end.y - my) * 0.55 + Math.sin(perpAngle) * curveAmt * 1.1,
+  };
+
+  paths.push({
+    start, end, ctrl1, ctrl2,
+    progress: 0,
+    speed: 0.0025 + Math.random() * 0.0025,
+    life: initialProgress,
+    accent: Math.random() < 0.55, // proportion using orange
+  });
+}
+
+// Cubic bezier point
+function bez(p0, p1, p2, p3, t) {
+  const mt = 1 - t;
+  return {
+    x: mt*mt*mt*p0.x + 3*mt*mt*t*p1.x + 3*mt*t*t*p2.x + t*t*t*p3.x,
+    y: mt*mt*mt*p0.y + 3*mt*mt*t*p1.y + 3*mt*t*t*p2.y + t*t*t*p3.y,
+  };
+}
+
+function drawPath(p, isGhost = false) {
+  const segs = 48;
+  const visibleEnd = isGhost ? 1 : Math.min(1, p.progress);
+  const headT = visibleEnd;
+  const trailStart = Math.max(0, visibleEnd - 0.55);
+
+  // Draw the swept portion as a gradient stroke
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  // Whole revealed curve as a faded line
+  ctx.strokeStyle = isGhost
+    ? `rgba(240,236,226,${0.15 * p.fade})`
+    : (p.accent ? 'rgba(212,86,42,0.18)' : 'rgba(240,236,226,0.16)');
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  for (let i = 0; i <= segs; i++) {
+    const t = (i / segs) * visibleEnd;
+    const pt = bez(p.start, p.ctrl1, p.ctrl2, p.end, t);
+    if (i === 0) ctx.moveTo(pt.x, pt.y); else ctx.lineTo(pt.x, pt.y);
+  }
+  ctx.stroke();
+
+  if (isGhost) return;
+
+  // Brighter trailing section near the head
+  const trailSegs = 24;
+  for (let i = 0; i < trailSegs; i++) {
+    const t0 = trailStart + (i / trailSegs) * (visibleEnd - trailStart);
+    const t1 = trailStart + ((i + 1) / trailSegs) * (visibleEnd - trailStart);
+    const a0 = bez(p.start, p.ctrl1, p.ctrl2, p.end, t0);
+    const a1 = bez(p.start, p.ctrl1, p.ctrl2, p.end, t1);
+    const alpha = (i / trailSegs) * (p.accent ? 0.85 : 0.55);
+    ctx.strokeStyle = p.accent
+      ? `rgba(212,86,42,${alpha})`
+      : `rgba(240,236,226,${alpha})`;
+    ctx.lineWidth = 1.4 + (i / trailSegs) * 0.8;
+    ctx.beginPath();
+    ctx.moveTo(a0.x, a0.y);
+    ctx.lineTo(a1.x, a1.y);
+    ctx.stroke();
+  }
+
+  // Head glow + bright dot
+  const head = bez(p.start, p.ctrl1, p.ctrl2, p.end, headT);
+  const col = p.accent ? '212,86,42' : '240,236,226';
+  const glow = ctx.createRadialGradient(head.x, head.y, 0, head.x, head.y, 14);
+  glow.addColorStop(0, `rgba(${col},0.9)`);
+  glow.addColorStop(1, `rgba(${col},0)`);
+  ctx.fillStyle = glow;
+  ctx.beginPath();
+  ctx.arc(head.x, head.y, 14, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = `rgba(255,255,255,${p.accent ? 0.95 : 1})`;
+  ctx.beginPath();
+  ctx.arc(head.x, head.y, 2.2, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+let frame = 0;
+function drawGlobe(ts) {
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+  frame++;
+
+  // Ambient dots
+  for (const d of dots) {
+    ctx.fillStyle = `rgba(240,236,226,${d.a})`;
+    ctx.beginPath();
+    ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Ghost traces (fading)
+  for (let i = ghostPaths.length - 1; i >= 0; i--) {
+    const g = ghostPaths[i];
+    g.fade -= 0.006;
+    if (g.fade <= 0) { ghostPaths.splice(i, 1); continue; }
+    drawPath(g, true);
+  }
+
+  // Active paths
+  for (let i = paths.length - 1; i >= 0; i--) {
+    const p = paths[i];
+    p.progress += p.speed;
+    if (p.progress >= 1.05) {
+      ghostPaths.push(Object.assign({}, p, { fade: 1 }));
+      paths.splice(i, 1);
+      continue;
+    }
+    drawPath(p);
+  }
+
+  // Spawn new paths at a gentle cadence
+  if (frame % 110 === 0 && paths.length < 4) spawnPath();
+
+  requestAnimationFrame(drawGlobe);
+}
+resize();
+requestAnimationFrame(drawGlobe);
+window.addEventListener('resize', resize);
+
+// Hero entrance
+setTimeout(()=>document.getElementById('heroLabel').classList.add('in'),200);
+setTimeout(()=>document.getElementById('hw1').classList.add('in'),500);
+setTimeout(()=>document.getElementById('hw2').classList.add('in'),680);
+setTimeout(()=>document.getElementById('hw3').classList.add('in'),860);
+setTimeout(()=>document.getElementById('heroRule').classList.add('in'),1050);
+setTimeout(()=>document.getElementById('heroTagline').classList.add('in'),1200);
+
+// Pathway showcase reveal
+const terminalEl = document.getElementById('terminal');
+const pathwayListEl = document.getElementById('pathwayList');
+
+const pathways = [
+  { name: 'Examination preparation', desc: 'Coaching for GCSE, A Level, and IB exams focusing on essay technique, study strategies, and timed practice.', href: '#pathway-1' },
+  { name: 'Foundational enrichment', desc: 'Undergraduate-level critical thinking and writing about your favourite subjects.', href: '#pathway-2' },
+  { name: 'Bespoke tutoring', desc: 'Customised courses tailored to your interests and learning needs.', href: '#pathway-3' },
+];
+
+function buildPathways() {
+  terminalEl.classList.add('in');
+  pathways.forEach((p, i) => {
+    const card = document.createElement('a');
+    card.className = 'pathway-card';
+    card.href = p.href;
+    card.innerHTML = `
+      <div class="pathway-num">0${i+1}</div>
+      <div class="pathway-info">
+        <div class="pathway-name">${p.name}</div>
+        <div class="pathway-desc">${p.desc}</div>
+      </div>
+      <div class="pathway-arrow"><svg viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.7"><line x1="0" y1="5" x2="13" y2="5"/><polyline points="9,1 13,5 9,9"/></svg></div>
+    `;
+    pathwayListEl.appendChild(card);
+    setTimeout(() => card.classList.add('in'), 900 + i * 220);
+  });
+}
+
+setTimeout(buildPathways, 600);
+
+// Scroll reveals
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);} });
+},{threshold:0.12});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+// Typing effect for pathway banner heading
+(function(){
+  const target = document.getElementById('pathwayTypeTarget');
+  const caret = document.getElementById('pathwayTypeCaret');
+  if(!target) return;
+  const fullText = 'Explore our three tutoring pathways';
+  let i = 0;
+  let started = false;
+  function type(){
+    if(i <= fullText.length){
+      target.textContent = fullText.slice(0, i);
+      i++;
+      setTimeout(type, 55);
+    } else {
+      // keep caret blinking after
+    }
+  }
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting && !started){ started = true; setTimeout(type, 250); io.disconnect(); }
+    });
+  }, { threshold: 0.4 });
+  io.observe(target.parentElement);
+})();
+
+// Subject chip highlight on hash navigation
+function highlightChipFromHash() {
+  const hash = window.location.hash;
+  if (!hash || !hash.startsWith('#subj-')) return;
+  const el = document.getElementById(hash.slice(1));
+  if (!el) return;
+  el.classList.remove('highlight');
+  void el.offsetWidth;
+  el.classList.add('highlight');
+  const rect = el.getBoundingClientRect();
+  const top = window.scrollY + rect.top - (window.innerHeight / 2) + (rect.height / 2);
+  window.scrollTo({ top, behavior: 'smooth' });
+}
+window.addEventListener('hashchange', highlightChipFromHash);
+window.addEventListener('load', () => setTimeout(highlightChipFromHash, 300));
+
+// Accordion
+function tog(accId, idx) {
+  const items = document.querySelectorAll(`#${accId} .acc-item`);
+  items.forEach((item,i) => { if(i===idx) item.classList.toggle('open'); else item.classList.remove('open'); });
+}
+</script>
+
+<!-- SITE FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-name">Telos Pathways</div>
+      <address class="footer-address">
+        Old Came Rectory A352<br>
+        Winterborne Came,<br>
+        Dorchester, UK, DT2 8NX<br>
+        <a href="mailto:info@telospathways.com">info@telospathways.com</a>
+      </address>
+      <div class="footer-meta">
+        <div class="reg">Telos Pathways LLP · OC458814</div>
+        <div><a href="privacy.html">Privacy Policy</a></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- Mobile nav -->
+<style>
+  .nav-toggle {
+    display: none;
+    background: transparent; border: 0; padding: 8px; margin-left: auto;
+    cursor: pointer; color: var(--cream); -webkit-tap-highlight-color: transparent;
+  }
+  .nav-toggle svg { display: block; width: 26px; height: 20px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; fill: none; }
+  .nav-toggle .top, .nav-toggle .bot { transition: transform 0.3s ease, opacity 0.2s ease; transform-origin: center; }
+  .nav-toggle .mid { transition: opacity 0.2s ease; }
+  body.nav-open .nav-toggle .top { transform: translateY(8px) rotate(45deg); }
+  body.nav-open .nav-toggle .mid { opacity: 0; }
+  body.nav-open .nav-toggle .bot { transform: translateY(-8px) rotate(-45deg); }
+
+  @media (max-width: 980px) {
+    nav { padding: 0 22px !important; }
+    .nav-logo-img { height: 38px !important; }
+    .nav-logo-text { font-size: 22px !important; }
+    .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+    .nav-links {
+      display: flex !important;
+      position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
+      flex-direction: column; gap: 0 !important;
+      padding: 16px 22px 80px !important;
+      background: rgba(14,28,53,0.985); backdrop-filter: blur(12px);
+      overflow-y: auto;
+      transform: translateY(-12px); opacity: 0; pointer-events: none;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease;
+      z-index: 99;
+    }
+    body.nav-open .nav-links { transform: translateY(0); opacity: 1; pointer-events: auto; }
+    .nav-links li { list-style: none; border-bottom: 1px solid rgba(240,236,226,0.08); }
+    .nav-links li:last-child { border-bottom: 0; }
+    .nav-links a {
+      display: block; padding: 18px 4px !important;
+      font-size: 17px !important; font-weight: 600 !important;
+      letter-spacing: 0.04em !important; text-transform: none !important;
+      color: var(--cream) !important; border-bottom: 0 !important;
+    }
+    .nav-links a.active { color: var(--orange) !important; }
+    body.nav-open { overflow: hidden; }
+  }
+</style>
+<script>
+(function(){
+  var nav = document.querySelector('nav');
+  if (!nav) return;
+  var btn = document.createElement('button');
+  btn.className = 'nav-toggle';
+  btn.setAttribute('aria-label', 'Toggle menu');
+  btn.setAttribute('aria-expanded', 'false');
+  btn.innerHTML = '<svg viewBox="0 0 26 20" aria-hidden="true"><path class="top" d="M2 4h22"/><path class="mid" d="M2 10h22"/><path class="bot" d="M2 16h22"/></svg>';
+  nav.appendChild(btn);
+
+  function close() { document.body.classList.remove('nav-open'); btn.setAttribute('aria-expanded','false'); }
+  function open()  { document.body.classList.add('nav-open');    btn.setAttribute('aria-expanded','true'); }
+  btn.addEventListener('click', function(){
+    if (document.body.classList.contains('nav-open')) close(); else open();
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+  // Close on link tap so same-page anchors feel responsive
+  document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', close); });
+  // Reset on resize back to desktop
+  window.addEventListener('resize', function(){
+    if (window.innerWidth > 980 && document.body.classList.contains('nav-open')) close();
+  });
+})();
+</script>
+
+</body>
+</html>

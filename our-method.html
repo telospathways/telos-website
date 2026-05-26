@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Method — Telos Pathways</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --navy: #0e1c35; --cream: #f0ece2; --orange: #d4562a; --cyan: #00BFFF; --font: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+html { scroll-behavior: smooth; }
+body { background: var(--navy); color: var(--cream); font-family: var(--font); overflow-x: hidden; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 60px; background: rgba(14,28,53,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(240,236,226,0.08); }
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo-img { display: block; height: 48px; width: auto; }
+.nav-logo-text { font-family: var(--font); font-weight: 800; font-size: 30px; letter-spacing: -0.02em; line-height: 1; display: inline-flex; align-items: baseline; }
+.nav-logo-text .nl-telos { color: var(--cream); margin-right: 0.15em; }
+.nav-logo-text .nl-paths { color: var(--orange); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { font-size: 15.87px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,236,226,0.65); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--cream); }
+.nav-links a.active { color: var(--cream); border-bottom: 2px solid var(--orange); padding-bottom: 2px; }
+
+/* HERO */
+.page-hero { padding: 160px clamp(24px,6vw,100px) 60px; max-width: 1200px; margin: 0 auto; }
+.page-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; display: inline-flex; align-items: center; gap: 12px; }
+.page-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--orange); }
+.page-title { font-size: clamp(42px, 6vw, 80px); font-weight: 800; line-height: 1.0; letter-spacing: -0.02em; color: var(--cream); margin-bottom: 18px; max-width: 900px; }
+.page-rule { width: 60px; height: 3px; background: var(--orange); margin: 24px 0 22px; }
+.page-lead { font-size: clamp(18.52px,1.587vw,21.16px); color: rgba(240,236,226,0.78); line-height: 1.65; max-width: 720px; }
+.page-lead strong { color: var(--cream); font-weight: 700; }
+
+/* METHOD */
+.section { padding: clamp(48px,6vh,80px) clamp(24px,6vw,100px); max-width: 1200px; margin: 0 auto; }
+.section-orange { font-size: clamp(18.52px,1.587vw,21.16px); color: var(--orange); font-weight: 600; line-height: 1.5; margin-bottom: 8px; max-width: 780px; }
+.method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 36px; }
+@media(max-width:860px){.method-grid{grid-template-columns:1fr;}}
+.method-card { border: 1.5px solid rgba(240,236,226,0.15); border-top: 3px solid var(--orange); border-radius: 14px; padding: 36px 34px; background: rgba(240,236,226,0.025); position: relative; }
+.method-card-label { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
+.method-card-title { font-size: clamp(20px,1.8vw,24px); font-weight: 700; color: var(--cream); margin-bottom: 20px; line-height: 1.25; }
+.method-lead { font-size: 15.5px; color: rgba(240,236,226,0.78); line-height: 1.75; margin-bottom: 20px; }
+.method-lead strong { color: var(--cream); font-weight: 700; }
+.method-list { list-style: none; padding: 0; margin: 0; }
+.method-list li { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(240,236,226,0.08); }
+.method-list li:last-child { border-bottom: none; }
+.method-list li::before { content: ''; flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--orange); margin-top: 6px; }
+.method-list-text { font-size: 15.5px; color: rgba(240,236,226,0.82); line-height: 1.65; }
+.method-list-text strong { color: var(--cream); font-weight: 700; }
+
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+.fade-in.in { opacity: 1; transform: translateY(0); }
+
+/* CTA */
+.cta-section { text-align: center; padding: clamp(64px,8vh,100px) 48px; background: rgba(240,236,226,0.03); border-top: 1px solid rgba(240,236,226,0.08); margin-top: 40px; }
+.cta-title { font-size: clamp(26px,3vw,38px); font-weight: 800; color: var(--cream); margin-bottom: 12px; }
+.cta-sub { font-size: clamp(18.52px,1.587vw,21.16px); color: rgba(240,236,226,0.7); margin-bottom: 32px; line-height: 1.6; }
+.btn-primary { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font); font-weight: 600; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cream); text-decoration: none; border: 3px solid var(--orange); padding: 16px 44px; border-radius: 50px; background: transparent; transition: background 0.3s; }
+.btn-primary:hover { background: var(--orange); }
+
+/* FOOTER */
+.site-footer { border-top: 1px solid rgba(240,236,226,0.1); padding: 56px clamp(24px,6vw,80px) 48px; background: var(--navy); position: relative; z-index: 5; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-brand { display: flex; flex-direction: column; gap: 14px; max-width: 520px; }
+.footer-name { font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); }
+.footer-address { font-size: 14.5px; line-height: 1.7; color: rgba(240,236,226,0.78); font-style: normal; }
+.footer-address a { color: var(--cream); text-decoration: none; border-bottom: 1px solid rgba(240,236,226,0.2); transition: border-color 0.2s; }
+.footer-address a:hover { border-bottom-color: var(--orange); }
+.footer-meta { margin-top: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: rgba(240,236,226,0.45); display: flex; flex-direction: column; gap: 8px; }
+.footer-meta .reg { letter-spacing: 0.16em; text-transform: uppercase; }
+.footer-meta a { color: rgba(240,236,226,0.7); text-decoration: none; border-bottom: 1px solid rgba(240,236,226,0.2); transition: border-color 0.2s, color 0.2s; }
+.footer-meta a:hover { color: var(--cream); border-bottom-color: var(--orange); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo" aria-label="Telos Pathways home"><img src="assets/telos-globe-navy.png" alt="" class="nav-logo-img" /><span class="nav-logo-text"><span class="nl-telos">Telos</span><span class="nl-paths">Pathways</span></span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="workshops.html">Workshops</a></li>
+    <li><a href="ai.html">AI</a></li>
+    <li><a href="tutoring.html">Tutoring</a></li>
+    <li><a href="#" class="active">Our Method</a></li>
+    <li><a href="admissions.html">Admissions</a></li>
+    <li><a href="about.html">Our Team</a></li>
+    <li><a href="faqs.html">FAQs</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="page-hero">
+  <div class="page-eyebrow">How we teach</div>
+  <h1 class="page-title">Our method and tutor selection</h1>
+  <div class="page-rule"></div>
+  <p class="page-lead section-orange">We were students not too long ago. We know what teaching methods work.</p>
+</header>
+
+<section class="section">
+  <div class="method-grid">
+    <div class="method-card fade-in">
+      <div class="method-card-label">01 — Our method</div>
+      <div class="method-card-title">No dull textbooks, worksheets, or box-ticking.</div>
+      <p class="method-lead">We opt for <strong>1:1 Oxford tutorial-style discussions</strong> grounded in:</p>
+      <ul class="method-list">
+        <li><div class="method-list-text"><strong>Accessible explanations</strong> of complex ideas</div></li>
+        <li><div class="method-list-text"><strong>Socratic questioning</strong> that pushes students to construct their own arguments</div></li>
+        <li><div class="method-list-text"><strong>Primary sources and case studies</strong>: historical documents, news articles, research papers and science experiments</div></li>
+      </ul>
+    </div>
+
+    <div class="method-card fade-in" style="transition-delay:0.08s">
+      <div class="method-card-label">02 — Tutor selection</div>
+      <div class="method-card-title">We hire the brightest Oxbridge and Ivy League graduate students.</div>
+      <p class="method-lead">Our tutors all possess:</p>
+      <ul class="method-list">
+        <li><div class="method-list-text">Outstanding academic records in their undergraduate and postgraduate studies at <strong>Oxbridge or Ivy League</strong> universities</div></li>
+        <li><div class="method-list-text"><strong>Teaching experience</strong>, often to Oxbridge undergraduate students</div></li>
+        <li><div class="method-list-text"><strong>Emotional intelligence</strong> and patience</div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="cta-section fade-in">
+  <div class="cta-title">Ready to start your pathway?</div>
+  <div class="cta-sub">Book a free consultation to discuss the pathway that&rsquo;s right for you.</div>
+  <a href="contact.html" class="btn-primary">Get in touch</a>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-name">Telos Pathways</div>
+      <address class="footer-address">
+        Old Came Rectory A352<br>
+        Winterborne Came,<br>
+        Dorchester, UK, DT2 8NX<br>
+        <a href="mailto:info@telospathways.com">info@telospathways.com</a>
+      </address>
+      <div class="footer-meta">
+        <div class="reg">Telos Pathways LLP · OC458814</div>
+        <div><a href="privacy.html">Privacy Policy</a></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+
+
+<!-- Mobile nav -->
+<style>
+  .nav-toggle {
+    display: none;
+    background: transparent; border: 0; padding: 8px; margin-left: auto;
+    cursor: pointer; color: var(--cream); -webkit-tap-highlight-color: transparent;
+  }
+  .nav-toggle svg { display: block; width: 26px; height: 20px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; fill: none; }
+  .nav-toggle .top, .nav-toggle .bot { transition: transform 0.3s ease, opacity 0.2s ease; transform-origin: center; }
+  .nav-toggle .mid { transition: opacity 0.2s ease; }
+  body.nav-open .nav-toggle .top { transform: translateY(8px) rotate(45deg); }
+  body.nav-open .nav-toggle .mid { opacity: 0; }
+  body.nav-open .nav-toggle .bot { transform: translateY(-8px) rotate(-45deg); }
+
+  @media (max-width: 980px) {
+    nav { padding: 0 22px !important; }
+    .nav-logo-img { height: 38px !important; }
+    .nav-logo-text { font-size: 22px !important; }
+    .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+    .nav-links {
+      display: flex !important;
+      position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
+      flex-direction: column; gap: 0 !important;
+      padding: 16px 22px 80px !important;
+      background: rgba(14,28,53,0.985); backdrop-filter: blur(12px);
+      overflow-y: auto;
+      transform: translateY(-12px); opacity: 0; pointer-events: none;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease;
+      z-index: 99;
+    }
+    body.nav-open .nav-links { transform: translateY(0); opacity: 1; pointer-events: auto; }
+    .nav-links li { list-style: none; border-bottom: 1px solid rgba(240,236,226,0.08); }
+    .nav-links li:last-child { border-bottom: 0; }
+    .nav-links a {
+      display: block; padding: 18px 4px !important;
+      font-size: 17px !important; font-weight: 600 !important;
+      letter-spacing: 0.04em !important; text-transform: none !important;
+      color: var(--cream) !important; border-bottom: 0 !important;
+    }
+    .nav-links a.active { color: var(--orange) !important; }
+    body.nav-open { overflow: hidden; }
+  }
+</style>
+<script>
+(function(){
+  var nav = document.querySelector('nav');
+  if (!nav) return;
+  var btn = document.createElement('button');
+  btn.className = 'nav-toggle';
+  btn.setAttribute('aria-label', 'Toggle menu');
+  btn.setAttribute('aria-expanded', 'false');
+  btn.innerHTML = '<svg viewBox="0 0 26 20" aria-hidden="true"><path class="top" d="M2 4h22"/><path class="mid" d="M2 10h22"/><path class="bot" d="M2 16h22"/></svg>';
+  nav.appendChild(btn);
+
+  function close() { document.body.classList.remove('nav-open'); btn.setAttribute('aria-expanded','false'); }
+  function open()  { document.body.classList.add('nav-open');    btn.setAttribute('aria-expanded','true'); }
+  btn.addEventListener('click', function(){
+    if (document.body.classList.contains('nav-open')) close(); else open();
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+  // Close on link tap so same-page anchors feel responsive
+  document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', close); });
+  // Reset on resize back to desktop
+  window.addEventListener('resize', function(){
+    if (window.innerWidth > 980 && document.body.classList.contains('nav-open')) close();
+  });
+})();
+</script>
+
+</body>
+</html>

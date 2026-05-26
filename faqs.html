@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQs — Telos Pathways</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --navy: #0e1c35;
+  --cream: #f0ece2;
+  --orange: #d4562a;
+  --cyan: #00BFFF;
+  --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--navy); color: var(--cream); font-family: var(--font); overflow-x: hidden; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 60px;
+  background: rgba(14,28,53,0.92); backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(240,236,226,0.08);
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo-img { display: block; height: 48px; width: auto; }
+.nav-logo-text { font-family: var(--font); font-weight: 800; font-size: 30px; letter-spacing: -0.02em; line-height: 1; display: inline-flex; align-items: baseline; }
+.nav-logo-text .nl-telos { color: var(--cream); margin-right: 0.15em; }
+.nav-logo-text .nl-paths { color: var(--orange); }
+
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { font-size: 15.87px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,236,226,0.65); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--cream); }
+.nav-links a.active { color: var(--cream); border-bottom: 2px solid var(--orange); padding-bottom: 2px; }
+
+/* ── HERO ── */
+.hero { position: relative; min-height: 60vh; display: flex; align-items: center; padding: 140px clamp(24px,6vw,100px) 80px; overflow: hidden; }
+#hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.85; }
+.vignette { position: absolute; inset: 0; background: radial-gradient(ellipse 75% 65% at 50% 50%, transparent 30%, var(--navy) 100%); pointer-events: none; }
+.hero-inner { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; width: 100%; }
+.hero-label { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 20px; opacity: 0; transform: translateY(10px); transition: opacity 0.5s, transform 0.5s; }
+.hero-label.in { opacity: 1; transform: translateY(0); }
+.hero-title { font-size: clamp(42px, 6vw, 80px); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; color: var(--cream); margin-bottom: 6px; }
+.hero-title-line { display: block; padding-bottom: 0.14em; overflow: hidden; }
+.hero-title-word { display: block; transform: translateY(110%); opacity: 0; transition: transform 0.7s cubic-bezier(0.16,1,0.3,1), opacity 0.5s; }
+.hero-title-word.in { transform: translateY(0); opacity: 1; }
+.hero-title-word.orange { color: var(--orange); }
+.hero-rule { width: 0; height: 3px; background: var(--orange); margin: 22px 0; transition: width 0.9s 0.8s cubic-bezier(0.16,1,0.3,1); }
+.hero-rule.in { width: 60px; }
+.hero-sub { font-size: clamp(19.84px,1.851vw,25.13px); font-weight: 600; color: rgba(240,236,226,0.95); margin-bottom: 14px; line-height: 1.5; max-width: 720px; opacity: 0; transition: opacity 0.6s 1s; }
+.hero-sub.in { opacity: 1; }
+.hero-body { font-size: clamp(17.19px,1.455vw,19.84px); font-weight: 400; color: rgba(240,236,226,0.75); line-height: 1.75; max-width: 640px; opacity: 0; transition: opacity 0.6s 1.2s; }
+.hero-body.in { opacity: 1; }
+.hero-body strong { color: var(--cream); font-weight: 700; }
+
+/* ── SECTION shell ── */
+.section { padding: clamp(56px,6vh,80px) clamp(24px,6vw,100px); max-width: 1200px; margin: 0 auto; }
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+.section-title { font-size: clamp(28px,3.5vw,44px); font-weight: 800; letter-spacing: -0.01em; color: var(--cream); line-height: 1.1; margin-bottom: 24px; }
+.divider { width: 100%; height: 1px; background: rgba(240,236,226,0.08); max-width: 1200px; margin: 0 auto; }
+
+.fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.16,1,0.3,1); }
+.fade-in.in { opacity: 1; transform: translateY(0); }
+
+/* ── Category tabs ── */
+.cat-tabs {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-bottom: 36px;
+  border-bottom: 1px solid rgba(240,236,226,0.1);
+  padding-bottom: 18px;
+}
+.cat-tab {
+  font-family: inherit;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 10px 18px; border-radius: 999px;
+  background: transparent; border: 1px solid rgba(240,236,226,0.15);
+  color: rgba(240,236,226,0.6); cursor: pointer;
+  transition: color 0.25s, border-color 0.25s, background 0.25s;
+}
+.cat-tab:hover { color: var(--cream); border-color: rgba(240,236,226,0.3); }
+.cat-tab.active { color: var(--cream); border-color: var(--orange); background: rgba(212,86,42,0.12); }
+.cat-tab .cat-count { color: rgba(240,236,226,0.4); margin-left: 6px; font-variant-numeric: tabular-nums; }
+.cat-tab.active .cat-count { color: var(--orange); }
+
+/* ── FAQ accordion ── */
+.faq-wrap { margin-top: 8px; }
+.faq-group { display: none; }
+.faq-group.active { display: block; }
+.faq-item { border-bottom: 1px solid rgba(240,236,226,0.12); }
+.faq-item:first-child { border-top: 1px solid rgba(240,236,226,0.12); }
+.faq-header { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; cursor: pointer; gap: 24px; }
+.faq-title { font-size: clamp(19.84px,1.587vw,22.48px); font-weight: 500; color: var(--cream); transition: color 0.2s; }
+.faq-header:hover .faq-title { color: var(--orange); }
+.faq-icon { width: 28px; height: 28px; border: 1.5px solid rgba(240,236,226,0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.3s, border-color 0.3s, transform 0.3s; }
+.faq-header:hover .faq-icon { background: var(--orange); border-color: var(--orange); }
+.faq-item.open .faq-icon { background: var(--orange); border-color: var(--orange); transform: rotate(45deg); }
+.faq-icon svg { width: 11px; height: 11px; color: var(--cream); }
+.faq-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1); }
+.faq-item.open .faq-body { max-height: 720px; padding-bottom: 22px; }
+.faq-body p { font-size: clamp(15.5px,1.3vw,17px); color: rgba(240,236,226,0.78); line-height: 1.75; max-width: 780px; }
+.faq-body a { color: var(--orange); text-decoration: none; }
+.faq-body a:hover { text-decoration: underline; }
+
+/* ── CTA ── */
+.cta-section { text-align: center; padding: clamp(64px,8vh,100px) 48px; background: rgba(240,236,226,0.03); border-top: 1px solid rgba(240,236,226,0.08); }
+.cta-title { font-size: clamp(26px,3vw,38px); font-weight: 800; letter-spacing: -0.01em; color: var(--cream); margin-bottom: 14px; }
+.cta-sub { font-size: clamp(18.52px,1.587vw,21.16px); color: rgba(240,236,226,0.7); line-height: 1.6; margin-bottom: 36px; }
+.btn-primary { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font); font-weight: 600; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cream); text-decoration: none; border: 3px solid var(--orange); padding: 16px 44px; border-radius: 50px; background: transparent; transition: background 0.3s ease; cursor: pointer; }
+.btn-primary:hover { background: var(--orange); }
+
+/* ── SITE FOOTER ── */
+.site-footer { border-top: 1px solid rgba(240,236,226,0.1); padding: 56px clamp(24px,6vw,80px) 48px; margin-top: 80px; background: var(--navy); position: relative; z-index: 5; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-brand { display: flex; flex-direction: column; gap: 14px; max-width: 520px; }
+.footer-name { font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); }
+.footer-address { font-size: 14.5px; line-height: 1.7; color: rgba(240,236,226,0.78); font-style: normal; }
+.footer-address a { color: var(--cream); text-decoration: none; border-bottom: 1px solid rgba(240,236,226,0.2); transition: border-color 0.2s; }
+.footer-address a:hover { border-bottom-color: var(--orange); }
+.footer-meta { margin-top: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: rgba(240,236,226,0.45); display: flex; flex-direction: column; gap: 8px; }
+.footer-meta .reg { letter-spacing: 0.16em; text-transform: uppercase; }
+.footer-meta a { color: rgba(240,236,226,0.7); text-decoration: none; border-bottom: 1px solid rgba(240,236,226,0.2); transition: border-color 0.2s, color 0.2s; }
+.footer-meta a:hover { color: var(--cream); border-bottom-color: var(--orange); }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo" aria-label="Telos Pathways home"><img src="assets/telos-globe-navy.png" alt="" class="nav-logo-img" /><span class="nav-logo-text"><span class="nl-telos">Telos</span><span class="nl-paths">Pathways</span></span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="workshops.html">Workshops</a></li>
+    <li><a href="ai.html">AI</a></li>
+    <li><a href="tutoring.html">Tutoring</a></li>
+    <li><a href="our-method.html">Our Method</a></li>
+    <li><a href="admissions.html">Admissions</a></li>
+    <li><a href="about.html">Our Team</a></li>
+    <li><a href="faqs.html" class="active">FAQs</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="vignette"></div>
+  <div class="hero-inner">
+    <div class="hero-label" id="heroLabel">Frequently asked questions</div>
+    <h1 class="hero-title">
+      <span class="hero-title-line"><span class="hero-title-word" id="hw1">Answers</span></span>
+      <span class="hero-title-line"><span class="hero-title-word orange" id="hw2">to your</span></span>
+      <span class="hero-title-line"><span class="hero-title-word" id="hw3">questions</span></span>
+    </h1>
+    <div class="hero-rule" id="heroRule"></div>
+    <p class="hero-sub" id="heroSub">Everything you might want to know before getting in touch.</p>
+    <p class="hero-body" id="heroBody">Can&rsquo;t find what you&rsquo;re looking for? <a href="contact.html" style="color:var(--orange);text-decoration:none;border-bottom:1px solid rgba(212,86,42,0.4);font-weight:700;transition:border-color 0.2s;">Get in touch!</a> We&rsquo;re always happy to talk through your particular situation.</p>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="section-label fade-in">Browse by topic</div>
+  <h2 class="section-title fade-in">Common questions</h2>
+
+  <div class="cat-tabs fade-in" id="catTabs">
+    <button class="cat-tab active" data-cat="admissions">Admissions <span class="cat-count">5</span></button>
+    <button class="cat-tab" data-cat="tutoring">Tutoring <span class="cat-count">8</span></button>
+    <button class="cat-tab" data-cat="tutors">Tutors <span class="cat-count">1</span></button>
+    <button class="cat-tab" data-cat="workshops">Workshops <span class="cat-count">3</span></button>
+    <button class="cat-tab" data-cat="general">General <span class="cat-count">3</span></button>
+  </div>
+
+  <div class="faq-wrap">
+    <!-- ADMISSIONS -->
+    <div class="faq-group active" data-cat="admissions">
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">When should my child start working with Telos Pathways?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>Most applicants begin 12&ndash;18 months ahead of their UCAS deadline. Earlier engagement lets us build a substantive foundational pathway alongside admissions work, rather than racing to deadlines.</p></div></div>
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">Do you only advise on Oxford and Cambridge applications?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>No. We advise on UCAS applications across all subjects. Oxbridge is a core strength because of our team&rsquo;s background, but our frameworks apply across competitive admissions.</p></div></div>
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">How does admissions consulting combine with tutoring?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>We strongly recommend pairing the admissions track with a foundational pathway in your target subject. Real engagement with a field cultivates the kind of genuine curiosity, passion, and critical thinking that will let you shine in an Oxbridge interview.</p></div></div>
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">Who will my child work with?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>Students are matched with a PhD-level tutor whose subject expertise fits their target course. Meet the team <a href="about.html">here</a>.</p></div></div>
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">Can we see a sample of your interview feedback?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>View our sample interview feedback <a href="sample-interview-feedback.html">here</a>.</p></div></div>
+    </div>
+
+    <!-- TUTORING -->
+    <div class="faq-group" data-cat="tutoring">
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">What does a 1:1 Oxford-style tutorial actually look like?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>This is a weekly hour-long conversation between tutor and student, built around a piece of written work the student has prepared in advance.</p></div></div>
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">Which subjects do you tutor?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>We offer coaching in almost all Oxbridge subject areas. Tell us about your interests and we&rsquo;ll match you with the right tutor.</p></div></div>
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">What age groups do you work with?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>Our bespoke tutoring pathways are available to K&ndash;12 students, while our admissions and foundational pathways are designed for students in Grades 9&ndash;12.</p></div></div>
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">What services are included in my pathway?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>We are committed to high-quality, consistent, and attentive engagement with our students, both in and outside of our pathway sessions. Tutors will provide full summaries of each session, comprehensive feedback on students&rsquo; writing assignments and general learning progress, and weekly notes on past challenges, successes, and future learning goals via e-mail. Tutors will respond promptly to any general or specific questions from parents or students.</p></div></div>
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">How are the bespoke pathways designed?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>Our initial complimentary diagnostic call with families provides us with the necessary information to curate customised syllabus plans. We consider students&rsquo; interests, skill sets, learning needs, character, and higher education goals when writing our syllabi proposals. We send an outline of our syllabi to families within three days of our initial call and accommodate any requests for syllabus modification before and during our pathway journey together.</p></div></div>
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">Beyond learning for its intrinsic value, what concrete outcomes can I pursue through Telos Pathways?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>Our pathways develop intellectual skills &mdash; critical thinking, analytical reading, persuasive writing, public speaking, and others &mdash; that transfer to academic and professional settings. We coach our students to apply these skills through entering essay competitions, conducting academic research, publishing creative writing pieces, and other avenues. These pursuits are both inherently rewarding and enhance our students&rsquo; academic and professional profiles when the time comes for higher education and career applications.</p></div></div>
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">What if I am dissatisfied with my pathway or tutor?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>If your tutor is not the right fit, we will reassign you to an alternative candidate. We can also accommodate any requests to modify the structure or content of your pathway. If you remain dissatisfied with our services after your third session, you may opt out of your pathway package and receive a refund for all remaining sessions. Any cancellations beyond this point will incur a 50% fee of the total agreed-upon price.</p></div></div>
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">Do you offer group classes?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>Yes, upon request and provided the group of students&rsquo; learning goals and requirements are aligned.</p></div></div>
+    </div>
+
+    <!-- TUTORS -->
+    <div class="faq-group" data-cat="tutors">
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">How are Telos tutors selected and trained?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>Our tutors are drawn from a pool of Oxford&rsquo;s brightest and most accomplished Master&rsquo;s and PhD researchers. We select candidates with deep academic expertise, teaching experience (often to Oxford undergraduates), and strong interpersonal skills.</p></div></div>
+    </div>
+
+    <!-- WORKSHOPS -->
+    <div class="faq-group" data-cat="workshops">
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">What formats do school workshops come in?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>We offer half-day, full-day, and multi-session programmes for students and/or teachers and staff. We tailor every workshop to each school&rsquo;s context, curriculum, and student cohort.</p></div></div>
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">Do you run AI workshops for teachers as well as students?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>Yes. Our <a href="ai.html">AI workshops</a> cover staff training, student sessions, and whole-school programmes &mdash; from prompting and assessment design to building lasting frameworks for the AI age.</p></div></div>
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">Can workshops be delivered remotely?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>Yes &mdash; we deliver workshops both in person and online.</p></div></div>
+    </div>
+
+    <!-- GENERAL -->
+    <div class="faq-group" data-cat="general">
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">What does &ldquo;telos&rdquo; mean?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p><em>Telos</em> is the ancient Greek word for purpose or end-goal. We help students find their <em>telos</em>: the questions that intrigue them, the ideas that energise them, and a sense of direction in their learning.</p></div></div>
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">How do I book an introductory call?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>Use our <a href="contact.html">contact form</a> to request a free 20-minute introductory call. We&rsquo;ll talk through your goals and recommend the pathway that fits.</p></div></div>
+      <div class="faq-item fade-in"><div class="faq-header"><div class="faq-title">How is pricing structured?</div><div class="faq-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div></div><div class="faq-body"><p>Our pricing model is customised and determined by the scope of your request and the duration of your package. We will send you a quote based on our initial complimentary diagnostic call.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section fade-in">
+  <div class="cta-title">Still have questions?</div>
+  <div class="cta-sub">Book a free 20-minute introductory call.</div>
+  <a href="contact.html" class="btn-primary">Get in touch</a>
+</div>
+
+<script>
+// ── Subtle "stars + soft connecting arcs" hero background (matches Admissions) ──
+const canvas = document.getElementById('hero-canvas');
+const ctx = canvas.getContext('2d');
+let stars = [];
+function resize() { canvas.width = window.innerWidth; canvas.height = canvas.parentElement.offsetHeight; initStars(); }
+function initStars() {
+  stars = [];
+  const count = Math.floor((canvas.width * canvas.height) / 11000);
+  for (let i = 0; i < count; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: 0.5 + Math.random() * 1.4,
+      a: 0.1 + Math.random() * 0.45,
+      vx: (Math.random() - 0.5) * 0.12,
+      vy: (Math.random() - 0.5) * 0.12,
+      tw: Math.random() * Math.PI * 2,
+      tws: 0.4 + Math.random() * 1.2,
+      accent: Math.random() < 0.09,
+    });
+  }
+}
+resize(); window.addEventListener('resize', resize);
+
+function draw(ts) {
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+  for (const s of stars) {
+    s.x += s.vx; s.y += s.vy;
+    if (s.x < 0) s.x += w; if (s.x > w) s.x -= w;
+    if (s.y < 0) s.y += h; if (s.y > h) s.y -= h;
+    const tw = 0.55 + 0.45 * Math.sin(ts * 0.001 * s.tws + s.tw);
+    ctx.fillStyle = s.accent ? `rgba(212,86,42,${s.a * tw})` : `rgba(240,236,226,${s.a * tw})`;
+    ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2); ctx.fill();
+  }
+  for (let i = 0; i < stars.length; i++) {
+    for (let j = i + 1; j < stars.length; j++) {
+      const a = stars[i], b = stars[j];
+      const dx = a.x - b.x, dy = a.y - b.y; const d2 = dx*dx + dy*dy;
+      if (d2 < 13000) {
+        const alpha = (1 - d2 / 13000) * 0.12;
+        ctx.strokeStyle = `rgba(240,236,226,${alpha})`;
+        ctx.lineWidth = 0.6;
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+
+// Hero entrance
+setTimeout(()=>document.getElementById('heroLabel').classList.add('in'),200);
+setTimeout(()=>document.getElementById('hw1').classList.add('in'),480);
+setTimeout(()=>document.getElementById('hw2').classList.add('in'),640);
+setTimeout(()=>document.getElementById('hw3').classList.add('in'),800);
+setTimeout(()=>document.getElementById('heroRule').classList.add('in'),1000);
+setTimeout(()=>document.getElementById('heroSub').classList.add('in'),1200);
+setTimeout(()=>document.getElementById('heroBody').classList.add('in'),1400);
+
+// Scroll reveals
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);} });
+},{threshold:0.12});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+// Category tabs
+const tabs = document.querySelectorAll('.cat-tab');
+const groups = document.querySelectorAll('.faq-group');
+tabs.forEach(tab => tab.addEventListener('click', () => {
+  const cat = tab.dataset.cat;
+  tabs.forEach(t => t.classList.toggle('active', t === tab));
+  groups.forEach(g => g.classList.toggle('active', g.dataset.cat === cat));
+  // close any open items in newly hidden groups
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+}));
+
+// FAQ accordion
+document.querySelectorAll('.faq-header').forEach(header => {
+  header.addEventListener('click', () => {
+    const item = header.parentElement;
+    const wasOpen = item.classList.contains('open');
+    // close all in same group
+    item.parentElement.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+</script>
+
+<!-- SITE FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-name">Telos Pathways</div>
+      <address class="footer-address">
+        Old Came Rectory A352<br>
+        Winterborne Came,<br>
+        Dorchester, UK, DT2 8NX<br>
+        <a href="mailto:info@telospathways.com">info@telospathways.com</a>
+      </address>
+      <div class="footer-meta">
+        <div class="reg">Telos Pathways LLP · OC458814</div>
+        <div><a href="privacy.html">Privacy Policy</a></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- Mobile nav -->
+<style>
+  .nav-toggle {
+    display: none;
+    background: transparent; border: 0; padding: 8px; margin-left: auto;
+    cursor: pointer; color: var(--cream); -webkit-tap-highlight-color: transparent;
+  }
+  .nav-toggle svg { display: block; width: 26px; height: 20px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; fill: none; }
+  .nav-toggle .top, .nav-toggle .bot { transition: transform 0.3s ease, opacity 0.2s ease; transform-origin: center; }
+  .nav-toggle .mid { transition: opacity 0.2s ease; }
+  body.nav-open .nav-toggle .top { transform: translateY(8px) rotate(45deg); }
+  body.nav-open .nav-toggle .mid { opacity: 0; }
+  body.nav-open .nav-toggle .bot { transform: translateY(-8px) rotate(-45deg); }
+
+  @media (max-width: 980px) {
+    nav { padding: 0 22px !important; }
+    .nav-logo-img { height: 38px !important; }
+    .nav-logo-text { font-size: 22px !important; }
+    .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+    .nav-links {
+      display: flex !important;
+      position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
+      flex-direction: column; gap: 0 !important;
+      padding: 16px 22px 80px !important;
+      background: rgba(14,28,53,0.985); backdrop-filter: blur(12px);
+      overflow-y: auto;
+      transform: translateY(-12px); opacity: 0; pointer-events: none;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease;
+      z-index: 99;
+    }
+    body.nav-open .nav-links { transform: translateY(0); opacity: 1; pointer-events: auto; }
+    .nav-links li { list-style: none; border-bottom: 1px solid rgba(240,236,226,0.08); }
+    .nav-links li:last-child { border-bottom: 0; }
+    .nav-links a {
+      display: block; padding: 18px 4px !important;
+      font-size: 17px !important; font-weight: 600 !important;
+      letter-spacing: 0.04em !important; text-transform: none !important;
+      color: var(--cream) !important; border-bottom: 0 !important;
+    }
+    .nav-links a.active { color: var(--orange) !important; }
+    body.nav-open { overflow: hidden; }
+  }
+</style>
+<script>
+(function(){
+  var nav = document.querySelector('nav');
+  if (!nav) return;
+  var btn = document.createElement('button');
+  btn.className = 'nav-toggle';
+  btn.setAttribute('aria-label', 'Toggle menu');
+  btn.setAttribute('aria-expanded', 'false');
+  btn.innerHTML = '<svg viewBox="0 0 26 20" aria-hidden="true"><path class="top" d="M2 4h22"/><path class="mid" d="M2 10h22"/><path class="bot" d="M2 16h22"/></svg>';
+  nav.appendChild(btn);
+
+  function close() { document.body.classList.remove('nav-open'); btn.setAttribute('aria-expanded','false'); }
+  function open()  { document.body.classList.add('nav-open');    btn.setAttribute('aria-expanded','true'); }
+  btn.addEventListener('click', function(){
+    if (document.body.classList.contains('nav-open')) close(); else open();
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+  // Close on link tap so same-page anchors feel responsive
+  document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', close); });
+  // Reset on resize back to desktop
+  window.addEventListener('resize', function(){
+    if (window.innerWidth > 980 && document.body.classList.contains('nav-open')) close();
+  });
+})();
+</script>
+
+</body>
+</html>

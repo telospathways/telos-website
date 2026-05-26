@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Manifesto &mdash; Telos Pathways</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --navy: #0e1c35;
+  --cream: #f0ece2;
+  --orange: #d4562a;
+  --cyan: #00BFFF;
+  --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--navy); color: var(--cream); font-family: var(--font); overflow-x: hidden; }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 60px; background: rgba(14,28,53,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(240,236,226,0.08); }
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo-img { display: block; height: 48px; width: auto; }
+.nav-logo-text { font-family: var(--font); font-weight: 800; font-size: 30px; letter-spacing: -0.02em; line-height: 1; display: inline-flex; align-items: baseline; }
+.nav-logo-text .nl-telos { color: var(--cream); margin-right: 0.15em; }
+.nav-logo-text .nl-paths { color: var(--orange); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { font-size: 15.87px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,236,226,0.65); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--cream); }
+.nav-links a.active { color: var(--cream); border-bottom: 2px solid var(--orange); padding-bottom: 2px; }
+@media(max-width:980px){ .nav-links { display: none; } }
+.hero { position: relative; min-height: 56vh; display: flex; align-items: center; padding: 140px clamp(24px,6vw,100px) 60px; overflow: hidden; }
+.hero-inner { position: relative; z-index: 2; max-width: 1000px; margin: 0 auto; width: 100%; text-align: center; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 20px; }
+.hero-eyebrow::before, .hero-eyebrow::after { content:''; width: 28px; height: 1px; background: var(--cyan); }
+.hero-title { font-size: clamp(38px, 5.4vw, 72px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; color: var(--cream); margin-bottom: 18px; }
+.hero-title .orange { color: var(--orange); }
+.hero-rule { width: 80px; height: 3px; background: var(--orange); margin: 24px auto 28px; }
+.hero-sub { font-size: clamp(18px, 1.8vw, 22px); font-weight: 500; color: rgba(240,236,226,0.85); line-height: 1.55; max-width: 720px; margin: 0 auto; }
+.hero-meta { margin-top: 28px; display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.hero-pill { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(240,236,226,0.7); background: rgba(240,236,226,0.05); border: 1px solid rgba(240,236,226,0.16); padding: 8px 16px; border-radius: 999px; }
+.divider { width: 100%; height: 1px; background: rgba(240,236,226,0.08); max-width: 1200px; margin: 0 auto; }
+.section { padding: clamp(56px,7vh,90px) clamp(24px,6vw,100px); max-width: 1100px; margin: 0 auto; }
+.section-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; display: inline-flex; align-items: center; gap: 12px; }
+.section-eyebrow::before { content:''; width: 28px; height: 1px; background: var(--cyan); }
+.section-title { font-size: clamp(26px,3.2vw,40px); font-weight: 800; letter-spacing: -0.01em; color: var(--cream); line-height: 1.15; margin-bottom: 22px; }
+.section-prose { font-size: 17px; color: rgba(240,236,226,0.82); line-height: 1.75; max-width: 760px; }
+.section-prose p + p { margin-top: 18px; }
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.16,1,0.3,1); }
+.fade-in.in { opacity: 1; transform: translateY(0); }
+.obj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 12px; }
+@media(max-width:780px){ .obj-grid { grid-template-columns: 1fr; } }
+.obj-card { border: 1.5px solid rgba(240,236,226,0.12); border-top: 3px solid var(--orange); border-radius: 12px; padding: 28px 26px; background: rgba(240,236,226,0.025); }
+.obj-card-title { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+.obj-list { list-style: none; padding: 0; margin: 0; }
+.obj-list li { font-size: 15.5px; color: rgba(240,236,226,0.85); line-height: 1.65; padding: 10px 0 10px 22px; position: relative; border-bottom: 1px solid rgba(240,236,226,0.07); }
+.obj-list li:last-child { border-bottom: none; }
+.obj-list li::before { content:''; position: absolute; left: 0; top: 18px; width: 10px; height: 1px; background: var(--cyan); }
+.weeks-stack { display: flex; flex-direction: column; gap: 18px; margin-top: 8px; }
+.week-card { border: 1.5px solid rgba(240,236,226,0.1); border-left: 3px solid var(--orange); border-radius: 12px; padding: 26px 28px; background: linear-gradient(180deg, rgba(240,236,226,0.025), rgba(212,86,42,0.025)); }
+.week-card-head { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; margin-bottom: 14px; }
+.week-num { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); white-space: nowrap; }
+.week-title { font-size: clamp(20px,2.1vw,26px); font-weight: 700; color: var(--cream); letter-spacing: -0.005em; line-height: 1.25; }
+.week-block { margin-top: 14px; }
+.week-block-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(240,236,226,0.55); margin-bottom: 10px; }
+.week-list { list-style: none; padding: 0; margin: 0; }
+.week-list li { font-size: 15px; color: rgba(240,236,226,0.85); line-height: 1.7; padding: 7px 0 7px 22px; position: relative; }
+.week-list li::before { content:''; position: absolute; left: 0; top: 15px; width: 10px; height: 1px; background: rgba(240,236,226,0.4); }
+.week-exercise { margin-top: 18px; padding: 16px 18px; background: rgba(0,191,255,0.06); border-left: 2px solid var(--cyan); border-radius: 4px; font-size: 15px; line-height: 1.65; color: rgba(240,236,226,0.92); }
+.week-exercise strong { color: var(--cyan); font-weight: 700; letter-spacing: 0.1em; font-size: 10.5px; text-transform: uppercase; display: block; margin-bottom: 6px; }
+.cta-section { text-align: center; padding: clamp(56px,7vh,90px) 48px; background: rgba(240,236,226,0.03); border-top: 1px solid rgba(240,236,226,0.08); }
+.cta-title { font-size: clamp(24px,2.8vw,36px); font-weight: 800; letter-spacing: -0.01em; color: var(--cream); margin-bottom: 12px; }
+.cta-sub { font-size: 17px; color: rgba(240,236,226,0.7); line-height: 1.6; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.btn-primary { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font); font-weight: 600; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cream); text-decoration: none; border: 3px solid var(--orange); padding: 16px 44px; border-radius: 50px; background: transparent; transition: background 0.3s ease; cursor: pointer; }
+.btn-primary:hover { background: var(--orange); }
+.btn-ghost { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(240,236,226,0.9); text-decoration: none; border: 1.5px solid rgba(240,236,226,0.3); padding: 12px 22px; border-radius: 999px; transition: border-color 0.2s, color 0.2s, background 0.2s; }
+.btn-ghost:hover { border-color: var(--orange); color: var(--cream); background: rgba(212,86,42,0.1); }
+.back-link-wrap { padding: 96px clamp(24px,6vw,100px) 0; max-width: 1200px; margin: 0 auto; }
+.back-link { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(240,236,226,0.55); text-decoration: none; transition: color 0.2s, gap 0.25s; }
+.back-link:hover { color: var(--orange); gap: 14px; }
+.back-link svg { width: 14px; height: 8px; }
+.site-footer { border-top: 1px solid rgba(240,236,226,0.1); padding: 56px clamp(24px,6vw,80px) 48px; margin-top: 80px; background: var(--navy); position: relative; z-index: 5; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-brand { display: flex; flex-direction: column; gap: 14px; max-width: 520px; }
+.footer-name { font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); }
+.footer-address { font-size: 14.5px; line-height: 1.7; color: rgba(240,236,226,0.78); font-style: normal; }
+.footer-address a { color: var(--cream); text-decoration: none; border-bottom: 1px solid rgba(240,236,226,0.2); transition: border-color 0.2s; }
+.footer-address a:hover { border-bottom-color: var(--orange); }
+.footer-meta { margin-top: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: rgba(240,236,226,0.45); display: flex; flex-direction: column; gap: 8px; }
+.footer-meta .reg { letter-spacing: 0.16em; text-transform: uppercase; }
+.footer-meta a { color: rgba(240,236,226,0.7); text-decoration: none; border-bottom: 1px solid rgba(240,236,226,0.2); transition: border-color 0.2s, color 0.2s; }
+.footer-meta a:hover { color: var(--cream); border-bottom-color: var(--orange); }
+
+.pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 8px; }
+@media(max-width:900px){ .pillars { grid-template-columns: 1fr; } }
+.pillar { border: 1.5px solid rgba(240,236,226,0.12); border-top: 3px solid var(--orange); border-radius: 14px; padding: 32px 30px; background: linear-gradient(180deg, rgba(240,236,226,0.025), rgba(212,86,42,0.035)); display: flex; flex-direction: column; }
+.pillar-num { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; color: var(--cyan); margin-bottom: 14px; }
+.pillar-title { font-size: 22px; font-weight: 800; color: var(--cream); line-height: 1.25; letter-spacing: -0.005em; margin-bottom: 16px; }
+.pillar-body { font-size: 15px; color: rgba(240,236,226,0.82); line-height: 1.75; }
+.pillar-body p + p { margin-top: 14px; }
+.manifesto-quote { font-family: var(--font); font-weight: 700; font-style: italic; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.4; color: var(--cream); max-width: 880px; margin: 0 auto; letter-spacing: -0.005em; text-align: center; }
+.manifesto-quote .ac { color: var(--orange); }
+.problem-solution { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+@media(max-width:880px){ .problem-solution { grid-template-columns: 1fr; } }
+.ps-card { border: 1.5px solid rgba(240,236,226,0.12); border-radius: 14px; padding: 32px 30px; background: rgba(240,236,226,0.025); }
+.ps-card.problem { border-left: 3px solid #c14a48; }
+.ps-card.solution { border-left: 3px solid #4aac7f; }
+.ps-label { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 14px; }
+.ps-label.problem { color: #ff7973; }
+.ps-label.solution { color: #66c99a; }
+.ps-card h3 { font-size: 22px; font-weight: 800; color: var(--cream); line-height: 1.25; margin-bottom: 16px; }
+.ps-card p { font-size: 15.5px; color: rgba(240,236,226,0.85); line-height: 1.75; }
+.ps-card p + p { margin-top: 14px; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo" aria-label="Telos Pathways home"><img src="assets/telos-globe-navy.png" alt="" class="nav-logo-img" /><span class="nav-logo-text"><span class="nl-telos">Telos</span><span class="nl-paths">Pathways</span></span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="workshops.html">Workshops</a></li>
+    <li><a href="ai.html" class="active">AI</a></li>
+    <li><a href="tutoring.html">Tutoring</a></li>
+    <li><a href="our-method.html">Our Method</a></li>
+    <li><a href="admissions.html">Admissions</a></li>
+    <li><a href="about.html">Our Team</a></li>
+    <li><a href="faqs.html">FAQs</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+<div class="back-link-wrap"><a class="back-link" href="ai.html">
+  <svg viewBox="0 0 14 8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 4H1M4 1L1 4l3 3"/></svg>
+  Back to AI
+</a></div>
+<div class="hero"><div class="hero-inner">
+    <div class="hero-eyebrow">AI Philosophy</div>
+    <h1 class="hero-title">AI <span class="orange">Manifesto</span></h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">Read widely, think rigorously, evaluate critically.</p></div></div>
+<div class="divider"></div>
+
+<section class="section">
+  <div class="manifesto-quote fade-in">
+    &ldquo;The Silicon Valley saying goes, <span class="ac">move fast and break things.</span> We take a different approach: read widely, think rigorously, evaluate critically, and find genuine intellectual purpose.&rdquo;
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="problem-solution">
+    <div class="ps-card problem fade-in">
+      <div class="ps-label problem">The problem</div>
+      <h3>Blind reliance on AI shortcuts erodes our sense of purpose.</h3>
+      <p>Rapid advancements in AI capabilities raise a major question for young people today: why bother learning anything if AI can do my schoolwork for me?</p>
+      <p>Students with this mindset become dependent on AI tools to perform tasks that were considered non-negotiable just a few years ago: many are reading summaries instead of books, generating automated essays from bullet points rather than writing fluently, relying on translation software rather than learning languages, and bypassing other challenging, rewarding, and essential aspects of learning. This weakens our discipline, concentration, and mental flexibility.</p>
+    </div>
+    <div class="ps-card solution fade-in" style="transition-delay:0.08s">
+      <div class="ps-label solution">Our solution</div>
+      <h3>Pathways that cultivate focus, perseverance, and genuine intellectual purpose.</h3>
+      <p>AI tools may perform certain academic tasks faster and more accurately than we can, but they cannot inspire the independence, dignity, or confidence that arise from real problem-solving and analytical thinking.</p>
+      <p>Human intelligence isn&rsquo;t obsolete in an AI&#8209;powered world &mdash; the thresholds for what constitutes it have merely risen. Anyone capable of independent reasoning, debating, and forming original judgements is inherently better equipped to face the future of education and work.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="fade-in" style="text-align:center;margin-bottom:48px;">
+    <div class="section-eyebrow" style="justify-content:center;">Our approach</div>
+    <h2 class="section-title" style="margin-bottom:0;">Three pillars</h2>
+  </div>
+  <div class="pillars">
+    <div class="pillar fade-in">
+      <div class="pillar-num">01</div>
+      <div class="pillar-title">Reading at all costs</div>
+      <div class="pillar-body">
+        <p>Reading must never be outsourced to AI. Relying on summaries in place of original texts sacrifices our genuine intellectual understanding and has serious cognitive implications.</p>
+        <p>Reading deeply and widely forces us to persevere through difficult passages, make connections between ideas, form original interpretations, and develop many other crucial skills. In doing so, we strengthen our attention span, memory, reasoning, creativity, and metacognitive awareness &mdash; all essential to neurological health and academic and professional pursuits.</p>
+        <p>Our Telos Pathways tutors pursued PhD research because we read widely and fell in love with the ideas we encountered. We hope to inspire our students to find the same passion and purpose.</p>
+      </div>
+    </div>
+    <div class="pillar fade-in" style="transition-delay:0.08s">
+      <div class="pillar-num">02</div>
+      <div class="pillar-title">Deploying AI critically and responsibly</div>
+      <div class="pillar-body">
+        <p>We understand that AI is here to stay and can be leveraged constructively. We coach our students to treat AI tools as competent research assistants that can produce revision schedules, generate practice exam questions, organise notes, and perform other tasks that elevate their productivity.</p>
+        <p>If students use AI to generate feedback on their work, they should do so interactively &mdash; prompting these models to provide explanations of errors, suggestions for improvement, and probing questions rather than simply ghostwriting alternative answers. The key is for AI to <em>enhance</em> rather than <em>replace</em> our human critical thinking capacities.</p>
+      </div>
+    </div>
+    <div class="pillar fade-in" style="transition-delay:0.16s">
+      <div class="pillar-num">03</div>
+      <div class="pillar-title">Understanding the AI revolution and the future of academic research</div>
+      <div class="pillar-body">
+        <p>We are equally determined to prepare our students for the future of learning, academic research, and work in an AI&#8209;powered world. In our tutorials, we consider ethical and methodological questions surrounding AI&rsquo;s applications across different fields.</p>
+        <p>Could algorithmic analysis of social media data redefine sociological studies on public opinion? Is translation software rendering linguists redundant? How do debates surrounding AI&rsquo;s consciousness inform philosophical enquiry? How could AI&#8209;generated art complicate long-standing debates in aesthetics about authorship and originality?</p>
+        <p>Engaging with these questions gives students the perspective and preparedness to approach an AI&#8209;powered future with their human intelligence and critical thinking skills intact.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-section">
+  <div class="cta-title">Ready to begin?</div>
+  <div class="cta-sub">Book a free introductory call. We&rsquo;ll discuss your goals and design a pathway that fits.</div>
+  <a href="contact.html" class="btn-primary">Get in touch</a>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-name">Telos Pathways</div>
+      <address class="footer-address">Old Came Rectory A352<br>Winterborne Came,<br>Dorchester, UK, DT2 8NX<br><a href="mailto:info@telospathways.com">info@telospathways.com</a></address>
+      <div class="footer-meta">
+        <div class="reg">Telos Pathways LLP &middot; OC458814</div>
+        <div><a href="privacy.html">Privacy Policy</a></div>
+      </div>
+    </div>
+  </div>
+</footer>
+<script>
+const obs = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } }); }, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+
+<!-- Mobile nav -->
+<style>
+  .nav-toggle {
+    display: none;
+    background: transparent; border: 0; padding: 8px; margin-left: auto;
+    cursor: pointer; color: var(--cream); -webkit-tap-highlight-color: transparent;
+  }
+  .nav-toggle svg { display: block; width: 26px; height: 20px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; fill: none; }
+  .nav-toggle .top, .nav-toggle .bot { transition: transform 0.3s ease, opacity 0.2s ease; transform-origin: center; }
+  .nav-toggle .mid { transition: opacity 0.2s ease; }
+  body.nav-open .nav-toggle .top { transform: translateY(8px) rotate(45deg); }
+  body.nav-open .nav-toggle .mid { opacity: 0; }
+  body.nav-open .nav-toggle .bot { transform: translateY(-8px) rotate(-45deg); }
+
+  @media (max-width: 980px) {
+    nav { padding: 0 22px !important; }
+    .nav-logo-img { height: 38px !important; }
+    .nav-logo-text { font-size: 22px !important; }
+    .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+    .nav-links {
+      display: flex !important;
+      position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
+      flex-direction: column; gap: 0 !important;
+      padding: 16px 22px 80px !important;
+      background: rgba(14,28,53,0.985); backdrop-filter: blur(12px);
+      overflow-y: auto;
+      transform: translateY(-12px); opacity: 0; pointer-events: none;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease;
+      z-index: 99;
+    }
+    body.nav-open .nav-links { transform: translateY(0); opacity: 1; pointer-events: auto; }
+    .nav-links li { list-style: none; border-bottom: 1px solid rgba(240,236,226,0.08); }
+    .nav-links li:last-child { border-bottom: 0; }
+    .nav-links a {
+      display: block; padding: 18px 4px !important;
+      font-size: 17px !important; font-weight: 600 !important;
+      letter-spacing: 0.04em !important; text-transform: none !important;
+      color: var(--cream) !important; border-bottom: 0 !important;
+    }
+    .nav-links a.active { color: var(--orange) !important; }
+    body.nav-open { overflow: hidden; }
+  }
+</style>
+<script>
+(function(){
+  var nav = document.querySelector('nav');
+  if (!nav) return;
+  var btn = document.createElement('button');
+  btn.className = 'nav-toggle';
+  btn.setAttribute('aria-label', 'Toggle menu');
+  btn.setAttribute('aria-expanded', 'false');
+  btn.innerHTML = '<svg viewBox="0 0 26 20" aria-hidden="true"><path class="top" d="M2 4h22"/><path class="mid" d="M2 10h22"/><path class="bot" d="M2 16h22"/></svg>';
+  nav.appendChild(btn);
+
+  function close() { document.body.classList.remove('nav-open'); btn.setAttribute('aria-expanded','false'); }
+  function open()  { document.body.classList.add('nav-open');    btn.setAttribute('aria-expanded','true'); }
+  btn.addEventListener('click', function(){
+    if (document.body.classList.contains('nav-open')) close(); else open();
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+  // Close on link tap so same-page anchors feel responsive
+  document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', close); });
+  // Reset on resize back to desktop
+  window.addEventListener('resize', function(){
+    if (window.innerWidth > 980 && document.body.classList.contains('nav-open')) close();
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshops — Telos Pathways</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --navy: #0e1c35;
+  --cream: #f0ece2;
+  --orange: #d4562a;
+  --cyan: #00BFFF;
+  --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--navy); color: var(--cream); font-family: var(--font); overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 60px;
+  background: rgba(14,28,53,0.92); backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(240,236,226,0.08);
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo-mark { flex-shrink: 0; display: block; }
+.nav-logo-img { display: block; height: 48px; width: auto; }
+.nav-logo-text { font-family: var(--font); font-weight: 800; font-size: 30px; letter-spacing: -0.02em; line-height: 1; display: inline-flex; align-items: baseline; }
+.nav-logo-text .nl-telos { color: var(--cream); margin-right: 0.15em; }
+.nav-logo-text .nl-paths { color: var(--orange); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { font-size: 15.87px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,236,226,0.65); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--cream); }
+.nav-links a.active { color: var(--cream); border-bottom: 2px solid var(--orange); padding-bottom: 2px; }
+
+/* HERO */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 120px 48px 80px; overflow: hidden;
+}
+#globe-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.7; }
+.vignette { position: absolute; inset: 0; background: radial-gradient(ellipse 75% 65% at 50% 50%, transparent 25%, var(--navy) 100%); pointer-events: none; }
+
+.hero-content { position: relative; z-index: 2; max-width: 900px; }
+
+.hero-eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 24px;
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.hero-eyebrow.in { opacity: 1; transform: translateY(0); }
+
+.hero-title { font-size: clamp(42px, 6vw, 80px); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; color: var(--cream); margin-bottom: 8px; }
+.hero-title-line { display: block; padding-bottom: 0.14em; transform: translateY(110%); opacity: 0; overflow: hidden; transition: transform 0.75s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease; }
+.hero-title-line.orange { color: var(--orange); }
+.hero-title-line.in { transform: translateY(0); opacity: 1; }
+
+.hero-rule { width: 0; height: 2px; background: var(--orange); margin: 28px auto; transition: width 1s 0.9s cubic-bezier(0.16,1,0.3,1); }
+.hero-rule.in { width: 80px; }
+
+.hero-sub { font-size: clamp(19.84px,1.851vw,25.13px); font-weight: 600; color: rgba(240,236,226,0.95); line-height: 1.5; margin-bottom: 18px; opacity: 0; transform: translateY(12px); transition: opacity 0.6s 1.1s ease, transform 0.6s 1.1s ease; }
+.hero-sub.in { opacity: 1; transform: translateY(0); }
+
+.hero-tag { font-size: clamp(18.52px,1.587vw,21.16px); font-weight: 400; color: rgba(240,236,226,0.7); line-height: 1.7; max-width: 640px; margin: 0 auto; opacity: 0; transition: opacity 0.6s 1.4s ease; }
+.hero-tag.in { opacity: 1; }
+
+.scroll-hint { position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0; animation: fadeUp 0.6s 2.2s forwards; }
+.scroll-hint span { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(240,236,226,0.35); }
+.scroll-arrow { width: 1px; height: 40px; background: linear-gradient(to bottom, rgba(212,86,42,0.8), transparent); animation: pulse 1.8s 2.5s infinite; }
+@keyframes fadeUp { to { opacity: 1; } }
+@keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+/* SHARED */
+.section { padding: clamp(64px,8vh,100px) clamp(24px,6vw,100px); max-width: 1200px; margin: 0 auto; }
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+.section-title { font-size: clamp(28px,3.5vw,44px); font-weight: 800; letter-spacing: -0.01em; color: var(--cream); line-height: 1.1; margin-bottom: 24px; }
+.section-lead { font-size: clamp(18.52px,1.587vw,21.16px); font-weight: 400; color: rgba(240,236,226,0.7); line-height: 1.7; max-width: 720px; margin-bottom: 8px; }
+.divider { width: 100%; height: 1px; background: rgba(240,236,226,0.08); max-width: 1200px; margin: 0 auto; }
+
+.fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.16,1,0.3,1); }
+.fade-in.in { opacity: 1; transform: translateY(0); }
+
+/* DEVELOP GRID — monochrome 3×2 cascade with line diagrams */
+.develop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px 22px; margin-top: 40px; }
+
+.develop-card {
+  position: relative;
+  padding: 30px 28px 28px;
+  border-radius: 14px;
+  display: flex; flex-direction: column; justify-content: flex-start;
+  height: 360px;
+  background: rgba(240,236,226,0.04);
+  border: 1px solid rgba(240,236,226,0.10);
+  color: var(--cream);
+  box-shadow: 0 14px 32px rgba(0,0,0,0.25), 0 2px 6px rgba(0,0,0,0.15);
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s, border-color 0.3s, background 0.3s;
+  overflow: hidden;
+}
+.develop-card.in { opacity: 1; transform: translateY(0); }
+.develop-card:hover {
+  transform: translateY(-8px);
+  background: rgba(240,236,226,0.06);
+  border-color: rgba(212,86,42,0.45);
+  box-shadow: 0 24px 50px rgba(0,0,0,0.4), 0 6px 14px rgba(0,0,0,0.22);
+}
+
+.develop-num {
+  font-size: 64px; font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1; color: var(--orange); margin-bottom: 18px;
+  font-variant-numeric: tabular-nums;
+}
+.develop-diagram {
+  height: 70px; margin-bottom: 18px;
+  display: flex; align-items: center; justify-content: flex-start;
+}
+.develop-diagram svg { height: 100%; width: auto; overflow: visible; }
+.develop-diagram svg .stroke { stroke: var(--cream); stroke-width: 1.5; fill: none; opacity: 0.8; }
+.develop-diagram svg .stroke-accent { stroke: var(--orange); stroke-width: 1.75; fill: none; }
+.develop-diagram svg .dot { fill: var(--cream); opacity: 0.85; }
+.develop-diagram svg .dot-accent { fill: var(--orange); }
+
+.develop-title {
+  font-size: 22px; font-weight: 700; letter-spacing: -0.015em;
+  line-height: 1.15; color: var(--cream); margin-bottom: 10px;
+}
+.develop-desc {
+  font-size: 15.5px; line-height: 1.55; color: rgba(240,236,226,0.72); font-weight: 400;
+}
+
+@media (max-width: 1000px) { .develop-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px)  { .develop-grid { grid-template-columns: 1fr; } .develop-card { height: auto; min-height: 280px; } }
+
+/* TOPIC CARDS (sample workshops) */
+.topics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin: 44px 0 0; }
+@media (max-width: 880px) { .topics { grid-template-columns: 1fr; } }
+.topic-card { position: relative; background: rgba(14,28,53,0.55); border: 1px solid rgba(240,236,226,0.10); border-radius: 16px; padding: 26px 26px 24px; cursor: pointer; overflow: hidden; opacity: 0; transform: translateY(14px); transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, background 0.3s; }
+.topic-card.in { opacity: 1; transform: translateY(0); }
+.topic-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--orange); opacity: 0.5; transition: opacity 0.3s; }
+.topic-card::after { content: ''; position: absolute; right: -70px; top: -70px; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(212,86,42,0.12), transparent 70%); pointer-events: none; opacity: 0; transition: opacity 0.4s; }
+.topic-card:hover { border-color: rgba(212,86,42,0.45); background: rgba(212,86,42,0.04); }
+.topic-card:hover::before, .topic-card.open::before { opacity: 1; }
+.topic-card:hover::after, .topic-card.open::after { opacity: 1; }
+.topic-head { display: grid; grid-template-columns: auto 1fr auto; align-items: start; gap: 18px; }
+.topic-num { font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; font-size: 13px; font-weight: 600; letter-spacing: 0.18em; color: var(--orange); padding-top: 4px; font-variant-numeric: tabular-nums; }
+.topic-text { min-width: 0; }
+.topic-tag { display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(240,236,226,0.6); margin-bottom: 12px; transition: color 0.25s; }
+.topic-tag::before { content: ''; width: 14px; height: 1px; background: rgba(240,236,226,0.35); transition: background 0.25s; }
+.topic-card:hover .topic-tag, .topic-card.open .topic-tag { color: var(--orange); }
+.topic-card:hover .topic-tag::before, .topic-card.open .topic-tag::before { background: var(--orange); }
+.topic-title { font-size: clamp(17.5px, 1.4vw, 20px); font-weight: 600; color: var(--cream); line-height: 1.32; letter-spacing: -0.005em; transition: color 0.2s; }
+.topic-card:hover .topic-title { color: var(--orange); }
+.topic-icon { width: 32px; height: 32px; border: 1.5px solid rgba(240,236,226,0.22); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.25s, border-color 0.25s, transform 0.4s cubic-bezier(0.16,1,0.3,1); margin-top: 2px; }
+.topic-card:hover .topic-icon { border-color: var(--orange); }
+.topic-card.open .topic-icon { background: var(--orange); border-color: var(--orange); transform: rotate(45deg); }
+.topic-icon svg { width: 12px; height: 12px; color: var(--cream); }
+.topic-themes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+.topic-chip { font-size: 11.5px; font-weight: 500; color: rgba(240,236,226,0.7); padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(240,236,226,0.14); background: rgba(240,236,226,0.025); transition: border-color 0.25s, color 0.25s; }
+.topic-card:hover .topic-chip { border-color: rgba(212,86,42,0.3); color: rgba(240,236,226,0.85); }
+.topic-body { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.16,1,0.3,1), margin-top 0.4s ease; margin-top: 0; }
+.topic-card.open .topic-body { max-height: 1200px; margin-top: 22px; }
+.topic-body-inner { padding-top: 20px; border-top: 1px solid rgba(240,236,226,0.10); }
+.topic-body p { font-size: clamp(15.5px,1.3vw,17px); color: rgba(240,236,226,0.78); line-height: 1.72; margin: 0; }
+
+/* CTA */
+.cta-section { text-align: center; padding: clamp(64px,8vh,100px) 48px; background: rgba(240,236,226,0.03); border-top: 1px solid rgba(240,236,226,0.08); }
+.cta-title { font-size: clamp(26px,3vw,38px); font-weight: 800; letter-spacing: -0.01em; color: var(--cream); margin-bottom: 14px; }
+.cta-sub { font-size: clamp(18.52px,1.587vw,21.16px); color: rgba(240,236,226,0.7); line-height: 1.6; margin-bottom: 36px; }
+.btn-primary { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font); font-weight: 600; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cream); text-decoration: none; border: 3px solid var(--orange); padding: 16px 44px; border-radius: 50px; background: transparent; transition: background 0.3s ease; cursor: pointer; }
+.btn-primary:hover { background: var(--orange); }
+
+/* ── SITE FOOTER ── */
+.site-footer { border-top: 1px solid rgba(240,236,226,0.1); padding: 56px clamp(24px,6vw,80px) 48px; margin-top: 80px; background: var(--navy); position: relative; z-index: 5; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-brand { display: flex; flex-direction: column; gap: 14px; max-width: 520px; }
+.footer-name { font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); }
+.footer-address { font-size: 14.5px; line-height: 1.7; color: rgba(240,236,226,0.78); font-style: normal; }
+.footer-address a { color: var(--cream); text-decoration: none; border-bottom: 1px solid rgba(240,236,226,0.2); transition: border-color 0.2s; }
+.footer-address a:hover { border-bottom-color: var(--orange); }
+.footer-meta { margin-top: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: rgba(240,236,226,0.45); display: flex; flex-direction: column; gap: 8px; }
+.footer-meta .reg { letter-spacing: 0.16em; text-transform: uppercase; }
+.footer-meta a { color: rgba(240,236,226,0.7); text-decoration: none; border-bottom: 1px solid rgba(240,236,226,0.2); transition: border-color 0.2s, color 0.2s; }
+.footer-meta a:hover { color: var(--cream); border-bottom-color: var(--orange); }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo" aria-label="Telos Pathways home"><img src="assets/telos-globe-navy.png" alt="" class="nav-logo-img" /><span class="nav-logo-text"><span class="nl-telos">Telos</span><span class="nl-paths">Pathways</span></span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="#" class="active">Workshops</a></li>
+    <li><a href="ai.html">AI</a></li>
+    <li><a href="tutoring.html">Tutoring</a></li>
+    <li><a href="our-method.html">Our Method</a></li>
+    <li><a href="admissions.html">Admissions</a></li>
+    <li><a href="about.html">Our Team</a></li>
+    <li><a href="faqs.html">FAQs</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <canvas id="globe-canvas"></canvas>
+  <div class="vignette"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow" id="eyebrow">Workshops for schools and students</div>
+    <h1 class="hero-title">
+      <div style="overflow:hidden;padding-bottom:0.14em"><span class="hero-title-line" id="t1">The Telos Global</span></div>
+      <div style="overflow:hidden;padding-bottom:0.14em"><span class="hero-title-line orange" id="t2">Challenges Workshop</span></div>
+    </h1>
+    <div class="hero-rule" id="rule"></div>
+    <p class="hero-sub" id="sub">Training students to think, speak, and lead.</p>
+    <p class="hero-tag" id="tag">Customisable, case-study driven workshops on pressing global issues. We train students to think critically, creatively, and conscientiously about major events unfolding around us.</p>
+  </div>
+  <div class="scroll-hint">
+    <span>Explore</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</div>
+
+<!-- DEVELOP SECTION -->
+<section class="section">
+  <div class="section-label fade-in">What students develop</div>
+  <h2 class="section-title fade-in">Our workshops train crucial skills in an AI age</h2>
+
+  <div class="develop-grid">
+    <div class="develop-card" style="transition-delay:0.05s">
+      <div class="develop-num">01</div>
+      <div class="develop-diagram" aria-hidden="true">
+        <!-- Brain (cauliflower silhouette + gyri) with thought bubble + idea spark -->
+        <svg viewBox="0 0 110 70">
+          <!-- Brain outline: bumpy cauliflower silhouette, side view -->
+          <path class="stroke" d="
+            M 14 38
+            Q 10 28 18 22
+            Q 18 14 28 14
+            Q 32 8 40 12
+            Q 48 8 52 16
+            Q 60 14 60 22
+            Q 66 24 64 32
+            Q 68 38 62 42
+            Q 64 52 54 52
+            Q 50 60 40 56
+            Q 30 60 28 52
+            Q 18 52 18 44
+            Q 10 44 14 38 Z"/>
+          <!-- Central fissure (hemisphere divide) -->
+          <path class="stroke-accent" d="M 39 14 Q 37 32 41 54"/>
+          <!-- Left-hemisphere folds (gyri) -->
+          <path class="stroke" d="M 22 26 Q 28 30 22 34"/>
+          <path class="stroke" d="M 24 42 Q 30 46 24 48"/>
+          <!-- Right-hemisphere folds -->
+          <path class="stroke-accent" d="M 50 22 Q 56 26 50 30"/>
+          <path class="stroke-accent" d="M 52 38 Q 58 42 52 46"/>
+          <!-- Brain stem -->
+          <path class="stroke" d="M 38 58 Q 38 62 42 64"/>
+
+          <!-- Thought-bubble trail (two small bubbles) -->
+          <circle class="dot" cx="70" cy="20" r="1.8"/>
+          <circle class="dot-accent" cx="76" cy="14" r="2.4"/>
+
+          <!-- Main thought bubble -->
+          <ellipse class="stroke-accent" cx="92" cy="18" rx="14" ry="10"/>
+
+          <!-- Idea spark / sun-burst inside bubble -->
+          <circle class="dot-accent" cx="92" cy="18" r="2.6"/>
+          <line class="stroke-accent" x1="92" y1="11" x2="92" y2="9"/>
+          <line class="stroke-accent" x1="92" y1="25" x2="92" y2="27"/>
+          <line class="stroke-accent" x1="84" y1="18" x2="82" y2="18"/>
+          <line class="stroke-accent" x1="100" y1="18" x2="102" y2="18"/>
+          <line class="stroke-accent" x1="86.5" y1="12.5" x2="85" y2="11"/>
+          <line class="stroke-accent" x1="97.5" y1="12.5" x2="99" y2="11"/>
+        </svg>
+      </div>
+      <div class="develop-title">Critical thinking</div>
+      <div class="develop-desc">Interrogating arguments, evaluating evidence, and recognising the assumptions behind every claim.</div>
+    </div>
+    <div class="develop-card" style="transition-delay:0.11s">
+      <div class="develop-num">02</div>
+      <div class="develop-diagram" aria-hidden="true">
+        <!-- Globe / latitude-longitude -->
+        <svg viewBox="0 0 110 70">
+          <circle class="stroke" cx="35" cy="35" r="28"/>
+          <ellipse class="stroke" cx="35" cy="35" rx="28" ry="10"/>
+          <ellipse class="stroke" cx="35" cy="35" rx="12" ry="28"/>
+          <line class="stroke" x1="7" y1="35" x2="63" y2="35"/>
+          <line class="stroke-accent" x1="75" y1="20" x2="100" y2="20"/>
+          <line class="stroke-accent" x1="75" y1="35" x2="95" y2="35"/>
+          <line class="stroke-accent" x1="75" y1="50" x2="103" y2="50"/>
+        </svg>
+      </div>
+      <div class="develop-title">Contextual knowledge</div>
+      <div class="develop-desc">Understanding key political, economic, environmental, technological, and scientific issues.</div>
+    </div>
+    <div class="develop-card" style="transition-delay:0.17s">
+      <div class="develop-num">03</div>
+      <div class="develop-diagram" aria-hidden="true">
+        <!-- Document with text lines + magnifier -->
+        <svg viewBox="0 0 110 70">
+          <rect class="stroke" x="15" y="8" width="50" height="54" rx="2"/>
+          <line class="stroke" x1="22" y1="20" x2="58" y2="20"/>
+          <line class="stroke" x1="22" y1="28" x2="55" y2="28"/>
+          <line class="stroke-accent" x1="22" y1="36" x2="50" y2="36"/>
+          <line class="stroke" x1="22" y1="44" x2="58" y2="44"/>
+          <line class="stroke" x1="22" y1="52" x2="45" y2="52"/>
+          <circle class="stroke-accent" cx="82" cy="38" r="14"/>
+          <line class="stroke-accent" x1="92" y1="48" x2="103" y2="60"/>
+        </svg>
+      </div>
+      <div class="develop-title">Source analysis</div>
+      <div class="develop-desc">Reading primary and secondary sources with the curiosity and scepticism of a real academic.</div>
+    </div>
+    <div class="develop-card" style="transition-delay:0.23s">
+      <div class="develop-num">04</div>
+      <div class="develop-diagram" aria-hidden="true">
+        <!-- Microphone / sound waves -->
+        <svg viewBox="0 0 110 70">
+          <rect class="stroke-accent" x="45" y="10" width="20" height="32" rx="10"/>
+          <path class="stroke" d="M 35 32 Q 35 50 55 50 Q 75 50 75 32"/>
+          <line class="stroke" x1="55" y1="50" x2="55" y2="60"/>
+          <line class="stroke" x1="45" y1="60" x2="65" y2="60"/>
+          <path class="stroke" d="M 22 22 Q 18 32 22 42"/>
+          <path class="stroke" d="M 14 16 Q 8 32 14 48"/>
+          <path class="stroke" d="M 88 22 Q 92 32 88 42"/>
+          <path class="stroke" d="M 96 16 Q 102 32 96 48"/>
+        </svg>
+      </div>
+      <div class="develop-title">Public speaking and debating</div>
+      <div class="develop-desc">Delivering speeches, simulating press conferences, and debating with confidence and clarity.</div>
+    </div>
+    <div class="develop-card" style="transition-delay:0.29s">
+      <div class="develop-num">05</div>
+      <div class="develop-diagram" aria-hidden="true">
+        <!-- Television / signal-wave on screen -->
+        <svg viewBox="0 0 110 70">
+          <!-- Antennae -->
+          <line class="stroke" x1="40" y1="6" x2="55" y2="22"/>
+          <line class="stroke-accent" x1="70" y1="6" x2="55" y2="22"/>
+          <circle class="dot" cx="40" cy="6" r="2"/>
+          <circle class="dot-accent" cx="70" cy="6" r="2"/>
+          <!-- TV body -->
+          <rect class="stroke" x="18" y="20" width="74" height="38" rx="3"/>
+          <!-- Screen -->
+          <rect class="stroke" x="24" y="26" width="52" height="26" rx="1.5"/>
+          <!-- Signal wave on screen -->
+          <path class="stroke-accent" d="M 30 42 Q 36 32 42 42 T 54 42 T 66 42"/>
+          <!-- Side dial / speaker grill -->
+          <circle class="dot" cx="83" cy="32" r="2"/>
+          <circle class="dot-accent" cx="83" cy="42" r="2"/>
+          <line class="stroke" x1="80" y1="50" x2="86" y2="50"/>
+          <!-- Stand legs -->
+          <line class="stroke" x1="35" y1="58" x2="28" y2="65"/>
+          <line class="stroke" x1="75" y1="58" x2="82" y2="65"/>
+        </svg>
+      </div>
+      <div class="develop-title">Media literacy</div>
+      <div class="develop-desc">Critically interpreting media bias and the emotive power of language in shaping public opinion.</div>
+    </div>
+    <div class="develop-card" style="transition-delay:0.35s">
+      <div class="develop-num">06</div>
+      <div class="develop-diagram" aria-hidden="true">
+        <!-- Bar chart with trend line -->
+        <svg viewBox="0 0 110 70">
+          <line class="stroke" x1="10" y1="60" x2="105" y2="60"/>
+          <line class="stroke" x1="10" y1="60" x2="10" y2="8"/>
+          <rect class="stroke" x="22" y="42" width="10" height="18"/>
+          <rect class="stroke" x="38" y="34" width="10" height="26"/>
+          <rect class="stroke" x="54" y="38" width="10" height="22"/>
+          <rect class="stroke" x="70" y="24" width="10" height="36"/>
+          <rect class="stroke" x="86" y="16" width="10" height="44"/>
+          <polyline class="stroke-accent" points="27,46 43,38 59,42 75,28 91,18"/>
+          <circle class="dot-accent" cx="91" cy="18" r="3"/>
+        </svg>
+      </div>
+      <div class="develop-title">Data analysis</div>
+      <div class="develop-desc">Analysing data, graphs, and statistics to draw empirically rigorous conclusions.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TOPICS ACCORDION -->
+<section class="section">
+  <div class="section-label fade-in">Workshop themes</div>
+  <h2 class="section-title fade-in">Sample workshop topics</h2>
+  <p class="section-lead fade-in">Each workshop is led by our PhD experts and can be adapted to age group, subject focus, and your school&rsquo;s curriculum. Workshops are also fully customisable upon request.</p>
+
+  <div class="topics">
+    <div class="topic-card" onclick="toggleTopic(0)">
+      <div class="topic-head">
+        <div class="topic-num">01</div>
+        <div class="topic-text">
+          <div class="topic-tag">Technology &amp; environment</div>
+          <div class="topic-title">Powering intelligence: the environmental costs of AI infrastructure</div>
+          <div class="topic-themes"><span class="topic-chip">Data analysis</span><span class="topic-chip">Policy debate</span><span class="topic-chip">Ethics</span></div>
+        </div>
+        <div class="topic-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div>
+      </div>
+      <div class="topic-body"><div class="topic-body-inner"><p>This workshop examines the environmental consequences of the Artificial Intelligence boom. We explore how AI infrastructure works and what it costs: the energy demands of large-scale computing, the geopolitics of critical minerals, the water usage of data centres that power tools like ChatGPT, and other environmental questions. We apply this knowledge through hands-on activities that train qualitative, quantitative, and verbal reasoning simultaneously: analysing real emissions and energy datasets, critically interrogating Big Tech&rsquo;s net-zero pledges, and verbally debating contested policy and ethical questions about AI and the environment. Fundamentally, this workshop asks students to evaluate the trade-offs between technological progress and environmental responsibility.</p></div></div>
+    </div>
+    <div class="topic-card" onclick="toggleTopic(1)">
+      <div class="topic-head">
+        <div class="topic-num">02</div>
+        <div class="topic-text">
+          <div class="topic-tag">International relations</div>
+          <div class="topic-title">Sanctions and statecraft: lessons from Russia, Venezuela, and Iran</div>
+          <div class="topic-themes"><span class="topic-chip">Case studies</span><span class="topic-chip">Public speaking</span><span class="topic-chip">Trade data</span></div>
+        </div>
+        <div class="topic-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div>
+      </div>
+      <div class="topic-body"><div class="topic-body-inner"><p>This workshop explores sanctions as a diplomatic tool. It addresses key questions: who imposes sanctions, what they are intended to achieve, and what consequences do they produce? We consider these questions in the context of Western sanctions against Iran, Venezuela, and Russia in recent decades. Students engage in hands-on exercises to explore these case studies: analysing real trade and economic data, examining populist anti-sanctions rhetoric, simulating press conferences, writing and delivering public speeches, and debating the terms of policy reports. In doing so, they refine their analytical, argumentative, and verbal reasoning skills. At its core, this workshop trains students to consider how economic and political power is wielded in international relations and the moral complexities this raises.</p></div></div>
+    </div>
+    <div class="topic-card" onclick="toggleTopic(2)">
+      <div class="topic-head">
+        <div class="topic-num">03</div>
+        <div class="topic-text">
+          <div class="topic-tag">Political theory</div>
+          <div class="topic-title">Power and politics in crisis: the 2008 financial crash and the COVID-19 pandemic</div>
+          <div class="topic-themes"><span class="topic-chip">Theorists</span><span class="topic-chip">Policy briefs</span><span class="topic-chip">Crisis governance</span></div>
+        </div>
+        <div class="topic-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div>
+      </div>
+      <div class="topic-body"><div class="topic-body-inner"><p>This workshop examines how political leaders make decisions under pressure during major crises. We examine two recent case studies: the 2008 financial crash and the COVID-19 pandemic. We review the political and economic context behind these events and coach students through a series of critical questions: how do government and media communication strategies shape the public&rsquo;s understanding of crises? Who bears responsibility for their consequences? What do these events reveal about states&rsquo; obligations to their citizens? What happens when unelected experts gain substantial influence in crisis situations? Can emergency measures in times of crisis sometimes escalate to government authoritarianism? We approach these questions with reference to major political theorists (Jean-Jacques Rousseau, Thomas Hobbes, Robert Nozick, Max Weber, Hannah Arendt, and others), the contents of policy briefs and political debates, and relevant economic and financial data. Ultimately, students gain a deeper insight into the scope of state power and responsibility.</p></div></div>
+    </div>
+    <div class="topic-card" onclick="toggleTopic(3)">
+      <div class="topic-head">
+        <div class="topic-num">04</div>
+        <div class="topic-text">
+          <div class="topic-tag">Elections &amp; democracy</div>
+          <div class="topic-title">Anti-populist electoral victories: the cases of Mark Carney and P&eacute;ter Magyar</div>
+          <div class="topic-themes"><span class="topic-chip">Voting behaviour</span><span class="topic-chip">Mock press</span><span class="topic-chip">Campaign strategy</span></div>
+        </div>
+        <div class="topic-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></div>
+      </div>
+      <div class="topic-body"><div class="topic-body-inner"><p>This workshop examines two recent electoral victories of technocratic politicians against right-wing populist opponents: Mark Carney in Canada (April 2025) and P&eacute;ter Magyar in Hungary (April 2026). We analyse the geography and demography of voting behaviour in these countries, candidates&rsquo; speeches and policy platforms, media coverage of their campaigns, and the economic, social, and political conditions surrounding the elections. We guide students through key questions: what conditions enabled these anti-populist movements to succeed? Do individuals or ideas win elections? What do these victories reveal about the current state of liberal democracy? How did the politics of neighbouring countries shape these election campaigns? Students approach these questions through a series practical activities: designing mock campaign strategies, debating contested policy questions, and practising public speaking in press conference simulations.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section fade-in">
+  <div class="cta-title">Bring a workshop to your school</div>
+  <div class="cta-sub">Half-day, full-day, and multi-session programmes for Grade 6&ndash;12 students.</div>
+  <a href="contact.html" class="btn-primary">Get in touch</a>
+</div>
+
+<script>
+// ── Ticker tape headlines ─────────────────────────────────────────────────
+const canvas = document.getElementById('globe-canvas');
+const ctx = canvas.getContext('2d');
+
+const HEADLINES = [
+  'ELECTIONS', 'DEMOCRACY', 'GEOPOLITICS', 'CLIMATE CRISIS', 'SANCTIONS',
+  'DISINFORMATION', 'ECONOMIC SHOCK', 'DIPLOMACY', 'HUMAN RIGHTS', 'MIGRATION',
+  'AI POLICY', 'SUPPLY CHAINS', 'ENERGY TRANSITION', 'PUBLIC HEALTH', 'CYBERSECURITY',
+  'TRADE WARS', 'CENTRAL BANKS', 'UNITED NATIONS', 'FREE PRESS', 'CIVIL SOCIETY',
+  'PRIVATE CAPITAL', 'SOVEREIGN DEBT', 'INTELLIGENCE', 'STATECRAFT', 'PEACE TALKS',
+  'CONFLICT', 'INFLATION', 'GOVERNANCE', 'ACCOUNTABILITY', 'REGULATION',
+  'UKRAINE', 'GAZA', 'TAIWAN STRAIT', 'NATO', 'BRICS',
+  'ARTIFICIAL INTELLIGENCE', 'DATA CENTRES', 'CRITICAL MINERALS', 'SEMICONDUCTORS', 'CHIP WARS',
+  'CARBON MARKETS', 'NET ZERO', 'RENEWABLES', 'FOSSIL FUELS', 'BIODIVERSITY',
+  'POPULISM', 'AUTHORITARIANISM', 'PROTEST MOVEMENTS', 'REFUGEE CRISIS', 'BORDER POLICY',
+  'GLOBAL SOUTH', 'DEVELOPMENT AID', 'WORLD BANK', 'IMF', 'WTO',
+  'INTEREST RATES', 'CURRENCY MARKETS', 'OIL PRICES', 'GAS PIPELINES', 'OPEC',
+  'SOCIAL MEDIA', 'DEEPFAKES', 'CONTENT MODERATION', 'PLATFORM POWER', 'SURVEILLANCE',
+  'NUCLEAR PROLIFERATION', 'ARMS CONTROL', 'DEFENCE SPENDING', 'DRONE WARFARE', 'CYBERATTACKS',
+  'PANDEMIC PREPAREDNESS', 'VACCINES', 'GLOBAL HEALTH', 'FOOD SECURITY', 'WATER SCARCITY',
+  'INEQUALITY', 'WAGE STAGNATION', 'HOUSING CRISIS', 'YOUTH UNEMPLOYMENT', 'EDUCATION REFORM',
+  'GENE EDITING', 'BIOTECHNOLOGY', 'QUANTUM COMPUTING', 'SPACE RACE', 'CRYPTO REGULATION',
+  'JUDICIAL INDEPENDENCE', 'RULE OF LAW', 'PRESS FREEDOM', 'WHISTLEBLOWERS', 'CORRUPTION',
+  'GLOBAL TRADE', 'SUPPLY SHOCKS', 'RESHORING', 'TARIFFS', 'EMERGING MARKETS',
+];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  initTickers();
+}
+
+let tickers = [];
+function initTickers() {
+  tickers = [];
+  const rowHeight = 60;
+  const rowCount = Math.max(1, Math.floor((canvas.height - rowHeight) / rowHeight));
+  for (let i = 0; i < rowCount; i++) {
+    const y = (i + 0.5) * rowHeight + 8;
+    const dir = i % 2 === 0 ? 1 : -1;
+    const speed = 0.3 + Math.random() * 0.45;
+    const fontSize = 14 + Math.floor(Math.random() * 6);
+    const weight = Math.random() < 0.35 ? 700 : 400;
+    const orange = Math.random() < 0.15;
+    tickers.push({ y, dir, speed, fontSize, weight, orange, offset: Math.random() * canvas.width });
+  }
+}
+resize();
+window.addEventListener('resize', resize);
+
+function drawGlobe(ts) {
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  tickers.forEach(t => {
+    t.offset += t.dir * t.speed;
+    ctx.font = `${t.weight} ${t.fontSize}px 'Helvetica Neue', Helvetica, Arial, sans-serif`;
+    ctx.fillStyle = t.orange ? 'rgba(212,86,42,0.55)' : 'rgba(240,236,226,0.32)';
+    ctx.textBaseline = 'middle';
+
+    const sep = '   •   ';
+    const row = HEADLINES.join(sep) + sep;
+    const rowWidth = ctx.measureText(row).width;
+
+    let x = -((t.offset % rowWidth + rowWidth) % rowWidth);
+
+    while (x < w) {
+      ctx.fillText(row, x, t.y);
+      x += rowWidth;
+    }
+  });
+
+  requestAnimationFrame(drawGlobe);
+}
+requestAnimationFrame(drawGlobe);
+
+// ── Hero entrance ─────────────────────────────────────────────────────────
+setTimeout(() => document.getElementById('eyebrow').classList.add('in'), 200);
+setTimeout(() => document.getElementById('t1').classList.add('in'), 500);
+setTimeout(() => document.getElementById('t2').classList.add('in'), 680);
+setTimeout(() => document.getElementById('rule').classList.add('in'), 1100);
+setTimeout(() => document.getElementById('sub').classList.add('in'), 1300);
+setTimeout(() => document.getElementById('tag').classList.add('in'), 1600);
+
+// ── Scroll-triggered reveals ──────────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.fade-in, .develop-card, .topic-card').forEach(el => observer.observe(el));
+
+// ── Topic cards ───────────────────────────────────────────────────────────
+function toggleTopic(index) {
+  const items = document.querySelectorAll('.topic-card');
+  items.forEach((item, i) => {
+    if (i === index) {
+      item.classList.toggle('open');
+    } else {
+      item.classList.remove('open');
+    }
+  });
+}
+</script>
+
+<!-- SITE FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-name">Telos Pathways</div>
+      <address class="footer-address">
+        Old Came Rectory A352<br>
+        Winterborne Came,<br>
+        Dorchester, UK, DT2 8NX<br>
+        <a href="mailto:info@telospathways.com">info@telospathways.com</a>
+      </address>
+      <div class="footer-meta">
+        <div class="reg">Telos Pathways LLP · OC458814</div>
+        <div><a href="privacy.html">Privacy Policy</a></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- Mobile nav -->
+<style>
+  .nav-toggle {
+    display: none;
+    background: transparent; border: 0; padding: 8px; margin-left: auto;
+    cursor: pointer; color: var(--cream); -webkit-tap-highlight-color: transparent;
+  }
+  .nav-toggle svg { display: block; width: 26px; height: 20px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; fill: none; }
+  .nav-toggle .top, .nav-toggle .bot { transition: transform 0.3s ease, opacity 0.2s ease; transform-origin: center; }
+  .nav-toggle .mid { transition: opacity 0.2s ease; }
+  body.nav-open .nav-toggle .top { transform: translateY(8px) rotate(45deg); }
+  body.nav-open .nav-toggle .mid { opacity: 0; }
+  body.nav-open .nav-toggle .bot { transform: translateY(-8px) rotate(-45deg); }
+
+  @media (max-width: 980px) {
+    nav { padding: 0 22px !important; }
+    .nav-logo-img { height: 38px !important; }
+    .nav-logo-text { font-size: 22px !important; }
+    .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+    .nav-links {
+      display: flex !important;
+      position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
+      flex-direction: column; gap: 0 !important;
+      padding: 16px 22px 80px !important;
+      background: rgba(14,28,53,0.985); backdrop-filter: blur(12px);
+      overflow-y: auto;
+      transform: translateY(-12px); opacity: 0; pointer-events: none;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease;
+      z-index: 99;
+    }
+    body.nav-open .nav-links { transform: translateY(0); opacity: 1; pointer-events: auto; }
+    .nav-links li { list-style: none; border-bottom: 1px solid rgba(240,236,226,0.08); }
+    .nav-links li:last-child { border-bottom: 0; }
+    .nav-links a {
+      display: block; padding: 18px 4px !important;
+      font-size: 17px !important; font-weight: 600 !important;
+      letter-spacing: 0.04em !important; text-transform: none !important;
+      color: var(--cream) !important; border-bottom: 0 !important;
+    }
+    .nav-links a.active { color: var(--orange) !important; }
+    body.nav-open { overflow: hidden; }
+  }
+</style>
+<script>
+(function(){
+  var nav = document.querySelector('nav');
+  if (!nav) return;
+  var btn = document.createElement('button');
+  btn.className = 'nav-toggle';
+  btn.setAttribute('aria-label', 'Toggle menu');
+  btn.setAttribute('aria-expanded', 'false');
+  btn.innerHTML = '<svg viewBox="0 0 26 20" aria-hidden="true"><path class="top" d="M2 4h22"/><path class="mid" d="M2 10h22"/><path class="bot" d="M2 16h22"/></svg>';
+  nav.appendChild(btn);
+
+  function close() { document.body.classList.remove('nav-open'); btn.setAttribute('aria-expanded','false'); }
+  function open()  { document.body.classList.add('nav-open');    btn.setAttribute('aria-expanded','true'); }
+  btn.addEventListener('click', function(){
+    if (document.body.classList.contains('nav-open')) close(); else open();
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+  // Close on link tap so same-page anchors feel responsive
+  document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', close); });
+  // Reset on resize back to desktop
+  window.addEventListener('resize', function(){
+    if (window.innerWidth > 980 && document.body.classList.contains('nav-open')) close();
+  });
+})();
+</script>
+
+</body>
+</html>

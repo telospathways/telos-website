@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sample Pathway &middot; The Arab Renaissance &mdash; Telos Pathways</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --navy: #0e1c35;
+  --cream: #f0ece2;
+  --orange: #d4562a;
+  --cyan: #00BFFF;
+  --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--navy); color: var(--cream); font-family: var(--font); overflow-x: hidden; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 60px;
+  background: rgba(14,28,53,0.92); backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(240,236,226,0.08);
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo-img { display: block; height: 48px; width: auto; }
+.nav-logo-text { font-family: var(--font); font-weight: 800; font-size: 30px; letter-spacing: -0.02em; line-height: 1; display: inline-flex; align-items: baseline; }
+.nav-logo-text .nl-telos { color: var(--cream); margin-right: 0.15em; }
+.nav-logo-text .nl-paths { color: var(--orange); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { font-size: 15.87px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,236,226,0.65); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--cream); }
+.nav-links a.active { color: var(--cream); border-bottom: 2px solid var(--orange); padding-bottom: 2px; }
+@media(max-width:980px){ .nav-links { display: none; } }
+
+/* ── HERO ── */
+.hero { position: relative; min-height: 56vh; display: flex; align-items: center; padding: 140px clamp(24px,6vw,100px) 60px; overflow: hidden; }
+.hero-inner { position: relative; z-index: 2; max-width: 1000px; margin: 0 auto; width: 100%; text-align: center; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 20px; }
+.hero-eyebrow::before, .hero-eyebrow::after { content:''; width: 28px; height: 1px; background: var(--cyan); }
+.hero-title { font-size: clamp(38px, 5.4vw, 72px); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; color: var(--cream); margin-bottom: 18px; }
+.hero-title .orange { color: var(--orange); }
+.hero-rule { width: 80px; height: 3px; background: var(--orange); margin: 24px auto 28px; }
+.hero-sub { font-size: clamp(18px, 1.8vw, 22px); font-weight: 500; color: rgba(240,236,226,0.85); line-height: 1.55; max-width: 720px; margin: 0 auto; }
+.hero-meta { margin-top: 28px; display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.hero-pill { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(240,236,226,0.7); background: rgba(240,236,226,0.05); border: 1px solid rgba(240,236,226,0.16); padding: 8px 16px; border-radius: 999px; }
+
+.divider { width: 100%; height: 1px; background: rgba(240,236,226,0.08); max-width: 1200px; margin: 0 auto; }
+
+/* ── SECTION ── */
+.section { padding: clamp(56px,7vh,90px) clamp(24px,6vw,100px); max-width: 1100px; margin: 0 auto; }
+.section-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; display: inline-flex; align-items: center; gap: 12px; }
+.section-eyebrow::before { content:''; width: 28px; height: 1px; background: var(--cyan); }
+.section-title { font-size: clamp(26px,3.2vw,40px); font-weight: 800; letter-spacing: -0.01em; color: var(--cream); line-height: 1.15; margin-bottom: 22px; }
+.section-prose { font-size: 17px; color: rgba(240,236,226,0.82); line-height: 1.75; max-width: 760px; }
+.section-prose p + p { margin-top: 18px; }
+
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.16,1,0.3,1); }
+.fade-in.in { opacity: 1; transform: translateY(0); }
+
+/* ── OBJECTIVES / BULLETS ── */
+.obj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 12px; }
+@media(max-width:780px){ .obj-grid { grid-template-columns: 1fr; } }
+.obj-card { border: 1.5px solid rgba(240,236,226,0.12); border-top: 3px solid var(--orange); border-radius: 12px; padding: 28px 26px; background: rgba(240,236,226,0.025); }
+.obj-card-title { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+.obj-list { list-style: none; padding: 0; margin: 0; }
+.obj-list li { font-size: 15.5px; color: rgba(240,236,226,0.85); line-height: 1.65; padding: 10px 0 10px 22px; position: relative; border-bottom: 1px solid rgba(240,236,226,0.07); }
+.obj-list li:last-child { border-bottom: none; }
+.obj-list li::before { content:''; position: absolute; left: 0; top: 18px; width: 10px; height: 1px; background: var(--cyan); }
+
+/* ── WEEK CARDS ── */
+.weeks-stack { display: flex; flex-direction: column; gap: 18px; margin-top: 8px; }
+.week-card { border: 1.5px solid rgba(240,236,226,0.1); border-left: 3px solid var(--orange); border-radius: 12px; padding: 26px 28px; background: linear-gradient(180deg, rgba(240,236,226,0.025), rgba(212,86,42,0.025)); }
+.week-card-head { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; margin-bottom: 14px; }
+.week-num { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); white-space: nowrap; }
+.week-title { font-size: clamp(20px,2.1vw,26px); font-weight: 700; color: var(--cream); letter-spacing: -0.005em; line-height: 1.25; }
+.week-block { margin-top: 14px; }
+.week-block-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(240,236,226,0.55); margin-bottom: 10px; }
+.week-list { list-style: none; padding: 0; margin: 0; }
+.week-list li { font-size: 15px; color: rgba(240,236,226,0.85); line-height: 1.7; padding: 7px 0 7px 22px; position: relative; }
+.week-list li::before { content:''; position: absolute; left: 0; top: 15px; width: 10px; height: 1px; background: rgba(240,236,226,0.4); }
+.week-exercise { margin-top: 18px; padding: 16px 18px; background: rgba(0,191,255,0.06); border-left: 2px solid var(--cyan); border-radius: 4px; font-size: 15px; line-height: 1.65; color: rgba(240,236,226,0.92); }
+.week-exercise strong { color: var(--cyan); font-weight: 700; letter-spacing: 0.1em; font-size: 10.5px; text-transform: uppercase; display: block; margin-bottom: 6px; }
+
+/* ── CTA ── */
+.cta-section { text-align: center; padding: clamp(56px,7vh,90px) 48px; background: rgba(240,236,226,0.03); border-top: 1px solid rgba(240,236,226,0.08); }
+.cta-title { font-size: clamp(24px,2.8vw,36px); font-weight: 800; letter-spacing: -0.01em; color: var(--cream); margin-bottom: 12px; }
+.cta-sub { font-size: 17px; color: rgba(240,236,226,0.7); line-height: 1.6; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; }
+.btn-primary { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font); font-weight: 600; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cream); text-decoration: none; border: 3px solid var(--orange); padding: 16px 44px; border-radius: 50px; background: transparent; transition: background 0.3s ease; cursor: pointer; }
+.btn-primary:hover { background: var(--orange); }
+.btn-ghost { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(240,236,226,0.9); text-decoration: none; border: 1.5px solid rgba(240,236,226,0.3); padding: 12px 22px; border-radius: 999px; transition: border-color 0.2s, color 0.2s, background 0.2s; }
+.btn-ghost:hover { border-color: var(--orange); color: var(--cream); background: rgba(212,86,42,0.1); }
+
+/* ── BACK LINK ── */
+.back-link-wrap { padding: 96px clamp(24px,6vw,100px) 0; max-width: 1200px; margin: 0 auto; }
+.back-link { display: inline-flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(240,236,226,0.55); text-decoration: none; transition: color 0.2s, gap 0.25s; }
+.back-link:hover { color: var(--orange); gap: 14px; }
+.back-link svg { width: 14px; height: 8px; }
+
+/* ── FOOTER ── */
+.site-footer { border-top: 1px solid rgba(240,236,226,0.1); padding: 56px clamp(24px,6vw,80px) 48px; margin-top: 80px; background: var(--navy); position: relative; z-index: 5; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-brand { display: flex; flex-direction: column; gap: 14px; max-width: 520px; }
+.footer-name { font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); }
+.footer-address { font-size: 14.5px; line-height: 1.7; color: rgba(240,236,226,0.78); font-style: normal; }
+.footer-address a { color: var(--cream); text-decoration: none; border-bottom: 1px solid rgba(240,236,226,0.2); transition: border-color 0.2s; }
+.footer-address a:hover { border-bottom-color: var(--orange); }
+.footer-meta { margin-top: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: rgba(240,236,226,0.45); display: flex; flex-direction: column; gap: 8px; }
+.footer-meta .reg { letter-spacing: 0.16em; text-transform: uppercase; }
+.footer-meta a { color: rgba(240,236,226,0.7); text-decoration: none; border-bottom: 1px solid rgba(240,236,226,0.2); transition: border-color 0.2s, color 0.2s; }
+.footer-meta a:hover { color: var(--cream); border-bottom-color: var(--orange); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo" aria-label="Telos Pathways home"><img src="assets/telos-globe-navy.png" alt="" class="nav-logo-img" /><span class="nav-logo-text"><span class="nl-telos">Telos</span><span class="nl-paths">Pathways</span></span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="workshops.html">Workshops</a></li>
+    <li><a href="ai.html">AI</a></li>
+    <li><a href="tutoring.html" class="active">Tutoring</a></li>
+    <li><a href="our-method.html">Our Method</a></li>
+    <li><a href="admissions.html">Admissions</a></li>
+    <li><a href="about.html">Our Team</a></li>
+    <li><a href="faqs.html">FAQs</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="back-link-wrap"><a class="back-link" href="tutoring.html">
+  <svg viewBox="0 0 14 8" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 4H1M4 1L1 4l3 3"/></svg>
+  Back to tutoring
+</a></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    
+    <div class="hero-eyebrow">Intermediate Pathway &middot; 15 weeks</div>
+    <h1 class="hero-title">The Arab <span class="orange">Renaissance</span></h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">A sample 15&#8209;week pathway designed for Marwan, a 13&#8209;year&#8209;old with severe dyslexia learning about the Nahda in his middle school history course.</p>
+    <div class="hero-meta">
+      <span class="hero-pill">Ages 12&ndash;14</span>
+      <span class="hero-pill">Humanities</span>
+      <span class="hero-pill">Adapted for dyslexia</span>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+
+<section class="section">
+  <div class="fade-in">
+    <div class="section-eyebrow">Programme overview</div>
+    <div class="section-prose">
+      <p>Marwan, a 13&#8209;year&#8209;old with severe dyslexia, feels intimidated by reading and assignments in his middle-school history course on the Arab Renaissance (the Nahda). This pathway is designed to meet his specific learning needs by integrating creative and interactive activities with adapted readings.</p>
+      <p>Marwan&rsquo;s tutor will guide him through primary sources, visual materials, and practical projects that sustain his engagement and develop his intellectual potential and confidence. At the end of the 15&#8209;week pathway, Marwan and his tutor will compile a portfolio containing all of the project materials and exercises he has undertaken &mdash; a tangible record of his newfound knowledge and skills that allows him to reflect on his personal and intellectual growth. The pathway culminates in a final project that ties together everything he has learned.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="fade-in">
+    <div class="section-eyebrow">Learning objectives</div>
+    <h2 class="section-title">What Marwan will develop</h2>
+  </div>
+  <div class="obj-grid">
+    <div class="obj-card fade-in">
+      <div class="obj-card-title">Content</div>
+      <ul class="obj-list">
+        <li>Understanding historical context in the nineteenth-century Arab world; why did the Nahda&rsquo;s intellectuals seek change?</li>
+        <li>Discovering how education, language, and communication became tools for social progress</li>
+        <li>Getting to know the Nahda movement&rsquo;s principal personalities</li>
+        <li>Tracing features of modern Arab culture and societies back to nineteenth-century developments</li>
+      </ul>
+    </div>
+    <div class="obj-card fade-in" style="transition-delay:0.08s">
+      <div class="obj-card-title">Skills</div>
+      <ul class="obj-list">
+        <li>Learning to think like a historian by analysing different types of sources (books, newspapers, letters, and images)</li>
+        <li>Developing verbal reasoning skills through critical conversation and presentations</li>
+        <li>Honing persuasive and reflective writing skills through regular essays and assignments</li>
+        <li>Cultivating visual analysis skills</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="fade-in">
+    <div class="section-eyebrow">Possible final projects</div>
+    <h2 class="section-title">Five culminating options</h2>
+  </div>
+  <ul class="obj-list fade-in" style="max-width:760px;margin-top:8px;">
+    <li>Design a Nahda Newspaper featuring the key figures, ideas, and events of the period</li>
+    <li>An oral presentation tracing modern features of Arab society and culture back to the Nahda</li>
+    <li>Write a biographical essay explaining one key Nahda figure&rsquo;s contributions</li>
+    <li>Design an interactive museum display about the Nahda, including artefacts and explanations</li>
+    <li>Create a short video exploring the Nahda&rsquo;s visual legacy (art, architecture, etc.)</li>
+  </ul>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="fade-in">
+    <div class="section-eyebrow">Weekly pathway</div>
+    <h2 class="section-title">The 15&#8209;week journey</h2>
+  </div>
+  <div class="weeks-stack">
+      <div class="week-card fade-in">
+        <div class="week-card-head">
+          <div class="week-num">Week 1</div>
+          <div class="week-title">Historical Context &mdash; What Was the Arab World Like in 1800?</div>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Readings &amp; materials</div>
+          <ul class="week-list"><li>Introducing key vocabulary: <em>nahda</em>, revival, modernisation</li><li>Map exploration: the Ottoman Empire and Arab regions in 1800</li><li>Daily-life comparisons: transport, communication, education</li></ul>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Discussion</div>
+          <ul class="week-list"><li>What challenges did Arab societies face in the early nineteenth century?</li><li>How did people communicate news and ideas without modern technology?</li><li>Why might some have wanted to revive Arab society while others sought to sustain tradition?</li></ul>
+        </div>
+        <div class="week-exercise"><strong>Exercise</strong>Create a mindmap visually demonstrating the key features of the Arab world in 1800, forming connections between different ideas and developments.</div>
+      </div>
+      <div class="week-card fade-in">
+        <div class="week-card-head">
+          <div class="week-num">Weeks 2&ndash;3</div>
+          <div class="week-title">The Power of Language &mdash; Reviving Arabic Literature and Writing</div>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Readings &amp; materials</div>
+          <ul class="week-list"><li>Excerpts from al&#8209;Bustani&rsquo;s speeches on Arabic literature</li><li>Classical Arabic poetry vs. new Nahda writing styles</li><li>Headlines from early Arabic newspapers</li></ul>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Discussion</div>
+          <ul class="week-list"><li>Why did the Nahda&rsquo;s thinkers care so much about the Arabic language?</li><li>How can language be a source of cultural pride?</li><li>Differences between classical and modern Arabic writing styles</li></ul>
+        </div>
+        <div class="week-exercise"><strong>Exercise</strong>Compare an old Arabic poem with a modern Arabic song. What similarities and differences do you observe in tone, word choice, and sentence structure?</div>
+      </div>
+      <div class="week-card fade-in">
+        <div class="week-card-head">
+          <div class="week-num">Weeks 4&ndash;5</div>
+          <div class="week-title">Opening Minds &mdash; The Revolution in Education and Schools</div>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Readings &amp; materials</div>
+          <ul class="week-list"><li>Excerpts from al&#8209;Tahtawi&rsquo;s descriptions of schools in Paris</li><li>Stories about the first modern schools in Egypt and Lebanon</li><li>Letters from parents debating new vs. traditional schools</li></ul>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Discussion</div>
+          <ul class="week-list"><li>What was education like before the Nahda? Who could go to school?</li><li>Why did some oppose new teaching methods and others support them?</li><li>How did travel to Europe influence Arab ideas about education?</li></ul>
+        </div>
+        <div class="week-exercise"><strong>Exercise</strong>Design the ideal school curriculum for the nineteenth century. Which subjects would you include and why?</div>
+      </div>
+      <div class="week-card fade-in">
+        <div class="week-card-head">
+          <div class="week-num">Weeks 6&ndash;7</div>
+          <div class="week-title">Spreading Ideas &mdash; The Birth of Arabic Journalism and Publishing</div>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Readings &amp; materials</div>
+          <ul class="week-list"><li>Front pages from early Arabic newspapers like <em>Hadiqat al&#8209;Akhbar</em></li><li>Advertisements for new books and educational materials</li><li>Newspaper debates about social issues</li></ul>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Discussion</div>
+          <ul class="week-list"><li>How did newspapers help foster a sense of community among Arab readers?</li><li>How did printing presses change who could access knowledge?</li><li>What were the most important debates in Arab newspapers?</li></ul>
+        </div>
+        <div class="week-exercise"><strong>Exercise</strong>Create your own nineteenth-century Arabic newspaper page &mdash; news stories, advertisements, and opinion pieces that reflect Nahda concerns.</div>
+      </div>
+      <div class="week-card fade-in">
+        <div class="week-card-head">
+          <div class="week-num">Weeks 8&ndash;9</div>
+          <div class="week-title">Bridging Worlds &mdash; Translation and Cultural Exchange</div>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Readings &amp; materials</div>
+          <ul class="week-list"><li>European books translated into Arabic during the Nahda</li><li>Stories of Arab students who travelled to study in Europe</li><li>Debates about what ideas to adopt or reject</li></ul>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Discussion</div>
+          <ul class="week-list"><li>Why was translation such an important part of the Nahda?</li><li>How did Arab intellectuals decide which foreign ideas were useful?</li><li>Why might Arab societies have been sceptical of foreign cultures?</li></ul>
+        </div>
+        <div class="week-exercise"><strong>Exercise</strong>Choose one book translated into Arabic during the Nahda. Research what it was about and present whether you think it was a good choice for translation.</div>
+      </div>
+      <div class="week-card fade-in">
+        <div class="week-card-head">
+          <div class="week-num">Weeks 10&ndash;11</div>
+          <div class="week-title">Women&rsquo;s Voices in the Nahda</div>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Readings &amp; materials</div>
+          <ul class="week-list"><li>Excerpts from women&rsquo;s writings about education and social change</li><li>Stories about the first girls&rsquo; schools and women&rsquo;s magazines</li><li>Letters between women intellectuals</li></ul>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Discussion</div>
+          <ul class="week-list"><li>What challenges did women face in participating in the Nahda?</li><li>What methods did women use to overcome these challenges?</li><li>What arguments did women make about their roles in society?</li></ul>
+        </div>
+        <div class="week-exercise"><strong>Exercise</strong>Write a letter from the perspective of a young Arab woman in the 1890s to her friend, discussing her hopes for education and social change. Base it on real women from this period.</div>
+      </div>
+      <div class="week-card fade-in">
+        <div class="week-card-head">
+          <div class="week-num">Weeks 12&ndash;13</div>
+          <div class="week-title">Building Modern Societies &mdash; Political Ideas and Social Change</div>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Readings &amp; materials</div>
+          <ul class="week-list"><li>Political writings on governance and rights</li><li>Founding of institutions: Syrian Protestant College, Egyptian Museum, National Library of Egypt</li><li>Before-and-after photos of Cairo, Beirut, and Damascus</li></ul>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Discussion</div>
+          <ul class="week-list"><li>What did Nahda thinkers mean by &ldquo;freedom&rdquo; and &ldquo;progress&rdquo;?</li><li>How did people organise themselves to create change?</li><li>What role did religion play in modernisation debates?</li></ul>
+        </div>
+        <div class="week-exercise"><strong>Exercise</strong>Choose the Arab city you think changed most during the Nahda. Create a timeline with before/after photos and written explanations to argue your case.</div>
+      </div>
+      <div class="week-card fade-in">
+        <div class="week-card-head">
+          <div class="week-num">Weeks 14&ndash;15</div>
+          <div class="week-title">The Nahda&rsquo;s Legacy &mdash; How These Ideas Shaped the Modern Arab World</div>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Readings &amp; materials</div>
+          <ul class="week-list"><li>Modern Arab institutions traceable to the Nahda</li><li>Biographies of modern Arab intellectuals</li><li>Nineteenth-century vs. contemporary debates on language and identity</li></ul>
+        </div>
+        <div class="week-block">
+          <div class="week-block-label">Discussion</div>
+          <ul class="week-list"><li>Which Nahda ideals are most enduring in Arab societies today?</li><li>How do you interpret tradition vs. Arab modernity in the Arab world today?</li><li>If there were another Nahda today, what would its principles be?</li></ul>
+        </div>
+        <div class="week-exercise"><strong>Exercise</strong>Write about which Nahda figure you found most inspiring and why. How might their ideas apply to challenges facing young people today?</div>
+      </div>
+  </div>
+</section>
+
+
+<div class="cta-section">
+  <div class="cta-title">Ready to begin?</div>
+  <div class="cta-sub">Book a free introductory call. We&rsquo;ll discuss your goals and design a pathway that fits.</div>
+  <a href="contact.html" class="btn-primary">Get in touch</a>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-name">Telos Pathways</div>
+      <address class="footer-address">
+        Old Came Rectory A352<br>
+        Winterborne Came,<br>
+        Dorchester, UK, DT2 8NX<br>
+        <a href="mailto:info@telospathways.com">info@telospathways.com</a>
+      </address>
+      <div class="footer-meta">
+        <div class="reg">Telos Pathways LLP &middot; OC458814</div>
+        <div><a href="privacy.html">Privacy Policy</a></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+
+
+<!-- Mobile nav -->
+<style>
+  .nav-toggle {
+    display: none;
+    background: transparent; border: 0; padding: 8px; margin-left: auto;
+    cursor: pointer; color: var(--cream); -webkit-tap-highlight-color: transparent;
+  }
+  .nav-toggle svg { display: block; width: 26px; height: 20px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; fill: none; }
+  .nav-toggle .top, .nav-toggle .bot { transition: transform 0.3s ease, opacity 0.2s ease; transform-origin: center; }
+  .nav-toggle .mid { transition: opacity 0.2s ease; }
+  body.nav-open .nav-toggle .top { transform: translateY(8px) rotate(45deg); }
+  body.nav-open .nav-toggle .mid { opacity: 0; }
+  body.nav-open .nav-toggle .bot { transform: translateY(-8px) rotate(-45deg); }
+
+  @media (max-width: 980px) {
+    nav { padding: 0 22px !important; }
+    .nav-logo-img { height: 38px !important; }
+    .nav-logo-text { font-size: 22px !important; }
+    .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+    .nav-links {
+      display: flex !important;
+      position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
+      flex-direction: column; gap: 0 !important;
+      padding: 16px 22px 80px !important;
+      background: rgba(14,28,53,0.985); backdrop-filter: blur(12px);
+      overflow-y: auto;
+      transform: translateY(-12px); opacity: 0; pointer-events: none;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease;
+      z-index: 99;
+    }
+    body.nav-open .nav-links { transform: translateY(0); opacity: 1; pointer-events: auto; }
+    .nav-links li { list-style: none; border-bottom: 1px solid rgba(240,236,226,0.08); }
+    .nav-links li:last-child { border-bottom: 0; }
+    .nav-links a {
+      display: block; padding: 18px 4px !important;
+      font-size: 17px !important; font-weight: 600 !important;
+      letter-spacing: 0.04em !important; text-transform: none !important;
+      color: var(--cream) !important; border-bottom: 0 !important;
+    }
+    .nav-links a.active { color: var(--orange) !important; }
+    body.nav-open { overflow: hidden; }
+  }
+</style>
+<script>
+(function(){
+  var nav = document.querySelector('nav');
+  if (!nav) return;
+  var btn = document.createElement('button');
+  btn.className = 'nav-toggle';
+  btn.setAttribute('aria-label', 'Toggle menu');
+  btn.setAttribute('aria-expanded', 'false');
+  btn.innerHTML = '<svg viewBox="0 0 26 20" aria-hidden="true"><path class="top" d="M2 4h22"/><path class="mid" d="M2 10h22"/><path class="bot" d="M2 16h22"/></svg>';
+  nav.appendChild(btn);
+
+  function close() { document.body.classList.remove('nav-open'); btn.setAttribute('aria-expanded','false'); }
+  function open()  { document.body.classList.add('nav-open');    btn.setAttribute('aria-expanded','true'); }
+  btn.addEventListener('click', function(){
+    if (document.body.classList.contains('nav-open')) close(); else open();
+  });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+  // Close on link tap so same-page anchors feel responsive
+  document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', close); });
+  // Reset on resize back to desktop
+  window.addEventListener('resize', function(){
+    if (window.innerWidth > 980 && document.body.classList.contains('nav-open')) close();
+  });
+})();
+</script>
+
+</body>
+</html>
