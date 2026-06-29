@@ -321,7 +321,7 @@ document.querySelectorAll('.score-bar').forEach(b => b.style.width = b.dataset.p
     .nav-logo-img { height: 38px !important; }
     .nav-logo-text { font-size: 22px !important; }
     .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
-    .nav-links { display: flex !important; position: fixed; top: 60px; left: 0; right: 0; bottom: 0; flex-direction: column; gap: 0 !important; padding: 16px 22px 80px !important; background: rgba(14,28,53,0.985); backdrop-filter: blur(12px); overflow-y: auto; transform: translateY(-12px); opacity: 0; pointer-events: none; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease; z-index: 99; }
+    .nav-links { display: flex !important; position: fixed; top: 0; left: 0; right: 0; bottom: 0; flex-direction: column; gap: 0 !important; padding: 16px 22px 80px !important; background: rgba(14,28,53,0.985); backdrop-filter: blur(12px); overflow-y: auto; transform: translateY(-12px); opacity: 0; pointer-events: none; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease; z-index: 99; }
     body.nav-open .nav-links { transform: translateY(0); opacity: 1; pointer-events: auto; }
     .nav-links li { list-style: none; border-bottom: 1px solid rgba(240,236,226,0.08); }
     .nav-links li:last-child { border-bottom: 0; }
