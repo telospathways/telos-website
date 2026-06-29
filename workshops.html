@@ -151,7 +151,7 @@ nav {
 .topic-num { font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; font-size: 13px; font-weight: 600; letter-spacing: 0.18em; color: var(--orange); padding-top: 4px; font-variant-numeric: tabular-nums; }
 .topic-text { min-width: 0; }
 .topic-tag { display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(240,236,226,0.6); margin-bottom: 12px; transition: color 0.25s; }
-.topic-tag::before { content: ''; width: 14px; height: 1px; background: rgba(240,236,226,0.35); transition: background 0.25s; }
+.topic-tag::before { display: none; }
 .topic-card:hover .topic-tag, .topic-card.open .topic-tag { color: var(--orange); }
 .topic-card:hover .topic-tag::before, .topic-card.open .topic-tag::before { background: var(--orange); }
 .topic-title { font-size: clamp(17.5px, 1.4vw, 20px); font-weight: 600; color: var(--cream); line-height: 1.32; letter-spacing: -0.005em; transition: color 0.2s; }
