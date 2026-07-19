@@ -48,14 +48,6 @@ nav {
 
 .hero-content { position: relative; z-index: 2; max-width: 900px; }
 
-.hero-eyebrow {
-  font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--orange); margin-bottom: 24px;
-  opacity: 0; transform: translateY(12px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.hero-eyebrow.in { opacity: 1; transform: translateY(0); }
-
 .hero-title { font-size: clamp(42px, 6vw, 80px); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; color: var(--cream); margin-bottom: 8px; }
 .hero-title-line { display: block; padding-bottom: 0.14em; transform: translateY(110%); opacity: 0; overflow: hidden; transition: transform 0.75s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease; }
 .hero-title-line.orange { color: var(--orange); }
@@ -78,7 +70,11 @@ nav {
 
 /* SHARED */
 .section { padding: clamp(64px,8vh,100px) clamp(24px,6vw,100px); max-width: 1200px; margin: 0 auto; }
-.section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+.section-label {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 22px; font-weight: 700; letter-spacing: -0.015em; text-transform: none;
+  line-height: 1.15; color: var(--orange); margin-bottom: 16px;
+}
 .section-title { font-size: clamp(28px,3.5vw,44px); font-weight: 800; letter-spacing: -0.01em; color: var(--cream); line-height: 1.1; margin-bottom: 24px; }
 .section-lead { font-size: clamp(18.52px,1.587vw,21.16px); font-weight: 400; color: rgba(240,236,226,0.7); line-height: 1.7; max-width: 720px; margin-bottom: 8px; }
 .divider { width: 100%; height: 1px; background: rgba(240,236,226,0.08); max-width: 1200px; margin: 0 auto; }
@@ -213,13 +209,12 @@ nav {
   <canvas id="globe-canvas"></canvas>
   <div class="vignette"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow" id="eyebrow">Workshops for schools and students</div>
     <h1 class="hero-title">
       <div style="overflow:hidden;padding-bottom:0.14em"><span class="hero-title-line" id="t1">The Telos Global</span></div>
       <div style="overflow:hidden;padding-bottom:0.14em"><span class="hero-title-line orange" id="t2">Challenges Workshop</span></div>
     </h1>
     <div class="hero-rule" id="rule"></div>
-    <p class="hero-sub" id="sub">Training students to think, speak, and lead.</p>
+    <p class="hero-sub" id="sub">Our customisable workshops for schools and students train crucial skills in an AI age.</p>
     <p class="hero-tag" id="tag">Customisable, case-study driven workshops on pressing global issues. We train students to think critically, creatively, and conscientiously about major events unfolding around us.</p>
   </div>
   <div class="scroll-hint">
@@ -533,7 +528,6 @@ function drawGlobe(ts) {
 requestAnimationFrame(drawGlobe);
 
 // ── Hero entrance ─────────────────────────────────────────────────────────
-setTimeout(() => document.getElementById('eyebrow').classList.add('in'), 200);
 setTimeout(() => document.getElementById('t1').classList.add('in'), 500);
 setTimeout(() => document.getElementById('t2').classList.add('in'), 680);
 setTimeout(() => document.getElementById('rule').classList.add('in'), 1100);
