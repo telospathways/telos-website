@@ -116,10 +116,11 @@ nav {
 /* Tagline under wordmark */
 .tagline {
   display: block;
-  margin-top: 24px; margin-bottom: 36px;
-  font-size: clamp(19.84px, 1.851vw, 25.13px);
+  margin-top: 24px; margin-bottom: 42px;
+  max-width: 600px;
+  font-size: clamp(22px, 2.15vw, 29px);
   font-weight: 600;
-  line-height: 1.5;
+  line-height: 1.45;
   letter-spacing: -0.005em;
   color: rgba(240,236,226,0.95);
   opacity: 0; transition: opacity 0.7s 1s;
@@ -128,24 +129,20 @@ nav {
 .tagline-rule { width: 0; height: 1px; background: var(--orange); transition: width 0.9s 1s cubic-bezier(0.16,1,0.3,1); }
 .tagline.in .tagline-rule { width: 48px; }
 
-/* Body prose */
-.prose { max-width: 540px; margin-bottom: 44px; }
-.prose p {
-  font-size: clamp(15.5px, 1.3vw, 17px);
-  line-height: 1.75;
-  color: rgba(240,236,226,0.82);
-  margin-bottom: 1em;
-  opacity: 0; transform: translateY(10px);
+/* Services as a typographic list */
+.services-heading {
+  margin: 0 0 16px;
+  font-size: clamp(20px, 1.8vw, 24px);
+  line-height: 1.3;
+  font-weight: 700;
+  color: var(--cream);
+  opacity: 0;
+  transform: translateY(8px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
-.prose p.in { opacity: 1; transform: translateY(0); }
-.prose em { font-style: italic; color: var(--orange); font-weight: 500; }
-.prose strong { color: var(--cream); font-weight: 600; }
-
-/* Services as a typographic list */
+.services-heading.in { opacity: 1; transform: translateY(0); }
 .svc-list {
   border-top: 1px solid rgba(240,236,226,0.12);
-  margin-top: 12px;
   opacity: 0;
   transition: opacity 0.7s ease;
 }
@@ -163,18 +160,19 @@ nav {
 }
 .svc-row:hover { background: rgba(212,86,42,0.04); }
 .svc-num {
-  font-size: 11px; font-weight: 600; letter-spacing: 0.18em;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.18em;
   color: var(--orange);
   font-variant-numeric: tabular-nums;
 }
 .svc-title {
-  font-size: clamp(15px,1.25vw,17px);
+  font-size: clamp(18px,1.55vw,21px);
+  line-height: 1.4;
   font-weight: 500;
   color: var(--cream);
   letter-spacing: -0.005em;
 }
 .svc-meta {
-  font-size: 11px; font-weight: 500; letter-spacing: 0.15em;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.15em;
   text-transform: uppercase;
   color: rgba(240,236,226,0.45);
   transition: color 0.25s, transform 0.25s;
@@ -268,7 +266,6 @@ nav {
     <li><a href="workshops.html">Workshops</a></li>
     <li><a href="ai.html">AI</a></li>
     <li><a href="tutoring.html">Tutoring</a></li>
-    <li><a href="our-method.html">Our Method</a></li>
     <li><a href="admissions.html">Admissions</a></li>
     <li><a href="about.html">Our Team</a></li>
     <li><a href="faqs.html">FAQs</a></li>
@@ -295,14 +292,10 @@ nav {
     </div>
 
     <div class="tagline" id="tagline">
-      Critical Thinking in an AI Age
+      We are Oxford PhD tutors supporting your critical thinking in an AI age
     </div>
 
-    <div class="prose">
-      <p id="p1">We are Oxford PhD researchers offering <strong>1:1 tutorials</strong>, current affairs workshops, and university admissions advice.</p>
-      <p id="p2">We help you find your <em>telos</em>: the questions that intrigue you, the ideas that energise you, and a sense of purpose in your learning.</p>
-    </div>
-
+    <h2 class="services-heading" id="servicesHeading">Explore our services</h2>
     <div class="svc-list" id="svcList">
       <a href="tutoring.html" class="svc-row">
         <div class="svc-num">01</div>
@@ -513,11 +506,10 @@ setTimeout(()=>document.getElementById('eyebrow').classList.add('in'),200);
 setTimeout(()=>document.getElementById('wTelos').classList.add('in'),500);
 setTimeout(()=>document.getElementById('wPaths').classList.add('in'),680);
 setTimeout(()=>document.getElementById('tagline').classList.add('in'),1100);
-setTimeout(()=>document.getElementById('p1').classList.add('in'),1400);
-setTimeout(()=>document.getElementById('p2').classList.add('in'),1600);
-setTimeout(()=>document.getElementById('svcList').classList.add('in'),1900);
-setTimeout(()=>document.getElementById('ctaRow').classList.add('in'),2300);
-setTimeout(()=>document.getElementById('locBadge').classList.add('in'),2400);
+setTimeout(()=>document.getElementById('servicesHeading').classList.add('in'),1300);
+setTimeout(()=>document.getElementById('svcList').classList.add('in'),1450);
+setTimeout(()=>document.getElementById('ctaRow').classList.add('in'),1850);
+setTimeout(()=>document.getElementById('locBadge').classList.add('in'),1950);
 
 </script>
 

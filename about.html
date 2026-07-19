@@ -38,7 +38,7 @@ nav {
 .nav-links a.active { color: var(--cream); border-bottom: 2px solid var(--orange); padding-bottom: 2px; }
 
 /* ── HERO ── */
-.hero { position: relative; min-height: 56vh; display: flex; align-items: center; padding: 120px clamp(24px,6vw,100px) 60px; overflow: hidden; }
+.hero { position: relative; display: flex; align-items: center; padding: 120px clamp(24px,6vw,100px) 32px; overflow: hidden; }
 .hero-inner { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; width: 100%; text-align: center; }
 .hero-label { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 20px; opacity: 0; transform: translateY(10px); transition: opacity 0.5s, transform 0.5s; }
 .hero-label.in { opacity: 1; transform: translateY(0); }
@@ -54,6 +54,7 @@ nav {
 
 /* ── SECTION ── */
 .section { padding: clamp(64px,8vh,100px) clamp(24px,6vw,100px); max-width: 1200px; margin: 0 auto; }
+.team-section { padding-top: 32px; }
 .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
 .section-title { font-size: clamp(28px,3.5vw,44px); font-weight: 800; letter-spacing: -0.01em; color: var(--cream); line-height: 1.1; margin-bottom: 24px; }
 .section-intro { font-size: clamp(18.52px,1.587vw,21.16px); color: rgba(240,236,226,0.7); line-height: 1.7; max-width: 720px; }
@@ -63,7 +64,7 @@ nav {
 .fade-in.in { opacity: 1; transform: translateY(0); }
 
 /* ── TEAM ── */
-.team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 56px; margin-top: 40px; max-width: 920px; margin-left: auto; margin-right: auto; }
+.team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 56px; margin-top: 0; max-width: 920px; margin-left: auto; margin-right: auto; }
 @media(max-width:720px){.team-grid{grid-template-columns:1fr;max-width:420px;gap:40px;}}
 
 .team-card { text-align: center; }
@@ -201,6 +202,32 @@ nav {
 .tutor-link:hover { gap: 12px; }
 .tutor-link svg { width: 14px; height: 8px; }
 
+/* ── METHOD ── */
+.method-section {
+  padding: clamp(72px,9vh,112px) clamp(24px,6vw,100px);
+  max-width: 1200px;
+  margin: 0 auto;
+  border-top: 1px solid rgba(240,236,226,0.08);
+  scroll-margin-top: 80px;
+}
+.method-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; }
+.method-heading { font-size: clamp(36px,5vw,64px); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; color: var(--cream); max-width: 900px; }
+.method-rule { width: 60px; height: 3px; background: var(--orange); margin: 24px 0 22px; }
+.method-intro { font-size: clamp(18.52px,1.587vw,21.16px); color: var(--orange); font-weight: 600; line-height: 1.5; max-width: 780px; }
+.method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 44px; }
+.method-card { border: 1.5px solid rgba(240,236,226,0.15); border-top: 3px solid var(--orange); border-radius: 14px; padding: 36px 34px; background: rgba(240,236,226,0.025); }
+.method-card-label { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
+.method-card-title { font-size: clamp(20px,1.8vw,24px); font-weight: 700; color: var(--cream); margin-bottom: 20px; line-height: 1.25; }
+.method-lead { font-size: 15.5px; color: rgba(240,236,226,0.78); line-height: 1.75; margin-bottom: 20px; }
+.method-lead strong { color: var(--cream); font-weight: 700; }
+.method-list { list-style: none; padding: 0; margin: 0; }
+.method-list li { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(240,236,226,0.08); }
+.method-list li:last-child { border-bottom: none; }
+.method-list li::before { content: ''; flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--orange); margin-top: 6px; }
+.method-list-text { font-size: 15.5px; color: rgba(240,236,226,0.82); line-height: 1.65; }
+.method-list-text strong { color: var(--cream); font-weight: 700; }
+@media(max-width:860px){.method-grid{grid-template-columns:1fr;}}
+
 /* ── CTA ── */
 .cta-section { text-align: center; padding: clamp(64px,8vh,100px) 48px; background: rgba(240,236,226,0.03); border-top: 1px solid rgba(240,236,226,0.08); }
 .cta-title { font-size: clamp(26px,3vw,38px); font-weight: 800; letter-spacing: -0.01em; color: var(--cream); margin-bottom: 14px; }
@@ -232,7 +259,6 @@ nav {
     <li><a href="workshops.html">Workshops</a></li>
     <li><a href="ai.html">AI</a></li>
     <li><a href="tutoring.html">Tutoring</a></li>
-    <li><a href="our-method.html">Our Method</a></li>
     <li><a href="admissions.html">Admissions</a></li>
     <li><a href="about.html" class="active">Our Team</a></li>
     <li><a href="faqs.html">FAQs</a></li>
@@ -255,7 +281,7 @@ nav {
 <div class="divider"></div>
 
 <!-- THE TELOS TEAM -->
-<section class="section">
+<section class="section team-section">
   <div class="team-grid">
     <!-- Natalia -->
     <div class="team-card fade-in">
@@ -581,6 +607,43 @@ nav {
 <div class="cta-section fade-in">
   <div class="cta-title">Work with us</div>
   <div class="cta-sub">Tell us about your higher education goals. We'll match you with the tutor and pathway that fits.</div>
+  <a href="contact.html" class="btn-primary">Get in touch</a>
+</div>
+
+<section class="method-section" id="our-method">
+  <div class="method-eyebrow fade-in">How we teach</div>
+  <h2 class="method-heading fade-in">Our method and tutor selection</h2>
+  <div class="method-rule fade-in"></div>
+  <p class="method-intro fade-in">We were students not too long ago. We know what teaching methods work.</p>
+
+  <div class="method-grid">
+    <div class="method-card fade-in">
+      <div class="method-card-label">01 — Our method</div>
+      <div class="method-card-title">No dull textbooks, worksheets, or box-ticking.</div>
+      <p class="method-lead">We opt for <strong>1:1 Oxford tutorial-style discussions</strong> grounded in:</p>
+      <ul class="method-list">
+        <li><div class="method-list-text"><strong>Accessible explanations</strong> of complex ideas</div></li>
+        <li><div class="method-list-text"><strong>Socratic questioning</strong> that pushes students to construct their own arguments</div></li>
+        <li><div class="method-list-text"><strong>Primary sources and case studies</strong>: historical documents, news articles, research papers and science experiments</div></li>
+      </ul>
+    </div>
+
+    <div class="method-card fade-in" style="transition-delay:0.08s">
+      <div class="method-card-label">02 — Tutor selection</div>
+      <div class="method-card-title">We hire the brightest Oxbridge and Ivy League graduate students.</div>
+      <p class="method-lead">Our tutors all possess:</p>
+      <ul class="method-list">
+        <li><div class="method-list-text">Outstanding academic records in their undergraduate and postgraduate studies at <strong>Oxbridge or Ivy League</strong> universities</div></li>
+        <li><div class="method-list-text"><strong>Teaching experience</strong>, often to Oxbridge undergraduate students</div></li>
+        <li><div class="method-list-text"><strong>Emotional intelligence</strong> and patience</div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="cta-section fade-in">
+  <div class="cta-title">Ready to start your pathway?</div>
+  <div class="cta-sub">Book a free consultation to discuss the pathway that&rsquo;s right for you.</div>
   <a href="contact.html" class="btn-primary">Get in touch</a>
 </div>
 
