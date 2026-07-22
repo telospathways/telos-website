@@ -53,8 +53,6 @@ nav {
 .hero-title-word.in { transform: translateY(0); opacity: 1; }
 .hero-title-word.orange { color: var(--orange); }
 .hero-title-word.cyan { color: var(--cyan); }
-.hero-rule { width: 0; height: 3px; background: var(--orange); margin: 22px 0; transition: width 0.9s 0.8s cubic-bezier(0.16,1,0.3,1); }
-.hero-rule.in { width: 60px; }
 .hero-sub { font-size: clamp(19.84px,1.851vw,25.13px); font-weight: 600; color: rgba(240,236,226,0.95); margin-bottom: 14px; line-height: 1.5; opacity: 0; transition: opacity 0.6s 1s; }
 .hero-sub.in { opacity: 1; }
 .hero-body { font-size: clamp(18.5px,1.55vw,21.5px); font-weight: 400; color: rgba(240,236,226,0.75); line-height: 1.75; max-width: 560px; opacity: 0; transition: opacity 0.6s 1.2s; }
@@ -87,7 +85,7 @@ nav {
 }
 .stats-title {
   font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
-  color: rgba(240,236,226,0.55);
+  color: var(--orange);
   display: flex; align-items: center; gap: 10px;
 }
 .stats-title .live-dot {
@@ -352,6 +350,7 @@ nav {
     <li><a href="tutoring.html">Tutoring</a></li>
     <li><a href="admissions.html" class="active">Admissions</a></li>
     <li><a href="about.html">Our Team</a></li>
+    <li><a href="testimonials.html">Reviews</a></li>
     <li><a href="faqs.html">FAQs</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
@@ -369,7 +368,6 @@ nav {
         <span class="hero-title-line"><span class="hero-title-word orange" id="hw2">university</span></span>
         <span class="hero-title-line"><span class="hero-title-word" id="hw3">applications</span></span>
       </h1>
-      <div class="hero-rule" id="heroRule"></div>
       <p class="hero-sub" id="heroSub">Insight into Oxford’s competitive admissions processes</p>
       <p class="hero-body" id="heroBody">We draw on our experience from within the <strong>Oxford system</strong> to simplify the university applications process, from course and college choice to final interview.</p>
     </div>
@@ -544,7 +542,6 @@ setTimeout(()=>document.getElementById('heroLabel').classList.add('in'),200);
 setTimeout(()=>document.getElementById('hw1').classList.add('in'),480);
 setTimeout(()=>document.getElementById('hw2').classList.add('in'),640);
 setTimeout(()=>document.getElementById('hw3').classList.add('in'),800);
-setTimeout(()=>document.getElementById('heroRule').classList.add('in'),1000);
 setTimeout(()=>document.getElementById('heroSub').classList.add('in'),1200);
 setTimeout(()=>document.getElementById('heroBody').classList.add('in'),1400);
 setTimeout(()=>document.getElementById('statsCard').classList.add('in'),800);
@@ -631,7 +628,7 @@ function togFaq(idx) {
   body.nav-open .nav-toggle .mid { opacity: 0; }
   body.nav-open .nav-toggle .bot { transform: translateY(-8px) rotate(-45deg); }
 
-  @media (max-width: 980px) {
+  @media (max-width: 1180px) {
     nav { padding: 0 22px !important; }
     .nav-logo-img { height: 38px !important; }
     .nav-logo-text { font-size: 22px !important; }
@@ -681,7 +678,7 @@ function togFaq(idx) {
   document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', close); });
   // Reset on resize back to desktop
   window.addEventListener('resize', function(){
-    if (window.innerWidth > 980 && document.body.classList.contains('nav-open')) close();
+    if (window.innerWidth > 1180 && document.body.classList.contains('nav-open')) close();
   });
 })();
 </script>

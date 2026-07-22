@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reviews — Telos Pathways</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --navy: #0e1c35;
+  --cream: #f0ece2;
+  --orange: #d4562a;
+  --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--navy); color: var(--cream); font-family: var(--font); overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 60px;
+  background: rgba(14,28,53,0.92); backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(240,236,226,0.08);
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo-img { display: block; height: 48px; width: auto; }
+.nav-logo-text { font-weight: 800; font-size: 30px; letter-spacing: -0.02em; line-height: 1; display: inline-flex; align-items: baseline; }
+.nav-logo-text .nl-telos { color: var(--cream); margin-right: 0.15em; }
+.nav-logo-text .nl-paths { color: var(--orange); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { font-size: 15.87px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,236,226,0.65); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--cream); }
+.nav-links a.active { color: var(--cream); border-bottom: 2px solid var(--orange); padding-bottom: 2px; }
+
+/* HERO */
+.hero {
+  position: relative; min-height: 72vh; display: flex; align-items: center;
+  padding: 130px clamp(24px,6vw,100px) 80px; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 78% 34%, rgba(212,86,42,0.13), transparent 28%),
+    radial-gradient(circle at 18% 78%, rgba(240,236,226,0.05), transparent 24%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '“'; position: absolute; right: clamp(20px,7vw,110px); top: 54%;
+  transform: translateY(-50%); font-size: clamp(260px,30vw,470px); font-weight: 800;
+  line-height: 0.7; color: rgba(240,236,226,0.025); pointer-events: none;
+}
+.hero-grid {
+  position: absolute; inset: 0; opacity: 0.45; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(240,236,226,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,236,226,0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 80% 70% at 70% 45%, #000 15%, transparent 76%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 70% 45%, #000 15%, transparent 76%);
+}
+.hero-inner { position: relative; z-index: 2; max-width: 1200px; width: 100%; margin: 0 auto; }
+.hero-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 20px; opacity: 0; transform: translateY(10px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+.hero-label.in { opacity: 1; transform: translateY(0); }
+.hero-title { font-size: clamp(46px,7vw,88px); font-weight: 800; line-height: 1.06; letter-spacing: -0.025em; max-width: 850px; }
+.hero-title-line { display: block; padding-bottom: 0.12em; overflow: hidden; }
+.hero-title-word { display: block; transform: translateY(110%); opacity: 0; transition: transform 0.75s cubic-bezier(0.16,1,0.3,1), opacity 0.5s; }
+.hero-title-word.in { transform: translateY(0); opacity: 1; }
+.hero-title-word.orange { color: var(--orange); }
+.hero-sub {
+  max-width: 710px; margin-top: 20px; font-size: clamp(19px,1.8vw,25px); font-weight: 600;
+  line-height: 1.5; color: rgba(240,236,226,0.94); opacity: 0; transform: translateY(12px);
+  transition: opacity 0.6s 0.9s, transform 0.6s 0.9s;
+}
+.hero-sub.in { opacity: 1; transform: translateY(0); }
+/* SHARED */
+.section { padding: clamp(68px,8vh,104px) clamp(24px,6vw,100px); max-width: 1200px; margin: 0 auto; }
+.section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+.section-title { font-size: clamp(30px,4vw,48px); font-weight: 800; letter-spacing: -0.015em; color: var(--cream); line-height: 1.08; max-width: 780px; }
+.divider { width: calc(100% - 48px); height: 1px; background: rgba(240,236,226,0.08); max-width: 1200px; margin: 0 auto; }
+.fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.16,1,0.3,1); }
+.fade-in.in { opacity: 1; transform: translateY(0); }
+
+/* FEATURED STORY */
+.featured {
+  display: grid; grid-template-columns: minmax(0,1.55fr) minmax(260px,0.65fr); gap: 0;
+  margin-top: 42px; border: 1.5px solid rgba(240,236,226,0.14); border-radius: 16px;
+  overflow: hidden; background: linear-gradient(135deg, rgba(240,236,226,0.035), rgba(212,86,42,0.055));
+}
+.featured-quote { position: relative; padding: clamp(34px,5vw,58px); }
+.featured-quote::before { content: '“'; position: absolute; top: 18px; right: 28px; font-size: 120px; font-weight: 800; line-height: 1; color: rgba(212,86,42,0.12); }
+.featured-quote blockquote { position: relative; z-index: 1; font-size: clamp(20px,2vw,28px); font-weight: 600; line-height: 1.5; letter-spacing: -0.008em; }
+.featured-author { display: flex; align-items: center; margin-top: 28px; }
+.author-name { font-size: 15px; font-weight: 700; color: var(--cream); }
+.author-role { margin-top: 3px; font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); }
+.featured-notes { padding: clamp(30px,4vw,48px); background: rgba(14,28,53,0.55); border-left: 1px solid rgba(240,236,226,0.1); }
+.featured-notes-title { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 22px; }
+.value-list { list-style: none; }
+.value-list li { position: relative; padding: 15px 0 15px 22px; border-bottom: 1px solid rgba(240,236,226,0.08); font-size: 14px; line-height: 1.5; color: rgba(240,236,226,0.78); }
+.value-list li:last-child { border-bottom: 0; }
+.value-list li::before { content: ''; position: absolute; left: 0; top: 21px; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
+
+/* REVIEW WALL */
+.review-wall { columns: 2; column-gap: 24px; }
+.review-card {
+  position: relative; display: inline-block; width: 100%; break-inside: avoid; margin: 0 0 24px;
+  padding: 30px 30px 28px; border: 1.5px solid rgba(240,236,226,0.12); border-radius: 14px;
+  background: linear-gradient(180deg, rgba(240,236,226,0.028), rgba(14,28,53,0.42));
+  transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, background 0.3s;
+}
+.review-card:hover { transform: translateY(-3px); border-color: rgba(212,86,42,0.42); background: linear-gradient(180deg, rgba(212,86,42,0.05), rgba(14,28,53,0.5)); }
+.review-index { display: block; margin-bottom: 20px; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: rgba(240,236,226,0.35); }
+.review-card blockquote { font-size: clamp(16px,1.35vw,18px); line-height: 1.72; color: rgba(240,236,226,0.86); }
+.review-card footer { display: flex; align-items: center; margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(240,236,226,0.08); }
+
+/* CTA */
+.cta-section { text-align: center; padding: clamp(68px,8vh,100px) 48px; background: rgba(240,236,226,0.03); border-top: 1px solid rgba(240,236,226,0.08); }
+.cta-title { font-size: clamp(28px,3.4vw,42px); font-weight: 800; color: var(--cream); margin-bottom: 14px; }
+.cta-sub { font-size: clamp(17px,1.55vw,21px); color: rgba(240,236,226,0.7); margin-bottom: 32px; line-height: 1.6; }
+.btn-primary { display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cream); text-decoration: none; border: 3px solid var(--orange); padding: 16px 44px; border-radius: 50px; background: transparent; transition: background 0.3s; }
+.btn-primary:hover { background: var(--orange); }
+
+/* FOOTER */
+.site-footer { border-top: 1px solid rgba(240,236,226,0.1); padding: 56px clamp(24px,6vw,80px) 48px; background: var(--navy); position: relative; z-index: 5; }
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-brand { display: flex; flex-direction: column; gap: 14px; max-width: 520px; }
+.footer-name { font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); }
+.footer-address { font-size: 14.5px; line-height: 1.7; color: rgba(240,236,226,0.78); font-style: normal; }
+.footer-address a { color: var(--cream); text-decoration: none; border-bottom: 1px solid rgba(240,236,226,0.2); }
+.footer-meta { display: flex; flex-wrap: wrap; gap: 14px 24px; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(240,236,226,0.45); }
+.footer-meta a { color: rgba(240,236,226,0.62); text-decoration: none; }
+
+@media (max-width: 800px) {
+  .featured { grid-template-columns: 1fr; }
+  .featured-notes { border-left: 0; border-top: 1px solid rgba(240,236,226,0.1); }
+  .review-wall { columns: 1; }
+}
+@media (max-width: 560px) {
+  .hero { min-height: 68vh; padding-top: 110px; }
+  .featured-quote, .featured-notes, .review-card { padding: 26px 22px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo" aria-label="Telos Pathways home"><img src="assets/telos-globe-navy.png" alt="" class="nav-logo-img" /><span class="nav-logo-text"><span class="nl-telos">Telos</span><span class="nl-paths">Pathways</span></span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="workshops.html">Workshops</a></li>
+    <li><a href="ai.html">AI</a></li>
+    <li><a href="tutoring.html">Tutoring</a></li>
+    <li><a href="admissions.html">Admissions</a></li>
+    <li><a href="about.html">Our Team</a></li>
+    <li><a href="testimonials.html" class="active">Reviews</a></li>
+    <li><a href="faqs.html">FAQs</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-label" id="heroLabel">Student &amp; parent stories</div>
+    <h1 class="hero-title">
+      <span class="hero-title-line"><span class="hero-title-word" id="hw1">Feedback from</span></span>
+      <span class="hero-title-line"><span class="hero-title-word orange" id="hw2">our community</span></span>
+    </h1>
+    <p class="hero-sub" id="heroSub">Families value our thoughtful teaching and personalised support.</p>
+  </div>
+</header>
+
+<div class="divider"></div>
+
+<main>
+  <section class="section">
+    <div class="section-label fade-in">A family perspective</div>
+    <h2 class="section-title fade-in">Support that extends beyond the lesson</h2>
+    <div class="featured fade-in">
+      <div class="featured-quote">
+        <blockquote>&ldquo;As a parent, I cannot recommend Telos Pathways enough. The tutors were amazing, and the admin team checked in every morning and every evening during my son&rsquo;s exam period with reminders about homework, summaries of sessions, and goals for the next day to keep him on track. Their support on exam technique and time management was particularly helpful.&rdquo;</blockquote>
+        <div class="featured-author">
+          <div><div class="author-name">Adrianna S</div><div class="author-role">Parent</div></div>
+        </div>
+      </div>
+      <aside class="featured-notes">
+        <div class="featured-notes-title">What families value</div>
+        <ul class="value-list">
+          <li>Lessons prepared around the individual student</li>
+          <li>Detailed feedback and practical study strategies</li>
+          <li>Responsive support during high-pressure periods</li>
+          <li>Greater confidence inside and outside the classroom</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="section">
+    <div class="section-label fade-in">In their own words</div>
+
+    <div class="review-wall">
+      <article class="review-card fade-in">
+        <span class="review-index">01</span>
+        <blockquote>&ldquo;I have used Telos Pathways tutors for three of my IB subjects and can&rsquo;t recommend them enough. All of my tutors were so supportive and knowledgeable about each subject. I was always given very helpful practice exams, model essays, and constant feedback. My tutors also helped me develop study and homework strategies that have improved my concentration and productivity. I feel so much more confident going into my exams now.&rdquo;</blockquote>
+        <footer><div><div class="author-name">Leander S</div><div class="author-role">Student</div></div></footer>
+      </article>
+
+      <article class="review-card fade-in">
+        <span class="review-index">02</span>
+        <blockquote>&ldquo;My Telos tutor was always so encouraging and made really challenging content easy to grasp. She grounded all of our sessions in fascinating case studies that were particularly helpful for tricky theories. When we started our sessions, I was really struggling with Politics A Level, but by the end of our course, I decided to study Politics at university.&rdquo;</blockquote>
+        <footer><div><div class="author-name">Tilly W</div><div class="author-role">Student</div></div></footer>
+      </article>
+
+      <article class="review-card fade-in">
+        <span class="review-index">03</span>
+        <blockquote>&ldquo;Telos Pathways helped me so much with my A-Levels. My tutor&rsquo;s attention to detail with learning and preparation before each session on specific topics, as well as personalised feedback on every essay addressing each of the assessment objectives made it possible for me to achieve the grades I wanted in my A-Levels. I couldn&rsquo;t recommend their tutors more to others.&rdquo;</blockquote>
+        <footer><div><div class="author-name">Leo H</div><div class="author-role">Student</div></div></footer>
+      </article>
+
+      <article class="review-card fade-in">
+        <span class="review-index">04</span>
+        <blockquote>&ldquo;Telos Pathways helped my daughter prepare for her Politics exams and bring order to the chaos of her study schedule. They were extremely professional, personable and helped my daughter achieve her high score. Would highly recommend!&rdquo;</blockquote>
+        <footer><div><div class="author-name">Catherine H</div><div class="author-role">Parent</div></div></footer>
+      </article>
+
+      <article class="review-card fade-in">
+        <span class="review-index">05</span>
+        <blockquote>&ldquo;I can highly recommend Telos Pathways for tutoring. Our tutor was always extremely well prepared for each session, and it was very clear that the sessions were helping our son. His confidence grew and this was reflected in better grades.&rdquo;</blockquote>
+        <footer><div><div class="author-name">Victoria H</div><div class="author-role">Parent</div></div></footer>
+      </article>
+
+      <article class="review-card fade-in">
+        <span class="review-index">06</span>
+        <blockquote>&ldquo;I was able to finish my high school AP History and English classes with all As because of my Telos Pathways tutor. His detailed feedback on every essay, well-structured lessons, and proactive responses to my last-minute questions made all the difference. He was always available during urgent moments, whether it was a test the next day or an essay due that night, and consistently went above and beyond. His support truly provided the best learning experience I could have asked for.&rdquo;</blockquote>
+        <footer><div><div class="author-name">Zoey M</div><div class="author-role">Student</div></div></footer>
+      </article>
+
+      <article class="review-card fade-in">
+        <span class="review-index">07</span>
+        <blockquote>&ldquo;When we started using Telos Pathways tutors to prepare for my daughter&rsquo;s Politics A Level, she immediately engaged more with the topics and concepts she had to study. The sessions gave her the confidence she needed to go a step further and her essay marks improved as a result. Tilly decided she would study politics and that&rsquo;s in no small part down to the dedicated and inspired tutoring she received from Telos Pathways.&rdquo;</blockquote>
+        <footer><div><div class="author-name">Catherine W</div><div class="author-role">Parent</div></div></footer>
+      </article>
+
+      <article class="review-card fade-in">
+        <span class="review-index">08</span>
+        <blockquote>&ldquo;Telos Pathways were truly amazing right from the start! I want to thank their team so much for maximizing class efficiency, preparing accurate and perfect customized lessons and content just for my child, and providing detailed feedback on homework and practice exams!&rdquo;</blockquote>
+        <footer><div><div class="author-name">Eva K</div><div class="author-role">Parent</div></div></footer>
+      </article>
+
+      <article class="review-card fade-in">
+        <span class="review-index">09</span>
+        <blockquote>&ldquo;My Telos Pathways tutor was a very passionate and proactive teacher and mentor. He introduced me to some of the most iconic novels and fostered a love of reading. I never knew books could be interesting until I started our lessons!&rdquo;</blockquote>
+        <footer><div><div class="author-name">Jay L</div><div class="author-role">Student</div></div></footer>
+      </article>
+
+      <article class="review-card fade-in">
+        <span class="review-index">10</span>
+        <blockquote>&ldquo;My tutor Ju Young is passionate about teaching and makes his students feel comfortable around him. In his classes, I feel free to express all my feelings and questions. I know I will never be judged, which allows me to maintain my confidence and concentration throughout the studying process. I am so grateful to him for creating such a light atmosphere and being so patient in our classes. Our meetings have fixed the nerves I used to feel before tests because his approach is so comforting. He&rsquo;s taught me many useful tips that I have used in my tests.&rdquo;</blockquote>
+        <footer><div><div class="author-name">Elena M</div><div class="author-role">Student</div></div></footer>
+      </article>
+    </div>
+  </section>
+</main>
+
+<div class="cta-section fade-in">
+  <div class="cta-title">Find the right pathway for you</div>
+  <div class="cta-sub">Tell us what you are working towards and we&rsquo;ll match you with the right support.</div>
+  <a href="contact.html" class="btn-primary">Get in touch</a>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-name">Telos Pathways</div>
+      <address class="footer-address">
+        Old Came Rectory A352<br>
+        Winterborne Came,<br>
+        Dorchester, UK, DT2 8NX<br>
+        <a href="mailto:info@telospathways.com">info@telospathways.com</a>
+      </address>
+      <div class="footer-meta">
+        <div>Telos Pathways LLP · OC458814</div>
+        <div><a href="privacy.html">Privacy Policy</a></div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+.nav-toggle { display: none; background: transparent; border: 0; padding: 8px; margin-left: auto; cursor: pointer; color: var(--cream); -webkit-tap-highlight-color: transparent; }
+.nav-toggle svg { display: block; width: 26px; height: 20px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; fill: none; }
+.nav-toggle .top, .nav-toggle .bot { transition: transform 0.3s ease, opacity 0.2s ease; transform-origin: center; }
+.nav-toggle .mid { transition: opacity 0.2s ease; }
+body.nav-open .nav-toggle .top { transform: translateY(8px) rotate(45deg); }
+body.nav-open .nav-toggle .mid { opacity: 0; }
+body.nav-open .nav-toggle .bot { transform: translateY(-8px) rotate(-45deg); }
+@media (max-width: 1180px) {
+  nav { padding: 0 22px !important; }
+  .nav-logo-img { height: 38px !important; }
+  .nav-logo-text { font-size: 22px !important; }
+  .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+  .nav-links {
+    display: flex !important; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    flex-direction: column; gap: 0 !important; padding: 16px 22px 80px !important;
+    background: rgba(14,28,53,0.985); backdrop-filter: blur(12px); overflow-y: auto;
+    transform: translateY(-12px); opacity: 0; pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease; z-index: 99;
+  }
+  body.nav-open .nav-links { transform: translateY(0); opacity: 1; pointer-events: auto; }
+  .nav-links li { list-style: none; border-bottom: 1px solid rgba(240,236,226,0.08); }
+  .nav-links li:last-child { border-bottom: 0; }
+  .nav-links a { display: block; padding: 18px 4px !important; font-size: 17px !important; font-weight: 600 !important; letter-spacing: 0.04em !important; text-transform: none !important; color: var(--cream) !important; border-bottom: 0 !important; }
+  .nav-links a.active { color: var(--orange) !important; }
+  body.nav-open { overflow: hidden; }
+}
+</style>
+
+<script>
+setTimeout(() => document.getElementById('heroLabel').classList.add('in'), 180);
+setTimeout(() => document.getElementById('hw1').classList.add('in'), 420);
+setTimeout(() => document.getElementById('hw2').classList.add('in'), 600);
+setTimeout(() => document.getElementById('heroSub').classList.add('in'), 900);
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(element => observer.observe(element));
+
+(function(){
+  const nav = document.querySelector('nav');
+  if (!nav) return;
+  const button = document.createElement('button');
+  button.className = 'nav-toggle';
+  button.setAttribute('aria-label', 'Toggle menu');
+  button.setAttribute('aria-expanded', 'false');
+  button.innerHTML = '<svg viewBox="0 0 26 20" aria-hidden="true"><path class="top" d="M2 4h22"/><path class="mid" d="M2 10h22"/><path class="bot" d="M2 16h22"/></svg>';
+  nav.appendChild(button);
+
+  function closeMenu() { document.body.classList.remove('nav-open'); button.setAttribute('aria-expanded', 'false'); }
+  button.addEventListener('click', function(){
+    const isOpen = document.body.classList.toggle('nav-open');
+    button.setAttribute('aria-expanded', String(isOpen));
+  });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
+  document.querySelectorAll('.nav-links a').forEach(link => link.addEventListener('click', closeMenu));
+  window.addEventListener('resize', function(){ if (window.innerWidth > 1180) closeMenu(); });
+})();
+</script>
+
+</body>
+</html>
