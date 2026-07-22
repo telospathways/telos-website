@@ -104,6 +104,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
     <li><a href="tutoring.html">Tutoring</a></li>
     <li><a href="admissions.html" class="active">Admissions</a></li>
     <li><a href="about.html">Our Team</a></li>
+    <li><a href="testimonials.html">Reviews</a></li>
     <li><a href="faqs.html">FAQs</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
@@ -315,7 +316,7 @@ document.querySelectorAll('.score-bar').forEach(b => b.style.width = b.dataset.p
   body.nav-open .nav-toggle .top { transform: translateY(8px) rotate(45deg); }
   body.nav-open .nav-toggle .mid { opacity: 0; }
   body.nav-open .nav-toggle .bot { transform: translateY(-8px) rotate(-45deg); }
-  @media (max-width: 980px) {
+  @media (max-width: 1180px) {
     nav { padding: 0 22px !important; }
     .nav-logo-img { height: 38px !important; }
     .nav-logo-text { font-size: 22px !important; }
@@ -344,7 +345,7 @@ document.querySelectorAll('.score-bar').forEach(b => b.style.width = b.dataset.p
   btn.addEventListener('click', function(){ if (document.body.classList.contains('nav-open')) close(); else open(); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
   document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', close); });
-  window.addEventListener('resize', function(){ if (window.innerWidth > 980 && document.body.classList.contains('nav-open')) close(); });
+  window.addEventListener('resize', function(){ if (window.innerWidth > 1180 && document.body.classList.contains('nav-open')) close(); });
 })();
 </script>
 

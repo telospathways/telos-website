@@ -47,8 +47,6 @@ nav {
 .hero-title-word { display: block; transform: translateY(110%); opacity: 0; transition: transform 0.7s cubic-bezier(0.16,1,0.3,1), opacity 0.5s; }
 .hero-title-word.in { transform: translateY(0); opacity: 1; }
 .hero-title-word.orange { color: var(--orange); }
-.hero-rule { width: 0; height: 3px; background: var(--orange); margin: 26px auto; transition: width 0.9s 0.8s cubic-bezier(0.16,1,0.3,1); }
-.hero-rule.in { width: 80px; }
 .hero-sub { font-size: clamp(19.84px,1.851vw,25.13px); font-weight: 600; color: rgba(240,236,226,0.95); line-height: 1.5; max-width: 760px; margin: 0 auto; opacity: 0; transition: opacity 0.6s 1s; }
 .hero-sub.in { opacity: 1; }
 
@@ -212,8 +210,7 @@ nav {
 }
 .method-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 18px; }
 .method-heading { font-size: clamp(36px,5vw,64px); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; color: var(--cream); max-width: 900px; }
-.method-rule { width: 60px; height: 3px; background: var(--orange); margin: 24px 0 22px; }
-.method-intro { font-size: clamp(18.52px,1.587vw,21.16px); color: var(--orange); font-weight: 600; line-height: 1.5; max-width: 780px; }
+.method-intro { font-size: clamp(18.52px,1.587vw,21.16px); color: var(--cream); font-weight: 600; line-height: 1.5; max-width: 780px; margin-top: 22px; }
 .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 44px; }
 .method-card { border: 1.5px solid rgba(240,236,226,0.15); border-top: 3px solid var(--orange); border-radius: 14px; padding: 36px 34px; background: rgba(240,236,226,0.025); }
 .method-card-label { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
@@ -261,6 +258,7 @@ nav {
     <li><a href="tutoring.html">Tutoring</a></li>
     <li><a href="admissions.html">Admissions</a></li>
     <li><a href="about.html" class="active">Our Team</a></li>
+    <li><a href="testimonials.html">Reviews</a></li>
     <li><a href="faqs.html">FAQs</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
@@ -273,7 +271,6 @@ nav {
       <span class="hero-title-line"><span class="hero-title-word" id="hw1">The Telos</span></span>
       <span class="hero-title-line"><span class="hero-title-word orange" id="hw2">Team</span></span>
     </h1>
-    <div class="hero-rule" id="heroRule"></div>
     <p class="hero-sub" id="heroSub">Meet the founders</p>
   </div>
 </div>
@@ -613,7 +610,6 @@ nav {
 <section class="method-section" id="our-method">
   <div class="method-eyebrow fade-in">How we teach</div>
   <h2 class="method-heading fade-in">Our method and tutor selection</h2>
-  <div class="method-rule fade-in"></div>
   <p class="method-intro fade-in">We were students not too long ago. We know what teaching methods work.</p>
 
   <div class="method-grid">
@@ -653,7 +649,6 @@ const heroLabelEl = document.getElementById('heroLabel');
 if (heroLabelEl) setTimeout(()=>heroLabelEl.classList.add('in'),200);
 setTimeout(()=>document.getElementById('hw1').classList.add('in'),480);
 setTimeout(()=>document.getElementById('hw2').classList.add('in'),660);
-setTimeout(()=>document.getElementById('heroRule').classList.add('in'),1000);
 setTimeout(()=>document.getElementById('heroSub').classList.add('in'),1200);
 
 // Scroll reveals
@@ -697,7 +692,7 @@ document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
   body.nav-open .nav-toggle .mid { opacity: 0; }
   body.nav-open .nav-toggle .bot { transform: translateY(-8px) rotate(-45deg); }
 
-  @media (max-width: 980px) {
+  @media (max-width: 1180px) {
     nav { padding: 0 22px !important; }
     .nav-logo-img { height: 38px !important; }
     .nav-logo-text { font-size: 22px !important; }
@@ -747,7 +742,7 @@ document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
   document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', close); });
   // Reset on resize back to desktop
   window.addEventListener('resize', function(){
-    if (window.innerWidth > 980 && document.body.classList.contains('nav-open')) close();
+    if (window.innerWidth > 1180 && document.body.classList.contains('nav-open')) close();
   });
 })();
 </script>
