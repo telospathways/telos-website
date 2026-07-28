@@ -76,7 +76,7 @@ nav {
   padding: 30px 28px 28px;
   border-radius: 14px;
   display: flex; flex-direction: column; justify-content: flex-start;
-  height: 360px;
+  min-height: 360px;
   background: rgba(240,236,226,0.04);
   border: 1px solid rgba(240,236,226,0.10);
   color: var(--cream);
@@ -110,14 +110,14 @@ nav {
 
 .develop-title {
   font-size: 22px; font-weight: 700; letter-spacing: -0.015em;
-  line-height: 1.15; color: var(--cream); margin-bottom: 10px;
+  line-height: 1.15; color: var(--cream); margin-top: auto; margin-bottom: 10px;
 }
 .develop-desc {
-  font-size: clamp(18.52px,1.587vw,21.16px); line-height: 1.55; color: rgba(240,236,226,0.72); font-weight: 400;
+  font-size: 15.5px; line-height: 1.55; color: rgba(240,236,226,0.72); font-weight: 400;
 }
 
 @media (max-width: 1000px) { .develop-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 640px)  { .develop-grid { grid-template-columns: 1fr; } .develop-card { height: auto; min-height: 280px; } }
+@media (max-width: 640px)  { .develop-grid { grid-template-columns: 1fr; } .develop-card { min-height: 320px; } }
 
 /* TOPIC CARDS (sample workshops) */
 .topics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin: 44px 0 0; }
