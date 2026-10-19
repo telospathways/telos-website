@@ -1,502 +1,183 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="favicon.ico" sizes="any">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact · Telos Pathways</title>
+<meta name="description" content="Oxford PhD tutors offering 1:1 tutorials, university admissions support and current affairs workshops.">
+<link rel="icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<title>Contact — Telos Pathways</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter+Tight:wght@300;400;500;600&display=swap">
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-  --navy: #0e1c35;
-  --cream: #f0ece2;
-  --orange: #d4562a;
-  --cyan: #00BFFF;
-  --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+body{margin:0}
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--accent)}
+.cta:hover{background:var(--accent);color:var(--paper)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:2px}
+.band-cta:hover{background:#17294f;color:#f4eddc}
+@keyframes rise{from{opacity:0;transform:translateY(.45em)}to{opacity:1;transform:none}}
+.w{display:inline-block;opacity:0;animation:rise .9s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--i) * .13s + .15s)}
+.sub{opacity:0;animation:rise 1s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:1.1s}
+@media (prefers-reduced-motion: reduce){.w,.sub{animation:none;opacity:1}}
+h1,h2,h3,h4,.ser,.sub,.band-cta{font-family: 'Playfair Display', Georgia, serif}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;500;600&display=swap">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--accent)}
+</style>
+<style>
+@media (max-width: 760px){
+  html{-webkit-text-size-adjust:100%}
+  h1{font-size:44px !important;line-height:1.1 !important}
+  h2{font-size:34px !important;line-height:1.15 !important}
+  h3,h4{font-size:26px !important}
+  .sub{font-size:22px !important}
+  [aria-hidden="true"].ser{display:none !important}
+  section>div{padding-left:22px !important;padding-right:22px !important}
+  section>div[style*="padding: 88px"],section>div[style*="padding: 96px"]{padding-top:56px !important;padding-bottom:56px !important}
+  header>div,footer>div{padding-left:22px !important;padding-right:22px !important}
+  [style*="minmax"]{grid-template-columns:1fr !important}
+  [style*="grid-template-columns: 88px"],[style*="grid-template-columns: 110px"],[style*="grid-template-columns: 120px"],[style*="grid-template-columns: 100px"]{grid-template-columns:1fr !important}
+  [style*="flex: 1 1"],[style*="flex: 0 0 240px"],[style*="flex: 1.4 1"]{flex:1 1 100% !important;min-width:0 !important}
+  [style*="column-width"]{column-width:auto !important;column-count:1 !important}
+  [style*="padding: 26px 56px"],[style*="padding: 24.5px 54.5px"]{padding:20px 26px !important;font-size:24px !important}
+  .band-cta,.cta{max-width:100% !important}
+  p.ser[style*="font-size: 36px"]{font-size:26px !important}
+  nav ul{gap:8px 18px !important;font-size:13px !important}
+  header a[aria-label]>span{font-size:30px !important}
+  img{max-width:100%}
 }
-
-html { scroll-behavior: smooth; }
-body {
-  background: var(--navy);
-  color: var(--cream);
-  font-family: var(--font);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* NAV (shared pattern) */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 48px; height: 60px;
-  background: rgba(14,28,53,0.92); backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(240,236,226,0.08);
-}
-.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.nav-logo-mark { flex-shrink: 0; display: block; }
-.nav-logo-img { display: block; height: 48px; width: auto; }
-.nav-logo-text { font-family: var(--font); font-weight: 800; font-size: 30px; letter-spacing: -0.02em; line-height: 1; display: inline-flex; align-items: baseline; }
-.nav-logo-text .nl-telos { color: var(--cream); margin-right: 0.15em; }
-.nav-logo-text .nl-paths { color: var(--orange); }
-.nav-links { display: flex; gap: 28px; list-style: none; }
-.nav-links a { font-size: 15.87px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(240,236,226,0.65); text-decoration: none; transition: color 0.2s; }
-.nav-links a:hover { color: var(--cream); }
-.nav-links a.active { color: var(--cream); border-bottom: 2px solid var(--orange); padding-bottom: 2px; }
-
-/* PAGE LAYOUT */
-.page {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 140px clamp(24px, 6vw, 72px) 120px;
-}
-
-/* HEADER */
-.eyebrow {
-  font-size: 11px; font-weight: 600; letter-spacing: 0.22em;
-  text-transform: uppercase; color: var(--orange);
-  text-align: center; margin-bottom: 20px;
-  opacity: 0; transform: translateY(8px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.eyebrow.in { opacity: 1; transform: translateY(0); }
-
-.title {
-  font-size: clamp(56px, 8vw, 104px);
-  font-weight: 800;
-  color: var(--orange);
-  text-align: center;
-  letter-spacing: -0.035em;
-  line-height: 1;
-  margin-bottom: 40px;
-  opacity: 0; transform: translateY(14px);
-  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
-}
-.title.in { opacity: 1; transform: translateY(0); }
-
-.intro {
-  max-width: 760px;
-  margin: 0 auto 72px;
-  font-size: clamp(15.5px, 1.3vw, 17px);
-  line-height: 1.75;
-  color: rgba(240,236,226,0.82);
-  text-align: center;
-  opacity: 0; transform: translateY(10px);
-  transition: opacity 0.7s 0.2s ease, transform 0.7s 0.2s ease;
-}
-.intro.in { opacity: 1; transform: translateY(0); }
-.intro em { font-style: italic; color: var(--cream); }
-
-/* FORM */
-.form {
-  max-width: 620px;
-  margin: 0 auto;
-  display: flex; flex-direction: column;
-  gap: 32px;
-  opacity: 0; transform: translateY(14px);
-  transition: opacity 0.8s 0.4s ease, transform 0.8s 0.4s ease;
-}
-.form.in { opacity: 1; transform: translateY(0); }
-
-.field { display: flex; flex-direction: column; gap: 10px; }
-
-.field-label {
-  font-size: 15px; font-weight: 600; color: var(--cream);
-  display: flex; align-items: baseline; gap: 8px;
-  letter-spacing: -0.005em;
-}
-.field-label .req {
-  font-size: 11px; font-weight: 400;
-  color: rgba(240,236,226,0.45);
-  letter-spacing: 0.02em;
-}
-
-.row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-@media(max-width:560px){ .row { grid-template-columns: 1fr; } }
-
-.subfield { display: flex; flex-direction: column; gap: 6px; }
-.sublabel {
-  font-size: 11px; font-weight: 500;
-  color: rgba(240,236,226,0.55);
-  letter-spacing: 0.02em;
-}
-.sublabel .req { color: rgba(240,236,226,0.35); }
-
-/* INPUTS */
-.input, .select, .textarea {
-  width: 100%;
-  background: transparent;
-  color: var(--cream);
-  font-family: var(--font);
-  font-size: 15px;
-  font-weight: 400;
-  border: 1px solid rgba(240,236,226,0.35);
-  border-radius: 999px;
-  padding: 14px 20px;
-  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
-  outline: none;
-}
-.input:hover, .select:hover, .textarea:hover { border-color: rgba(240,236,226,0.55); }
-.input:focus, .select:focus, .textarea:focus {
-  border-color: var(--orange);
-  box-shadow: 0 0 0 3px rgba(212,86,42,0.18);
-  background: rgba(240,236,226,0.03);
-}
-
-.textarea {
-  border-radius: 20px;
-  min-height: 132px;
-  resize: vertical;
-  line-height: 1.55;
-  padding: 14px 20px;
-}
-
-/* Select: custom chevron */
-.select-wrap { position: relative; }
-.select {
-  appearance: none;
-  -webkit-appearance: none;
-  padding-right: 44px;
-  cursor: pointer;
-  color: rgba(240,236,226,0.55);
-}
-.select:valid { color: var(--cream); }
-.select-wrap::after {
-  content: "";
-  position: absolute;
-  right: 22px; top: 50%;
-  width: 9px; height: 9px;
-  border-right: 1.5px solid rgba(240,236,226,0.6);
-  border-bottom: 1.5px solid rgba(240,236,226,0.6);
-  transform: translateY(-70%) rotate(45deg);
-  pointer-events: none;
-}
-.select option { background: var(--navy); color: var(--cream); }
-
-/* SEND button */
-.send-row { margin-top: 12px; }
-.btn-send {
-  display: inline-flex; align-items: center; gap: 12px;
-  font-weight: 600; font-size: 13px; letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--orange);
-  background: transparent;
-  border: 3px solid var(--orange);
-  border-radius: 50px;
-  padding: 16px 44px;
-  cursor: pointer;
-  font-family: var(--font);
-  transition: background 0.25s, color 0.25s, transform 0.25s;
-}
-.btn-send:hover { background: var(--orange); color: var(--cream); transform: translateY(-1px); }
-.btn-send svg { width: 12px; height: 10px; transition: transform 0.25s; }
-.btn-send:hover svg { transform: translateX(3px); }
-
-/* Success state */
-.success {
-  display: none;
-  max-width: 620px; margin: 24px auto 0;
-  border: 1px solid rgba(212,86,42,0.5);
-  background: rgba(212,86,42,0.08);
-  border-radius: 14px;
-  padding: 20px 24px;
-  color: var(--cream);
-  font-size: 14px; line-height: 1.6;
-}
-.success.show { display: block; }
-.success strong { color: var(--orange); }
-
-/* FOOTER MICRO */
-.meta {
-  max-width: 620px;
-  margin: 56px auto 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
-  opacity: 0;
-  transition: opacity 0.8s 0.7s ease;
-}
-.meta.in { opacity: 1; }
-@media(max-width:560px){ .meta { grid-template-columns: 1fr; } }
-
-.meta-item {
-  border-top: 1px solid rgba(240,236,226,0.14);
-  padding-top: 16px;
-}
-.meta-label {
-  font-size: 10px; font-weight: 600; letter-spacing: 0.22em;
-  text-transform: uppercase; color: var(--orange);
-  margin-bottom: 8px;
-}
-.meta-value {
-  font-size: 14px; font-weight: 500; color: var(--cream);
-  line-height: 1.5;
-}
-.meta-value a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(240,236,226,0.2); transition: border-color 0.2s; }
-.meta-value a:hover { border-bottom-color: var(--orange); }
-
-/* ── SITE FOOTER ── */
-.site-footer { border-top: 1px solid rgba(240,236,226,0.1); padding: 56px clamp(24px,6vw,80px) 48px; margin-top: 80px; background: var(--navy); position: relative; z-index: 5; }
-.footer-inner { max-width: 1200px; margin: 0 auto; }
-.footer-brand { display: flex; flex-direction: column; gap: 14px; max-width: 520px; }
-.footer-name { font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); }
-.footer-address { font-size: 14.5px; line-height: 1.7; color: rgba(240,236,226,0.78); font-style: normal; }
-.footer-address a { color: var(--cream); text-decoration: none; border-bottom: 1px solid rgba(240,236,226,0.2); transition: border-color 0.2s; }
-.footer-address a:hover { border-bottom-color: var(--orange); }
-.footer-meta { margin-top: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: rgba(240,236,226,0.45); display: flex; flex-direction: column; gap: 8px; }
-.footer-meta .reg { letter-spacing: 0.16em; text-transform: uppercase; }
-.footer-meta a { color: rgba(240,236,226,0.7); text-decoration: none; border-bottom: 1px solid rgba(240,236,226,0.2); transition: border-color 0.2s, color 0.2s; }
-.footer-meta a:hover { color: var(--cream); border-bottom-color: var(--orange); }
-
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="index.html" class="nav-logo" aria-label="Telos Pathways home"><img src="assets/telos-globe-navy.png" alt="" class="nav-logo-img" /><span class="nav-logo-text"><span class="nl-telos">Telos</span><span class="nl-paths">Pathways</span></span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="workshops.html">Workshops</a></li>
-    <li><a href="ai.html">AI</a></li>
-    <li><a href="tutoring.html">Tutoring</a></li>
-    <li><a href="admissions.html">Admissions</a></li>
-    <li><a href="about.html">Our Team</a></li>
-    <li><a href="testimonials.html">Reviews</a></li>
-    <li><a href="faqs.html">FAQs</a></li>
-    <li><a href="#" class="active">Contact</a></li>
-  </ul>
+
+<div style="--paper: #0f1d3a; --ink: #f4eddc; --muted: #aeb6c8; --rule: #2d3c60; --accent: #b9c6dd; background: var(--paper); color: var(--ink); font-weight: 300; font-family: 'Inter Tight', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+
+
+
+<header style="--paper: #0f1d3a; --ink: #f4eddc; --muted: #aeb6c8; --rule: #2d3c60; --accent: #b9c6dd; background: var(--paper); color: var(--ink); font-stretch: 88%; font-family: Inter Tight, Helvetica Neue, Helvetica, Arial, sans-serif;">
+<div style="max-width: 1280px; margin: 0 auto; padding: 22px 48px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 40px">
+<a href="index.html" aria-label="Telos Pathways home" style="font-family: Playfair Display, Georgia, serif; display: inline-block; text-align: center; line-height: 1; color: var(--ink)">
+<span style="font-size: 38px; font-weight: 500; letter-spacing: 0.01em; white-space: nowrap">Telos <span style="color: var(--accent)">Pathways</span></span>
+</a>
+<nav aria-label="Main">
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 28px; font-size: 15.5px; letter-spacing: 0.16em; text-transform: uppercase">
+
+<li><a href="tutoring.html" style="color: var(--ink)">Tutoring</a></li>
+
+<li><a href="workshops.html" style="color: var(--ink)">Workshops</a></li>
+
+<li><a href="admissions.html" style="color: var(--ink)">Admissions</a></li>
+
+<li><a href="ai.html" style="color: var(--ink)">AI</a></li>
+
+<li><a href="team.html" style="color: var(--ink)">Our Team</a></li>
+
+<li><a href="reviews.html" style="color: var(--ink)">Reviews</a></li>
+
+<li><a href="faqs.html" style="color: var(--ink)">FAQs</a></li>
+
+<li><a href="contact.html" style="color: var(--ink); border-bottom: 1.5px solid var(--accent); padding-bottom: 4px">Contact</a></li>
+
+</ul>
 </nav>
+</div>
+</header>
 
-<div class="page">
-  <div class="eyebrow" id="eyebrow">Book an intro call</div>
-  <h1 class="title" id="title">Contact Us</h1>
-  <p class="intro" id="intro">
-    Enter your personal details to schedule a consultation call with our founders. Please include a brief explanation of your child's age and learning objectives — for instance, <em>Oxford PPE admissions guidance</em> or <em>Art History enrichment</em>. We will be in touch promptly.
-  </p>
 
-  <form class="form" id="form" action="https://formspree.io/f/xgodpvow" method="POST" novalidate>
+<section style="position: relative; overflow: hidden">
+<div class="ser" aria-hidden="true" style="position: absolute; right: -20px; top: 24px; font-size: 320px; font-weight: 500; line-height: 0.85; letter-spacing: 0.02em; color: #15274d; user-select: none; white-space: nowrap">Contact</div>
+<div style="position: relative; max-width: 1280px; margin: 0 auto; padding: 96px 48px 96px; display: flex; flex-wrap: wrap; gap: 56px 96px; align-items: flex-start">
 
-    <div class="field">
-      <div class="field-label">Name <span class="req">(required)</span></div>
-      <div class="row">
-        <div class="subfield">
-          <label class="sublabel" for="firstName">First Name <span class="req">(required)</span></label>
-          <input class="input" type="text" id="firstName" name="firstName" required autocomplete="given-name">
-        </div>
-        <div class="subfield">
-          <label class="sublabel" for="lastName">Last Name <span class="req">(required)</span></label>
-          <input class="input" type="text" id="lastName" name="lastName" required autocomplete="family-name">
-        </div>
-      </div>
-    </div>
-
-    <div class="field">
-      <label class="field-label" for="email">Email Address <span class="req">(required)</span></label>
-      <input class="input" type="email" id="email" name="email" required autocomplete="email">
-    </div>
-
-    <div class="field">
-      <label class="field-label" for="tz">Time Zone <span class="req">(required)</span></label>
-      <div class="select-wrap">
-        <select class="select" id="tz" name="tz" required>
-          <option value="" disabled selected>---Select ---</option>
-          <option value="GMT">GMT / BST — United Kingdom</option>
-          <option value="CET">CET — Central Europe</option>
-          <option value="EET">EET — Eastern Europe</option>
-          <option value="MSK">MSK — Moscow</option>
-          <option value="GST">GST — Gulf (UAE, Qatar)</option>
-          <option value="IST">IST — India</option>
-          <option value="SGT">SGT / HKT — Singapore, Hong Kong</option>
-          <option value="JST">JST / KST — Japan, Korea</option>
-          <option value="AEST">AEST — Eastern Australia</option>
-          <option value="EST">EST — US Eastern</option>
-          <option value="CST">CST — US Central</option>
-          <option value="MST">MST — US Mountain</option>
-          <option value="PST">PST — US Pacific</option>
-          <option value="OTHER">Other / prefer to specify in message</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="field">
-      <label class="field-label" for="message">Message <span class="req">(required)</span></label>
-      <textarea class="textarea" id="message" name="message" required placeholder="Tell us about your child's age, subjects of interest, and what you're hoping to achieve."></textarea>
-    </div>
-
-    <div class="send-row">
-      <button type="submit" class="btn-send">
-        Send
-        <svg viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.8">
-          <line x1="0" y1="5" x2="13" y2="5"/>
-          <polyline points="9,1 13,5 9,9"/>
-        </svg>
-      </button>
-    </div>
-
-  </form>
-
-  <div class="success" id="success">
-    <strong>Thank you.</strong> Your message is on its way to our founders. We'll be in touch within two working days to arrange your consultation call.
-  </div>
+<div style="flex: 1 1 440px; min-width: 0">
+<h1 style="margin: 0; font-weight: 500; font-size: 78px; line-height: 1.05; letter-spacing: -0.012em"><span class="w" style="--i: 0">Contact</span> <span style="color: var(--accent)"><span class="w" style="--i: 1">Us</span></span></h1>
+<div style="height: 30px"></div>
+<p class="sub" style="margin: 0; max-width: 520px; font-size: 23.5px; line-height: 1.65; color: var(--accent)">Enter your personal details to schedule a consultation call with our team. Please briefly explain your child&rsquo;s situation&mdash;for instance, applying to PPE at Oxford or seeking Art History enrichment. We&rsquo;ll be in touch promptly.</p>
 </div>
 
-<script>
-// Entrance sequence
-setTimeout(()=>document.getElementById('eyebrow').classList.add('in'), 150);
-setTimeout(()=>document.getElementById('title').classList.add('in'), 300);
-setTimeout(()=>document.getElementById('intro').classList.add('in'), 500);
-setTimeout(()=>document.getElementById('form').classList.add('in'), 700);
+<form name="contact" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="bot-field" style="flex: 1 1 520px; min-width: 0; padding: 40px 8px 44px">
+<p style="display:none"><label>Do not fill this out: <input name="bot-field"></label></p>
+<input type="hidden" name="subject" value="New enquiry from the Telos Pathways website">
+<div style="display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 28px">
+<div style="flex: 1 1 200px">
+<label for="fn" style="display: block; font-size: 14.3px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px">First Name (required)</label>
+<input id="fn" name="first-name" type="text" required style="width: 100%; box-sizing: border-box; background: transparent; border: 0; background: var(--rule); padding: 10px 14px; font-family: inherit; font-size: 23.1px; color: var(--ink)">
+</div>
+<div style="flex: 1 1 200px">
+<label for="ln" style="display: block; font-size: 14.3px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px">Last Name (required)</label>
+<input id="ln" name="last-name" type="text" required style="width: 100%; box-sizing: border-box; background: transparent; border: 0; background: var(--rule); padding: 10px 14px; font-family: inherit; font-size: 23.1px; color: var(--ink)">
+</div>
+</div>
+<div style="margin-bottom: 28px">
+<label for="em" style="display: block; font-size: 14.3px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px">Email Address (required)</label>
+<input id="em" name="email" type="email" required style="width: 100%; box-sizing: border-box; background: transparent; border: 0; background: var(--rule); padding: 10px 14px; font-family: inherit; font-size: 23.1px; color: var(--ink)">
+</div>
+<div style="margin-bottom: 28px">
+<label for="tz" style="display: block; font-size: 14.3px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px">Time Zone (required)</label>
+<select id="tz" name="timezone" required style="width: 100%; box-sizing: border-box; background: var(--paper); border: 0; background: var(--rule); padding: 10px 14px; font-family: inherit; font-size: 23.1px; color: var(--ink)">
+<option value="">--- Select ---</option>
 
-// Form submit — friendly validation + fake-async success
-const form = document.getElementById('form');
-const success = document.getElementById('success');
-form.addEventListener('submit', async (e) => {
-  // Basic required check first
-  const fields = form.querySelectorAll('[required]');
-  let ok = true;
-  fields.forEach(f => {
-    if (!f.value || (f.type === 'email' && !/^\S+@\S+\.\S+$/.test(f.value))) {
-      f.style.borderColor = '#d4562a';
-      f.style.boxShadow = '0 0 0 3px rgba(212,86,42,0.18)';
-      ok = false;
-    }
-  });
-  if (!ok) { e.preventDefault(); return; }
+<option value="GMT / BST — United Kingdom">GMT / BST — United Kingdom</option>
 
-  // AJAX submission to Formspree so we can show our own success state without leaving the page
-  e.preventDefault();
-  const submitBtn = form.querySelector('.btn-send');
-  const originalLabel = submitBtn.innerHTML;
-  submitBtn.disabled = true;
-  submitBtn.innerHTML = 'Sending\u2026';
+<option value="CET — Central Europe">CET — Central Europe</option>
 
-  try {
-    const res = await fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    });
-    if (res.ok) {
-      form.style.display = 'none';
-      success.classList.add('show');
-      window.scrollTo({ top: form.getBoundingClientRect().top + window.scrollY - 120, behavior: 'smooth' });
-    } else {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = originalLabel;
-      alert('Sorry \u2014 there was a problem sending your message. Please email info@telospathways.com directly.');
-    }
-  } catch (err) {
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = originalLabel;
-    alert('Sorry \u2014 there was a problem sending your message. Please email info@telospathways.com directly.');
-  }
-});
+<option value="EET — Eastern Europe">EET — Eastern Europe</option>
 
-// Clear error styling on input
-form.querySelectorAll('input, select, textarea').forEach(el => {
-  el.addEventListener('input', () => {
-    el.style.borderColor = '';
-    el.style.boxShadow = '';
-  });
-});
-</script>
+<option value="MSK — Moscow">MSK — Moscow</option>
 
-<!-- SITE FOOTER -->
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <div class="footer-name">Telos Pathways</div>
-      <address class="footer-address">
-        Old Came Rectory A352<br>
-        Winterborne Came,<br>
-        Dorchester, UK, DT2 8NX<br>
-        <a href="mailto:info@telospathways.com">info@telospathways.com</a>
-      </address>
-      <div class="footer-meta">
-        <div class="reg">Telos Pathways LLP · OC458814</div>
-        <div><a href="privacy.html">Privacy Policy</a></div>
-      </div>
-    </div>
-  </div>
+<option value="GST — Gulf (UAE, Qatar)">GST — Gulf (UAE, Qatar)</option>
+
+<option value="IST — India">IST — India</option>
+
+<option value="SGT / HKT — Singapore, Hong Kong">SGT / HKT — Singapore, Hong Kong</option>
+
+<option value="JST / KST — Japan, Korea">JST / KST — Japan, Korea</option>
+
+<option value="AEST — Eastern Australia">AEST — Eastern Australia</option>
+
+<option value="EST — US Eastern">EST — US Eastern</option>
+
+<option value="CST — US Central">CST — US Central</option>
+
+<option value="MST — US Mountain">MST — US Mountain</option>
+
+<option value="PST — US Pacific">PST — US Pacific</option>
+
+<option value="Other / prefer to specify in message">Other / prefer to specify in message</option>
+
+</select>
+</div>
+<div style="margin-bottom: 36px">
+<label for="msg" style="display: block; font-size: 14.3px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px">Message (required)</label>
+<textarea id="msg" name="message" required rows="6" style="width: 100%; box-sizing: border-box; background: transparent; border: 0; background: var(--rule); padding: 14px; font-family: inherit; font-size: 22px; line-height: 1.55; color: var(--ink); resize: vertical"></textarea>
+</div>
+<button type="submit" class="cta ser" style="cursor: pointer; background: transparent; display: inline-block; border: 1.5px solid var(--accent); padding: 24.5px 54.5px; font-size: 30px; font-weight: 500; line-height: 1.3; color: var(--ink); text-align: center">Send.</button>
+</form>
+
+</div>
+</section>
+
+
+
+<footer style="--paper: #0f1d3a; --ink: #f4eddc; --muted: #aeb6c8; --rule: #2d3c60; --accent: #b9c6dd; background: #0a1530; color: var(--ink); font-stretch: 88%; font-family: Inter Tight, Helvetica Neue, Helvetica, Arial, sans-serif; zoom: 1.1">
+<div style="max-width: 1280px; margin: 0 auto; padding: 40px 48px 52px; display: flex; flex-wrap: wrap; gap: 28px 80px; justify-content: space-between">
+<div>
+<div style="font-size: 14px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px">Telos Pathways</div>
+<address style="font-style: normal; font-size: 18px; line-height: 1.65; color: var(--ink)">Old Came Rectory A352<br>Winterborne Came,<br>Dorchester, UK, DT2 8NX<br><a href="mailto:info@telospathways.com" style="color: var(--accent)">info@telospathways.com</a></address>
+</div>
+<div style="align-self: flex-end; font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); line-height: 2">
+<div>Telos Pathways LLP &middot; OC458814</div>
+<div><a href="https://telospathways.com/privacy" target="_blank" rel="noopener" style="color: var(--muted)">Privacy Policy</a></div>
+</div>
+</div>
 </footer>
 
 
-<!-- Mobile nav -->
-<style>
-  .nav-toggle {
-    display: none;
-    background: transparent; border: 0; padding: 8px; margin-left: auto;
-    cursor: pointer; color: var(--cream); -webkit-tap-highlight-color: transparent;
-  }
-  .nav-toggle svg { display: block; width: 26px; height: 20px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; fill: none; }
-  .nav-toggle .top, .nav-toggle .bot { transition: transform 0.3s ease, opacity 0.2s ease; transform-origin: center; }
-  .nav-toggle .mid { transition: opacity 0.2s ease; }
-  body.nav-open .nav-toggle .top { transform: translateY(8px) rotate(45deg); }
-  body.nav-open .nav-toggle .mid { opacity: 0; }
-  body.nav-open .nav-toggle .bot { transform: translateY(-8px) rotate(-45deg); }
-
-  @media (max-width: 1180px) {
-    nav { padding: 0 22px !important; }
-    .nav-logo-img { height: 38px !important; }
-    .nav-logo-text { font-size: 22px !important; }
-    .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
-    .nav-links {
-      display: flex !important;
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      flex-direction: column; gap: 0 !important;
-      padding: 16px 22px 80px !important;
-      background: rgba(14,28,53,0.985); backdrop-filter: blur(12px);
-      overflow-y: auto;
-      transform: translateY(-12px); opacity: 0; pointer-events: none;
-      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease;
-      z-index: 99;
-    }
-    body.nav-open .nav-links { transform: translateY(0); opacity: 1; pointer-events: auto; }
-    .nav-links li { list-style: none; border-bottom: 1px solid rgba(240,236,226,0.08); }
-    .nav-links li:last-child { border-bottom: 0; }
-    .nav-links a {
-      display: block; padding: 18px 4px !important;
-      font-size: 17px !important; font-weight: 600 !important;
-      letter-spacing: 0.04em !important; text-transform: none !important;
-      color: var(--cream) !important; border-bottom: 0 !important;
-    }
-    .nav-links a.active { color: var(--orange) !important; }
-    body.nav-open { overflow: hidden; }
-  }
-</style>
-<script>
-(function(){
-  var nav = document.querySelector('nav');
-  if (!nav) return;
-  var btn = document.createElement('button');
-  btn.className = 'nav-toggle';
-  btn.setAttribute('aria-label', 'Toggle menu');
-  btn.setAttribute('aria-expanded', 'false');
-  btn.innerHTML = '<svg viewBox="0 0 26 20" aria-hidden="true"><path class="top" d="M2 4h22"/><path class="mid" d="M2 10h22"/><path class="bot" d="M2 16h22"/></svg>';
-  nav.appendChild(btn);
-
-  function close() { document.body.classList.remove('nav-open'); btn.setAttribute('aria-expanded','false'); }
-  function open()  { document.body.classList.add('nav-open');    btn.setAttribute('aria-expanded','true'); }
-  btn.addEventListener('click', function(){
-    if (document.body.classList.contains('nav-open')) close(); else open();
-  });
-  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
-  // Close on link tap so same-page anchors feel responsive
-  document.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', close); });
-  // Reset on resize back to desktop
-  window.addEventListener('resize', function(){
-    if (window.innerWidth > 1180 && document.body.classList.contains('nav-open')) close();
-  });
-})();
-</script>
+</div>
 
 </body>
 </html>
